@@ -1,0 +1,11 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.inviteFriends {
+  @include blocSetUp;
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

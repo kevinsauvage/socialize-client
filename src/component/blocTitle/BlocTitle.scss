@@ -4,16 +4,17 @@
   position: relative;
   font-size: 15px;
   font-weight: 500;
-  color: white;
+  color: $white;
+  margin-bottom: 3rem;
 
   &::after {
     content: '';
-    width: 60px;
+    width: 50px;
     height: 2px;
     border-radius: 5px;
     background-color: $blue;
     position: absolute;
-    bottom: -0.5rem;
+    bottom: -0.7rem;
     left: 0;
   }
 }

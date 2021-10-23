@@ -1,0 +1,15 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.editInfo {
+  @include blocSetUp;
+
+  &__list {
+    &-item {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+  }
+}

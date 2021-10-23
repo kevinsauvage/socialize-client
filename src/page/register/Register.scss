@@ -36,7 +36,7 @@
   }
 
   &__form {
-    background-color: white;
+    background-color: $white;
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -67,7 +67,7 @@
       background: $blue;
       border: 1px solid $blue;
       font-size: 16px;
-      color: white;
+      color: $white;
       margin-top: 1rem;
       padding: 7px 30px;
       cursor: pointer;

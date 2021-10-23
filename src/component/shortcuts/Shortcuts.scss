@@ -4,4 +4,8 @@
 .shortcuts {
   @include blocSetUp;
 
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
 }

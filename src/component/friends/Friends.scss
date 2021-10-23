@@ -1,0 +1,22 @@
+@import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
+
+.friends {
+  @include blocSetUp;
+
+  &__input {
+    background: #393939;
+    border: 1px solid $lightGrey;
+    color: $lightGrey;
+    font-size: 14px;
+    padding: 5px 10px;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}

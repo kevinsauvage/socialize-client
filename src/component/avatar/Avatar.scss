@@ -1,7 +1,17 @@
 .avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+
   &__img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
+  }
+
+  &__name {
+    font-size: 11px;
+    margin: 5px 0 10px 0;
   }
 }

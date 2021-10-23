@@ -11,9 +11,10 @@
   position: fixed;
   left: 0;
   top: 59.5px;
+  z-index: 99999999;
 
   svg {
-    color: #9196b1;
+    color: $lavender;
     font-size: 25px;
     cursor: pointer;
   }
@@ -33,6 +34,7 @@
     border-radius: 4px;
     width: fit-content;
     white-space: nowrap;
+    z-index: 99999999;
 
     &::before {
       content: "";
@@ -43,11 +45,12 @@
       top: 50%;
       left: -3px;
       background-color: black;
+
     }
   }
 
   &__modal-text {
-    color: white;
+    color: $white;
     z-index: 999;
     position: relative;
     font-size: 14px;

@@ -1,0 +1,6 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.lastNotification {
+  @include blocSetUp;
+}

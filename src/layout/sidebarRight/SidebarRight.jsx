@@ -7,8 +7,8 @@ const SidebarRight = () => {
     <div className="sidebarRight">
       {Array(8)
         .fill(null)
-        .map((item) => {
-          return <Avatar AvatarImg={AvatarImg} />
+        .map((item, i) => {
+          return <Avatar key={i} AvatarImg={AvatarImg} />
         })}
     </div>
   )

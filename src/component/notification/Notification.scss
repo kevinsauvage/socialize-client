@@ -1,0 +1,30 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.notification {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  border-left: 2px solid $blue;
+  padding-left: 10px;
+
+  &__details {
+    p {
+      font-size: 14px;
+      color: $white;
+    }
+
+    i {
+      font-size: 12px;
+      color: $lavender;
+    }
+  }
+
+  &__btn {
+    margin-left: 12px;
+    font-size: 25px;
+    color: $blue;
+  }
+
+
+}

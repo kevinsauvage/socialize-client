@@ -1,0 +1,27 @@
+@import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
+
+.listItem {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  color: $white;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  cursor: pointer;
+  width: fit-content;
+
+  &:hover {
+    color: $blue;
+  }
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
+  svg {
+    color: $lavender;
+    margin-right: 10px;
+    font-size: 20px;
+  }
+}
