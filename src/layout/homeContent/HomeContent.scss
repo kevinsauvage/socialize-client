@@ -1,0 +1,9 @@
+.homeContent {
+  margin-top: 2rem;
+  margin-left: calc(70px + 2rem);
+  margin-right: calc(70px + 2rem);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1.5rem;
+}

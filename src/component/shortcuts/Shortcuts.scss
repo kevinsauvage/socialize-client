@@ -1,0 +1,7 @@
+@import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
+
+.shortcuts {
+  @include blocSetUp;
+
+}

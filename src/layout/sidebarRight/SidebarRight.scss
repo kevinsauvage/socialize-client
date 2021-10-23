@@ -1,0 +1,14 @@
+@import "../../scss/variable.scss";
+
+.sidebarRight {
+  height: calc(100vh - 59px);
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: $mediumGrey;
+  position: fixed;
+  right: 0;
+  top: 59.5px;
+}

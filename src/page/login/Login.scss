@@ -1,0 +1,80 @@
+@import "../../scss/variable.scss";
+
+.login {
+  display: flex;
+  height: 100vh;
+
+  &__left {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $darkGrey;
+
+    img {
+      width: 200px;
+    }
+  }
+
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    margin-bottom: 1rem;
+  }
+
+  &__right {
+    width: 50%;
+    background-color: $lightGrey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  &__form {
+    background-color: white;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 35px 55px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      input {
+        font-size: 1rem;
+        border-width: 0;
+        border-color: transparent;
+        line-height: 1.9;
+        width: 100%;
+        background-color: transparent;
+        outline: none;
+        border-bottom: 1px solid gray;
+        margin-bottom: 15px;
+        margin-top: 15px;
+
+      }
+    }
+  }
+
+  &__btn {
+    button {
+      background: $blue;
+      border: 1px solid $blue;
+      font-size: 16px;
+      color: white;
+      margin-top: 1rem;
+      padding: 7px 30px;
+      cursor: pointer;
+    }
+  }
+
+  &__password-recovery {
+    margin: 1rem 0;
+  }
+}
