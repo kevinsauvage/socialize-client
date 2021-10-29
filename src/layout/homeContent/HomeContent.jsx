@@ -6,6 +6,7 @@ import Friends from '../../component/friends/Friends'
 import LastNotification from './../../component/lastNotification/LastNotification'
 import InviteFriends from './../../component/inviteFriends/InviteFriends'
 import EditInfo from './../../component/editInfo/EditInfo'
+import Feed from '../feed/Feed'
 
 const HomeContent = () => {
   return (
@@ -17,6 +18,7 @@ const HomeContent = () => {
       </aside>
       <div className="homecontent__central">
         <PostForm />
+        <Feed />
       </div>
       <aside className="homeContent__sidebar">
         <UserProfile />

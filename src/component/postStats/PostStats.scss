@@ -1,0 +1,51 @@
+@import "../../scss/variable.scss";
+
+.postStats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 1rem 0;
+  width: 100%;
+
+  &__item {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-left: 1.5rem;
+    font-size: 12px;
+
+
+
+    &--like {
+      color: green;
+    }
+
+    &--comment {
+      color: $white;
+    }
+
+    &--share {
+      button {
+        color: $white;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 4px 20px;
+        border-radius: 4px;
+        background-color: $blue;
+        border: none;
+        cursor: pointer;
+      }
+    }
+
+    svg {
+      font-size: 18px;
+      margin-right: 4px;
+      cursor: pointer;
+    }
+  }
+
+  &__value {
+    position: relative;
+    bottom: 5px;
+  }
+}

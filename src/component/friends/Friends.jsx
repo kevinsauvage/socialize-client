@@ -14,12 +14,12 @@ const Friends = () => {
         />
       </form>
       <div className="friends__container">
-        <Avatar name="Oliver doe" style={{ width: '33%' }} />
-        <Avatar name="Oliver doe" style={{ width: '33%' }} />
-        <Avatar name="Oliver doe" style={{ width: '33%' }} />
-        <Avatar name="Oliver doe" style={{ width: '33%' }} />
-        <Avatar name="Oliver doe" style={{ width: '33%' }} />
-        <Avatar name="Oliver doe" style={{ width: '33%' }} />
+        <Avatar name="Oliver doe" />
+        <Avatar name="Oliver doe" />
+        <Avatar name="Oliver doe" />
+        <Avatar name="Oliver doe" />
+        <Avatar name="Oliver doe" />
+        <Avatar name="Oliver doe" />
       </div>
     </section>
   )

@@ -13,8 +13,12 @@ import {
 } from 'react-icons/ai/index'
 import { ImFilesEmpty } from 'react-icons/im/index'
 import ListItem from '../listItem/ListItem'
+import { useContext } from 'react'
+import { AuthContext } from './../../context/AuthContext'
 
 const Shortcuts = () => {
+  const { logout } = useContext(AuthContext)
+
   return (
     <div className="shortcuts">
       <BlocTitle text="Shortcuts" />
@@ -26,7 +30,7 @@ const Shortcuts = () => {
         <ListItem icon={<AiOutlineVideoCameraAdd />} text="Vidéo" />
         <ListItem icon={<MdNotificationsNone />} text="Notifications" />
         <ListItem icon={<MdQueryStats />} text="Statistics" />
-        <ListItem icon={<MdLogout />} text="Logout" />
+        <ListItem icon={<MdLogout />} onClick={logout} text="Logout" />
       </ul>
     </div>
   )

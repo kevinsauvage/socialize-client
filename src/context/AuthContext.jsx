@@ -1,14 +1,17 @@
-import { createContext } from 'react'
-import { useLocalStorage } from './../hooks/useLocalStorage'
+import { createContext, useEffect, useState } from 'react'
+import { getValue, removeStorage } from '../helpers/localStorage'
 import { urls } from './../ApiCall/apiUrl'
 import { fetchUrl } from './../helpers/fetch'
+import { setValue } from './../helpers/localStorage'
 
 export const AuthContext = createContext()
 
 const { Provider } = AuthContext
 
 export const AuthProvider = (props) => {
-  const [storedUser, setStoredUser] = useLocalStorage('user')
+  const [user, setUser] = useState()
+
+  useEffect(() => setUser(getValue('user')), [])
 
   const login = async (formData, callback) => {
     try {
@@ -19,7 +22,8 @@ export const AuthProvider = (props) => {
 
       if (response.status === 200) {
         const data = await response.json()
-        setStoredUser(JSON.stringify(data))
+        setValue('user', JSON.stringify(data))
+        setUser(data)
         callback()
         return data
       } else {
@@ -48,7 +52,12 @@ export const AuthProvider = (props) => {
     }
   }
 
-  const value = { login, storedUser, register }
+  const logout = () => {
+    removeStorage('user')
+    window.location.reload()
+  }
+
+  const value = { login, register, logout, user }
 
   return <Provider value={value}>{props.children}</Provider>
 }

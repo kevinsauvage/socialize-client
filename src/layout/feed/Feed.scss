@@ -1,0 +1,28 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.feed {
+  &__reload {
+    @include blocSetUp;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+    padding: 0;
+    cursor: pointer;
+    padding: 0.5rem;
+
+    button {
+      background-color: white;
+      border: none;
+      color: $blue;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 5px 30px;
+      border-radius: 5px;
+
+    }
+  }
+}
