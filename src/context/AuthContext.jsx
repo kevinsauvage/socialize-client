@@ -10,8 +10,12 @@ const { Provider } = AuthContext
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState()
+  const [userAvatar, setUserAvatar] = useState(undefined)
 
-  useEffect(() => setUser(getValue('user')), [])
+  useEffect(() => {
+    const userSaved = getValue('user')
+    userSaved && findOne(userSaved?.id)
+  }, [])
 
   const login = async (formData, callback) => {
     try {
@@ -19,13 +23,11 @@ export const AuthProvider = (props) => {
         method: 'POST',
         body: JSON.stringify(formData),
       })
-
-      if (response.status === 200) {
+      if (response.ok) {
         const data = await response.json()
         setValue('user', JSON.stringify(data))
         setUser(data)
         callback()
-        return data
       } else {
         return response
       }
@@ -36,17 +38,10 @@ export const AuthProvider = (props) => {
 
   const register = async (formData, callback) => {
     try {
-      const response = await fetchUrl(urls.register, {
+      return await fetchUrl(urls.register, {
         method: 'POST',
         body: JSON.stringify(formData),
       })
-
-      if (response.status === 200) {
-        callback()
-        return response.json()
-      } else {
-        return response
-      }
     } catch (e) {
       console.log(e)
     }
@@ -57,7 +52,31 @@ export const AuthProvider = (props) => {
     window.location.reload()
   }
 
-  const value = { login, register, logout, user }
+  const updateUser = async (form) => {
+    return await fetchUrl(`users/${user.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(form),
+    })
+  }
+
+  const findOne = async (user) => {
+    console.log('caleld')
+    const response = await fetchUrl(`users/${user?.id}`, { method: 'GET' })
+    const json = await response.json()
+    setUserAvatar(json?.image)
+    setUser(json)
+    return json
+  }
+
+  const value = {
+    login,
+    register,
+    logout,
+    user,
+    updateUser,
+    userAvatar,
+    findOne,
+  }
 
   return <Provider value={value}>{props.children}</Provider>
 }

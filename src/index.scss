@@ -21,3 +21,14 @@ code {
   margin: 0;
   box-sizing: border-box;
 }
+
+a {
+  color: $white;
+  text-decoration: none;
+}
+
+#file {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}

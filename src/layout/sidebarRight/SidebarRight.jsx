@@ -1,5 +1,4 @@
 import './SidebarRight.scss'
-import AvatarImg from '../../img/avatar.jpg'
 import Avatar from '../../component/avatar/Avatar'
 
 const SidebarRight = () => {
@@ -8,7 +7,7 @@ const SidebarRight = () => {
       {Array(8)
         .fill(null)
         .map((item, i) => {
-          return <Avatar key={i} AvatarImg={AvatarImg} />
+          return <Avatar key={i} />
         })}
     </div>
   )

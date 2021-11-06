@@ -1,0 +1,37 @@
+@import '../../scss/mixins.scss';
+@import '../../scss/variable.scss';
+
+.add-comment {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &__input {
+    width: 100%;
+    border-color: transparent;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 400;
+    height: 40px;
+    line-height: 16px;
+    background: #393939;
+    color: #eee;
+    padding: 10px;
+    margin-left: 1rem;
+
+    &--active {
+      height: 100px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__send-btn {
+    @include buttonSetUp;
+    width: fit-content;
+    align-self: flex-end;
+    margin-top: 5px;
+  }
+}

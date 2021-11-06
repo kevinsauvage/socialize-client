@@ -1,26 +1,71 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Post from '../../component/post/Post'
-import { fetchUrl } from '../../helpers/fetch'
 import './Feed.scss'
+import { PostContext } from './../../context/PostContext'
+import PostForm from '../../component/postForm/PostForm'
+import { AuthContext } from '../../context/AuthContext'
+import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 
-const Feed = () => {
-  const [posts, setPosts] = useState([])
+const Feed = ({ posts }) => {
+  const [contentText, setContentText] = useState('')
+  const [imagePreview, setImagePreview] = useState('')
 
-  const fetchPosts = useCallback(() => {
-    fetchUrl('posts')
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-  }, [])
+  const { user } = useContext(AuthContext)
+  const { fetchPosts, sendPosts } = useContext(PostContext)
 
-  useEffect(() => {
-    fetchPosts()
-  }, [fetchPosts])
+  useEffect(() => fetchPosts(), [fetchPosts])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (imagePreview) {
+      const res = await sendPosts(contentText, imagePreview, user?.image)
+      if (res.ok) {
+        setContentText('')
+        fetchPosts()
+        setImagePreview('')
+      }
+    } else {
+      const res = await sendPosts(contentText, null, user?.image)
+      if (res.ok) {
+        setContentText('')
+        fetchPosts()
+        setImagePreview('')
+      }
+    }
+  }
+
+  const onImageChange = (event) => {
+    const img = event.target.files[0]
+    var reader = new FileReader()
+    reader.onloadend = async () => {
+      console.log('RESULT')
+      setImagePreview(reader.result)
+    }
+    reader.readAsDataURL(img)
+  }
+  console.log(posts)
 
   return (
     <div className="feed">
-      <div className="feed__reload" onClick={fetchPosts}>
-        <button onClick={fetchPosts}>Reload</button>
-      </div>
+      <PostForm
+        handleSubmit={handleSubmit}
+        onImageChange={onImageChange}
+        contentText={contentText}
+        setContentText={setContentText}
+      />
+      {contentText || imagePreview ? (
+        <Post
+          newPostImg={imagePreview}
+          post={{
+            authorName: `${user.firstName} ${user.lastName}`,
+            authorId: user.id,
+            body: contentText,
+            createdAt: getDataFromTimestamp(Date.now()),
+          }}
+        />
+      ) : (
+        ''
+      )}
       {posts?.map((post) => {
         return <Post key={post._id} post={post} />
       })}

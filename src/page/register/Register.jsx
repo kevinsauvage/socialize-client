@@ -8,9 +8,7 @@ import Loader from '../../component/loader/Loader'
 
 const Register = () => {
   const { register } = useContext(AuthContext)
-
   const history = useHistory()
-
   const [isLoading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     firstName: '',
@@ -22,14 +20,14 @@ const Register = () => {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const redirect = () => history.push('/login')
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const response = await register(formData, redirect)
+    const response = await register(formData)
     setLoading(false)
-    console.log(response)
+    if (response.ok) {
+      history.push('/login')
+    }
   }
 
   return (

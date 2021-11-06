@@ -1,4 +1,5 @@
-@import "../../scss/variable.scss";
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
 
 .postStats {
   display: flex;
@@ -14,8 +15,6 @@
     margin-left: 1.5rem;
     font-size: 12px;
 
-
-
     &--like {
       color: green;
     }
@@ -26,14 +25,7 @@
 
     &--share {
       button {
-        color: $white;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 4px 20px;
-        border-radius: 4px;
-        background-color: $blue;
-        border: none;
-        cursor: pointer;
+        @include buttonSetUp;
       }
     }
 

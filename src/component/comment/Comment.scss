@@ -1,8 +1,11 @@
 @import "../../scss/variable.scss";
 
 .comment {
-  display: flex;
   margin-bottom: 1rem;
+
+  &__container {
+    display: flex;
+  }
 
   &__wrapper {
     position: relative;
@@ -49,5 +52,15 @@
     font-size: 14px;
     line-height: 22px;
     color: $XlightGrey;
+  }
+
+  &__add-btn {
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+
+  &__subcomment {
+    margin-left: 4rem;
+    margin-top: 1rem;
   }
 }

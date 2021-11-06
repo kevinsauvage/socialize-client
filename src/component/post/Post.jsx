@@ -1,36 +1,14 @@
-import Avatar from '../avatar/Avatar'
 import './Post.scss'
-import Img from '../../img/avatar.jpg'
+import Avatar from '../avatar/Avatar'
 import PostStats from '../postStats/PostStats'
 import Comment from './../comment/Comment'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { fetchUrl } from './../../helpers/fetch'
-import { AuthContext } from './../../context/AuthContext'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
+import AddComment from '../addComment/AddComment'
 
-const Post = ({ post }) => {
-  const [comment, setComment] = useState()
+const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
-  const { user } = useContext(AuthContext)
-
-  const handleSubmit = () => {
-    fetchUrl('comment', {
-      method: 'POST',
-      body: JSON.stringify({
-        body: comment,
-        authorId: `${user?.id}`,
-        authorName: `${user?.firstName} ${user?.lastName}`,
-        parentCommentId: '',
-        postId: post._id,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          setComment('')
-        }
-      })
-      .finally(() => getComments())
-  }
 
   const getComments = useCallback(() => {
     fetchUrl(`comment/${post._id}`)
@@ -38,14 +16,12 @@ const Post = ({ post }) => {
       .then((data) => setComments(data))
   }, [post])
 
-  useEffect(() => {
-    getComments()
-  }, [getComments])
+  useEffect(() => getComments(), [getComments])
 
   return (
     <div className="post">
       <header className="post__header">
-        <Avatar />
+        <Avatar AvatarImg={post.authorAvatar} />
         <div className="post__detail">
           <h2 className="post__username">{post.authorName}</h2>
           <i className="post__published">
@@ -54,26 +30,17 @@ const Post = ({ post }) => {
         </div>
       </header>
       <div className="post__content">
-        <img src={Img} alt="post img" />
         <p className="post__description">{post.body}</p>
+        {post.image && <img src={post.image} alt="post img" />}
+        {newPostImg && <img src={newPostImg} alt="post img" />}
         <PostStats totalComment={comments.length} />
       </div>
       <div className="post__comments">
         {comments?.map((comment) => (
-          <Comment comment={comment} />
+          <Comment key={comment._id} comment={comment} />
         ))}
       </div>
-      <div className="post__add-comment">
-        <Avatar />
-        <textarea
-          type="text"
-          placeholder="Post your comment"
-          className="post__input"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-      </div>
-      <button onClick={handleSubmit}>Comment</button>
+      <AddComment post={post} getComments={getComments} />
     </div>
   )
 }

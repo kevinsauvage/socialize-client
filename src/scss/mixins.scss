@@ -6,4 +6,20 @@
   border-radius: 5px;
   margin-bottom: 17px;
 
+  &:last-child {
+    position: sticky;
+
+    top: calc(1.5rem + 60px);
+  }
+}
+
+@mixin buttonSetUp {
+  color: $white;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 20px;
+  border-radius: 4px;
+  background-color: $blue;
+  border: none;
+  cursor: pointer;
 }

@@ -20,9 +20,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const response = await login(formData, redirect)
+    await login(formData, redirect)
+
     setLoading(false)
-    console.log(response)
   }
 
   return (

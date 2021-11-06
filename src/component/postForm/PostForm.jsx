@@ -1,35 +1,24 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import './PostForm.scss'
 import { AuthContext } from './../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
-import { fetchUrl } from './../../helpers/fetch'
+
 import {
   AiOutlineFileImage,
   AiOutlineVideoCameraAdd,
 } from 'react-icons/ai/index'
 
-const PostForm = () => {
+const PostForm = ({
+  onImageChange,
+  handleSubmit,
+  setContentText,
+  contentText,
+}) => {
   const { user } = useContext(AuthContext)
-  const [contentText, setContentText] = useState('')
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    fetchUrl('posts', {
-      method: 'Post',
-      body: JSON.stringify({
-        body: contentText,
-        authorId: `${user?.id}`,
-        authorName: `${user?.firstName} ${user?.lastName}`,
-      }),
-    })
-      .then((data) => data.json())
-      .then((res) => console.log(res))
-  }
 
   return (
     <div className="postForm">
-      <Avatar AvatarImg={user?.img} />
+      <Avatar AvatarImg={user?.image} />
       <form action="submit" className="postForm__form" onSubmit={handleSubmit}>
         <textarea
           name="postContent"
@@ -41,10 +30,19 @@ const PostForm = () => {
         ></textarea>
         <ul className="postForm__btns">
           <li className="postForm__btn">
-            <AiOutlineFileImage />
+            <AiOutlineVideoCameraAdd />
           </li>
           <li className="postForm__btn">
-            <AiOutlineVideoCameraAdd />
+            <label htmlFor="file">
+              <AiOutlineFileImage id="icon" htmlFor="fileInput" />
+            </label>
+            <input
+              id="file"
+              name="file"
+              type="file"
+              accept=".jpeg, .jpg, .png "
+              onChange={onImageChange}
+            />
           </li>
           <li className="postForm__btn">
             <button onClick={handleSubmit}>Post</button>
