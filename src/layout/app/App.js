@@ -8,10 +8,17 @@ import { PostProvider } from '../../context/PostContext'
 import ProfilPage from './../../page/profilPage/ProfilPage'
 import { getValue } from '../../helpers/localStorage'
 import Header from './../header/Header'
+import EditProfilInfo from '../../page/profilPage/editProfilInfo/EditProfilInfo'
+import AboutProfil from './../../page/profilPage/aboutProfil/AboutProfil'
+import PhotoProfil from '../../page/profilPage/photoProfil/PhotoProfil'
+import GroupsProfil from '../../page/profilPage/groupsProfil/GroupsProfil'
+import FriendsProfil from '../../page/profilPage/friendsProfil/FriendsProfil'
+import VideosProfil from '../../page/profilPage/videosProfil/VideosProfil'
+import PagesProfil from '../../page/profilPage/pagesProfil/PagesProfil'
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="app">
       <AuthProvider>
         <PostProvider>
           <Router>
@@ -19,7 +26,14 @@ const App = () => {
               <>
                 <Header />
                 <Route path="/" exact component={Home} />
-                <Route path="/profil" exact component={ProfilPage} />
+                <Route path="/profil/timeline" component={ProfilPage} />
+                <Route path="/profil/photos" component={PhotoProfil} />
+                <Route path="/profil/edit" component={EditProfilInfo} />
+                <Route path="/profil/videos" component={VideosProfil} />
+                <Route path="/profil/about" component={AboutProfil} />
+                <Route path="/profil/pages" component={PagesProfil} />
+                <Route path="/profil/friends" component={FriendsProfil} />
+                <Route path="/profil/groups" component={GroupsProfil} />
               </>
             ) : (
               <Redirect to="/login" />

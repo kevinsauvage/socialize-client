@@ -1,0 +1,11 @@
+.pageMain {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-gap: 1rem;
+  gap: 1rem;
+}

@@ -1,0 +1,55 @@
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
+
+.navProfilPage {
+  background-color: $darkGrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__username {
+    width: fit-content;
+    color: $blue;
+    margin-left: 6rem;
+    position: relative;
+    bottom: 4px;
+
+    h3 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+
+  &__list {
+    height: 60px;
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    &-item {
+      color: $white;
+      list-style: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+
+  &__link {
+    &--active {
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 30px;
+        height: 4px;
+        background-color: $blue;
+        position: absolute;
+        bottom: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}

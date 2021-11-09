@@ -40,7 +40,7 @@ const Header = () => {
               <RiDiscussLine size={22} />
             </li>
             <li className="header__icon">
-              <Link to="/profil">
+              <Link to="/profil/timeline">
                 <RiUser3Line size={22} />
               </Link>
             </li>
