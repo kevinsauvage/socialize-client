@@ -14,11 +14,31 @@ const EditInfo = () => {
     <div className="editInfo">
       <BlocTitle text="Edit Info" />
       <ul className="editInfo__list">
-        <ListItem icon={<BsInfoCircle />} text="Basic Info" />
-        <ListItem icon={<AiOutlineSchedule />} text="Education & Work" />
-        <ListItem icon={<MdFavoriteBorder />} text="My Interests" />
-        <ListItem icon={<MdSettingsSuggest />} text="Account Settings" />
-        <ListItem icon={<MdLockOutline />} text="Change Password" />
+        <ListItem
+          icon={<BsInfoCircle />}
+          text="Basic Info"
+          to="/profil/edit/basic_info"
+        />
+        <ListItem
+          icon={<AiOutlineSchedule />}
+          text="Education & Work"
+          to="/profil/edit/education_work"
+        />
+        <ListItem
+          icon={<MdFavoriteBorder />}
+          text="My Interestse"
+          to="/profil/edit/my_interest"
+        />
+        <ListItem
+          icon={<MdSettingsSuggest />}
+          text="Account Settings"
+          to="/profil/edit/account_setting"
+        />
+        <ListItem
+          icon={<MdLockOutline />}
+          text="Change Password"
+          to="/profil/edit/change_password"
+        />
       </ul>
     </div>
   )

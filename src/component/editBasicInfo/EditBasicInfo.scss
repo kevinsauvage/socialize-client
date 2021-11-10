@@ -1,0 +1,119 @@
+@import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
+
+.EditBasicInfo {
+  @include blocSetUp;
+
+  &__form {
+    width: 100%;
+  }
+
+  &__formRow {
+    display: flex;
+    align-items: center;
+  }
+
+  &__formRow>&__formInputContainer {
+    &:first-child {
+      margin-right: 1rem;
+    }
+  }
+
+  &__formInputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+  }
+
+  &__input-label {
+    color: $XlightGrey;
+    position: relative;
+    bottom: -27px;
+    font-weight: 500;
+    cursor: text;
+    transform-origin: left;
+    transition: all 0.1s linear;
+    background-color: $mediumLightGrey;
+
+    &--focus {
+      color: $blue;
+      transform: translateY(-27px) scale(0.9);
+    }
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 0.1px solid $XlightGrey;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: $XlightGrey;
+
+
+  }
+
+  &__input {
+    &::-webkit-calendar-picker-indicator {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23bbbbbb" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+    }
+
+    &--focus {
+      border-bottom: 1px solid $blue;
+    }
+  }
+
+  &__textarea-label {
+    color: $XlightGrey;
+    font-weight: 500;
+    opacity: 0.8;
+    transform-origin: left;
+
+    &--focus {
+      color: $blue;
+    }
+  }
+
+  &__textarea {
+    min-height: 100px;
+    resize: vertical;
+    width: 100%;
+
+    &--focus {
+      border-bottom: 1px solid $blue;
+    }
+  }
+
+  &__btns {
+    width: 100%;
+
+  }
+
+  &__btn {
+    position: relative;
+    font-size: 16px;
+    color: $white;
+    margin-top: 10px;
+    padding: 7px 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+
+    &--update {
+      background-color: $blue;
+      border: 1px solid $blue;
+    }
+
+    &--cancel {
+      margin-right: 10px;
+      background-color: $lavender;
+      border: 1px solid $lavender;
+
+    }
+
+  }
+}

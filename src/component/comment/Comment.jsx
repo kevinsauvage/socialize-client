@@ -35,7 +35,7 @@ const Comment = ({ comment }) => {
     fetchUrl(`subComment/${comment._id}`)
       .then((res) => res.json())
       .then((data) => setSubComments(data))
-  }, [])
+  }, [comment])
 
   useEffect(() => getSubComments(), [getSubComments])
 
