@@ -1,67 +1,24 @@
-import { useContext, useRef } from 'react'
+import { useContext, useMemo, useRef } from 'react'
 import { useEffect, useState } from 'react/cjs/react.development'
 import { AuthContext } from '../../context/AuthContext'
 import BlocTitle from '../blocTitle/BlocTitle'
 import './EditBasicInfo.scss'
-
-const Input = ({ label, type, name, value, onChange, ...rest }) => {
-  const [focus, setFocus] = useState(false)
-  const inputRef = useRef()
-
-  const handleClickLabel = () => inputRef.current.focus()
-
-  return (
-    <div className={'EditBasicInfo__formInputContainer'} {...rest}>
-      <label
-        className={
-          value?.length !== 0
-            ? 'EditBasicInfo__input-label--focus EditBasicInfo__input-label'
-            : focus
-            ? 'EditBasicInfo__input-label--focus EditBasicInfo__input-label'
-            : 'EditBasicInfo__input-label'
-        }
-        onClick={handleClickLabel}
-        htmlFor={name}
-      >
-        {label}
-      </label>
-      <input
-        ref={inputRef}
-        type={type}
-        name={name}
-        onChange={onChange}
-        value={value}
-        className={
-          value?.length !== 0
-            ? 'EditBasicInfo__input EditBasicInfo__input--focus'
-            : focus
-            ? 'EditBasicInfo__input EditBasicInfo__input--focus'
-            : 'EditBasicInfo__input'
-        }
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-      />
-    </div>
-  )
-}
+import Input from '../input/Input'
+import useForm from './../../hooks/useForm'
+import FormBtns from '../formBtns/FormBtns'
 
 const EditBasicInfo = () => {
   const [focus, setFocus] = useState(false)
   const textareaRef = useRef()
   const { updateUser, user, findOne } = useContext(AuthContext)
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    city: '',
-    country: '',
-    about: '',
-    birthday: '',
-  })
 
-  useEffect(() => {
-    setFormData({
+  const submitCallback = async (form) => {
+    await updateUser(form)
+    await findOne(user.id)
+  }
+
+  const initialState = useMemo(
+    () => ({
       firstName: user?.firstName ? user?.firstName : '',
       lastName: user?.lastName ? user?.lastName : '',
       email: user?.email ? user?.email : '',
@@ -69,35 +26,19 @@ const EditBasicInfo = () => {
       city: user?.city ? user?.city : '',
       country: user?.country ? user?.country : '',
       about: user?.about ? user?.about : '',
-      birthday: user?.birthday ? user?.birthDay : '',
-    })
-  }, [user])
+      birthday: user?.birthday ? user?.birthday : '',
+    }),
+    [user],
+  )
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const { formData, handleInputChange, handleSubmit, setFormData } = useForm(
+    initialState,
+    submitCallback,
+  )
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res = await updateUser(formData)
-    const json = await res.json()
-    resetForm()
-    console.log(json)
-    findOne(user)
-  }
+  useEffect(() => setFormData(initialState), [user, setFormData, initialState])
 
-  const resetForm = () => {
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      city: '',
-      country: '',
-      about: '',
-      birthDay: '',
-    })
-  }
+  const resetForm = () => setFormData(initialState)
 
   return (
     <div className="EditBasicInfo">
@@ -113,60 +54,59 @@ const EditBasicInfo = () => {
             label="First Name"
             type="text"
             name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
+            value={formData?.firstName}
+            onChange={handleInputChange}
           />
           <Input
             label="Last Name"
             type="text"
             name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
+            value={formData?.lastName}
+            onChange={handleInputChange}
           />
         </div>
         <Input
           label="BirthDay"
           type="Date"
           name="birthday"
-          value={formData.birthday}
-          onChange={handleChange}
+          value={formData?.birthday}
+          onChange={handleInputChange}
           style={{ width: '48%' }}
         />
         <Input
           label="Email"
           type="email"
           name="email"
-          value={formData.email}
-          onChange={handleChange}
+          value={formData?.email}
+          onChange={handleInputChange}
         />
         <Input
           label="Phone Number"
           type="phone"
           name="phone"
-          onChange={handleChange}
-          value={formData.phone}
+          onChange={handleInputChange}
+          value={formData?.phone}
         />
         <div className="EditBasicInfo__formRow">
           <Input
             label="City"
             type="text"
             name="city"
-            value={formData.city}
-            onChange={handleChange}
+            value={formData?.city}
+            onChange={handleInputChange}
           />
           <Input
-            onChange={handleChange}
+            onChange={handleInputChange}
             label="Country"
             type="text"
             name="country"
-            value={formData.country}
+            value={formData?.country}
           />
         </div>
-
         <div className="EditBasicInfo__formInputContainer">
           <label
             className={
-              formData.about.length !== 0
+              formData?.about?.length !== 0
                 ? 'EditBasicInfo__textarea-label EditBasicInfo__textarea-label--focus'
                 : focus
                 ? 'EditBasicInfo__textarea-label EditBasicInfo__textarea-label--focus'
@@ -177,13 +117,13 @@ const EditBasicInfo = () => {
             About me
           </label>
           <textarea
-            value={formData.about}
+            value={formData?.about}
             type="text"
             ref={textareaRef}
             name="about"
-            onChange={handleChange}
+            onChange={handleInputChange}
             className={
-              formData.about.length !== 0
+              formData?.about?.length !== 0
                 ? 'EditBasicInfo__textarea EditBasicInfo__textarea--focus'
                 : focus
                 ? 'EditBasicInfo__textarea EditBasicInfo__textarea--focus'
@@ -193,14 +133,7 @@ const EditBasicInfo = () => {
             onBlur={() => setFocus(false)}
           />
         </div>
-        <div className="EditBasicInfo__btns">
-          <button className="EditBasicInfo__btn EditBasicInfo__btn--cancel">
-            Cancel
-          </button>
-          <button className="EditBasicInfo__btn EditBasicInfo__btn--update">
-            Update
-          </button>
-        </div>
+        <FormBtns handleCancel={resetForm} handleSubmit={handleSubmit} />
       </form>
     </div>
   )

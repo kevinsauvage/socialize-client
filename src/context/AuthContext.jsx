@@ -67,6 +67,17 @@ export const AuthProvider = (props) => {
     setUser(json)
     return json
   }
+  console.log(user)
+
+  const updateUserPassword = async (formData) => {
+    return await fetchUrl(`users/${user?.id}/password`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        newPassword: formData.newPassword,
+        oldPassword: formData.oldPassword,
+      }),
+    })
+  }
 
   const value = {
     login,
@@ -76,6 +87,7 @@ export const AuthProvider = (props) => {
     updateUser,
     userAvatar,
     findOne,
+    updateUserPassword,
   }
 
   return <Provider value={value}>{props.children}</Provider>

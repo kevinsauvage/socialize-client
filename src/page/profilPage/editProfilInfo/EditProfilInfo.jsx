@@ -6,6 +6,7 @@ import ProfilIntro from '../../../component/profilIntro/ProfilIntro'
 import { useState } from 'react/cjs/react.development'
 import { useLocation } from 'react-router'
 import EditBasicInfo from './../../../component/editBasicInfo/EditBasicInfo'
+import EditPassword from './../../../component/editPassword/EditPassword'
 
 const EditProfilInfo = () => {
   const location = useLocation()
@@ -22,6 +23,7 @@ const EditProfilInfo = () => {
         </section>
         <section>
           {displayElement === 'basic_info' && <EditBasicInfo />}
+          {displayElement === 'change_password' && <EditPassword />}
         </section>
         <section>
           <ProfilIntro />

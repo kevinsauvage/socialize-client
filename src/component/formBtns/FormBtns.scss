@@ -1,0 +1,32 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.FormBtns {
+  width: 100%;
+  display: flex;
+  margin: 2rem 0 1rem 0;
+
+  &__btn {
+    position: relative;
+    font-size: 16px;
+    color: $white;
+    margin-top: 10px;
+    padding: 7px 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%),
+      0 1px 5px 0 rgb(0 0 0 / 12%);
+
+    &--update {
+      background-color: $blue;
+      border: 1px solid $blue;
+    }
+
+    &--cancel {
+      margin-right: 10px;
+      background-color: $lavender;
+      border: 1px solid $lavender;
+    }
+  }
+}

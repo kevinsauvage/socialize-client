@@ -16,13 +16,14 @@
   }
 
   &__username {
-    font-size: 16px;
+    font-size: 17px;
+    letter-spacing: 0.9px;
     color: $white;
   }
 
   &__published {
-    font-size: 12px;
-    color: $lavender;
+    font-size: 13px;
+    color: $blue;
     line-height: 6px;
   }
 
