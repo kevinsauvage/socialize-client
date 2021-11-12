@@ -1,0 +1,22 @@
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
+
+.Search {
+  padding-top: 60px;
+  min-height: 100vh;
+  margin-top: 1.5rem;
+  padding-left: calc(70px + 1.5rem);
+  padding-right: calc(70px + 1.5rem);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1rem;
+
+  &__list {
+    @include blocSetUp;
+
+    li {
+      list-style: none;
+    }
+  }
+}

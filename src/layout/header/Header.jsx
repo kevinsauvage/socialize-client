@@ -9,8 +9,26 @@ import {
 
 import { ImSearch } from 'react-icons/im'
 import { Link } from 'react-router-dom'
+import useForm from './../../hooks/useForm'
+import { useHistory } from 'react-router'
 
 const Header = () => {
+  const history = useHistory()
+
+  const submitCallback = (data) => {
+    history.push({
+      pathname: `/search`,
+      state: data.search,
+    })
+  }
+
+  const { formData, handleInputChange, handleSubmit } = useForm(
+    {
+      search: '',
+    },
+    submitCallback,
+  )
+
   return (
     <header className="header">
       <form style={{ display: 'none' }}>
@@ -20,11 +38,18 @@ const Header = () => {
         <Link to="/">Socialize</Link>
       </div>
       <div className="header__content">
-        <form action="search" className="header__search">
+        <form
+          action="search"
+          className="header__search"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
             placeholder="Search friend"
             className="header__input"
+            name="search"
+            value={formData.search}
+            onChange={handleInputChange}
           />
           <ImSearch size={22} className="header__search-icon" />
         </form>

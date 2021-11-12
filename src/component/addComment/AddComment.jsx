@@ -30,7 +30,7 @@ const AddComment = ({ post, getComments }) => {
   return (
     <>
       <div className="add-comment">
-        <Avatar AvatarImg={user?.image} />
+        <Avatar avatarImg={user?.image} />
         <textarea
           type="text"
           placeholder="Post your comment"

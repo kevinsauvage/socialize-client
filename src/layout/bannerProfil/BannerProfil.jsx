@@ -12,7 +12,7 @@ const BannerProfil = () => {
   const [avatarPreview, setAvatarPreview] = useState(false)
   const mousePosition = useMousePosition()
 
-  const { updateUser, user, userAvatar } = useContext(AuthContext)
+  const { updateUser, user } = useContext(AuthContext)
 
   useEffect(() => {
     user?.bgProfilPosition && setBgYposition()
@@ -64,7 +64,7 @@ const BannerProfil = () => {
     var reader = new FileReader()
     reader.onloadend = async () => {
       console.log('RESULT')
-      const response = await updateUser({ image: reader.result })
+      const response = await updateUser({ image: reader.result }, user)
       setAvatarPreview(reader.result)
       const json = await response.json()
       console.log(json)
@@ -73,10 +73,13 @@ const BannerProfil = () => {
   }
 
   const handleSubmitBg = async () => {
-    const response = await updateUser({
-      backgroundImg: imagePreview,
-      bgProfilPosition: bgYposition,
-    })
+    const response = await updateUser(
+      {
+        backgroundImg: imagePreview,
+        bgProfilPosition: bgYposition,
+      },
+      user,
+    )
     const json = await response.json()
     console.log(json)
   }
@@ -116,7 +119,7 @@ const BannerProfil = () => {
         <div className="bannerProfil__content">
           <div className="bannerProfil__avatar-wrapper">
             <img
-              src={avatarPreview ? avatarPreview : userAvatar}
+              src={avatarPreview ? avatarPreview : user?.image}
               alt="avatar"
               className="bannerProfil__avatar"
               onClick={handleClickAvatar}

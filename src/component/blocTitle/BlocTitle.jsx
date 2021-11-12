@@ -1,7 +1,11 @@
 import './BlocTitle.scss'
 
-const BlocTitle = ({ text }) => {
-  return <h6 className="blocTitle">{text}</h6>
+const BlocTitle = ({ text, ...rest }) => {
+  return (
+    <h6 className="blocTitle" {...rest}>
+      {text}
+    </h6>
+  )
 }
 
 export default BlocTitle

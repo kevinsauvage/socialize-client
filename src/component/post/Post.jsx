@@ -7,7 +7,7 @@ import { fetchUrl } from './../../helpers/fetch'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 import AddComment from '../addComment/AddComment'
 
-const Post = ({ post, newPostImg }) => {
+const Post = ({ post, newPostImg, avatar }) => {
   const [comments, setComments] = useState([])
 
   const getComments = useCallback(() => {
@@ -21,7 +21,7 @@ const Post = ({ post, newPostImg }) => {
   return (
     <div className="post">
       <header className="post__header">
-        <Avatar AvatarImg={post.authorAvatar} />
+        <Avatar avatarImg={avatar ? avatar : post.authorAvatar} />
         <div className="post__detail">
           <h2 className="post__username">{post.authorName}</h2>
           <i className="post__published">

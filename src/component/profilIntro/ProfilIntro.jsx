@@ -5,13 +5,13 @@ import { AuthContext } from '../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
 
 const ProfilIntro = () => {
-  const { user, userAvatar } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   return (
     <div className="profilIntro">
       <BlocTitle text="Profil Intro" />
       <div className="profilIntro__username">
-        <Avatar AvatarImg={userAvatar} />
+        <Avatar avatarImg={user?.image} />
         <div className="profilIntro__name">
           <h5 className="profilIntro__firstname">{user?.firstName}</h5>
           <h2 className="profilIntro__lastname">{user?.lastName}</h2>

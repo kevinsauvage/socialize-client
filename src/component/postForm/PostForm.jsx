@@ -15,10 +15,9 @@ const PostForm = ({
   contentText,
 }) => {
   const { user } = useContext(AuthContext)
-
   return (
     <div className="postForm">
-      <Avatar AvatarImg={user?.image} />
+      <Avatar avatarImg={user?.image} />
       <form action="submit" className="postForm__form" onSubmit={handleSubmit}>
         <textarea
           name="postContent"

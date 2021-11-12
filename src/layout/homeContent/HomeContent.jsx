@@ -14,15 +14,15 @@ const HomeContent = () => {
 
   return (
     <div className="homeContent">
-      <aside className="homeContent__sidebar">
+      <aside>
         <EditInfo />
         <Friends />
         <LastNotification />
       </aside>
-      <div className="homecontent__central">
+      <section>
         <Feed posts={posts} />
-      </div>
-      <aside className="homeContent__sidebar">
+      </section>
+      <aside>
         <ProfilIntro />
         <Shortcuts />
         <InviteFriends />

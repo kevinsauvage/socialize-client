@@ -20,7 +20,7 @@
   }
 
   svg {
-    color: $lavender;
+    color: $blue;
     margin-right: 10px;
     font-size: 20px;
   }
@@ -28,6 +28,8 @@
   &__link {
     &--active {
       color: $blue;
+      font-weight: 600;
+      font-size: 15px;
     }
   }
 }

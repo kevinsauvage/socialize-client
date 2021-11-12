@@ -13,8 +13,8 @@ const EditBasicInfo = () => {
   const { updateUser, user, findOne } = useContext(AuthContext)
 
   const submitCallback = async (form) => {
-    await updateUser(form)
-    await findOne(user.id)
+    await updateUser(form, user)
+    await findOne(user)
   }
 
   const initialState = useMemo(

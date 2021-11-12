@@ -1,14 +1,12 @@
-import BannerProfil from '../../../layout/bannerProfil/BannerProfil'
-import PageMain from '../../../layout/PageMain/PageMain'
-import NavProfilPage from './../../../component/NavProfilPage/NavProfilPage'
+import FriendsRequest from '../../../component/friendsRequest/FriendsRequest'
+import MyFriends from '../../../component/myFriends/MyFriends'
 
 const FriendsProfil = () => {
   return (
-    <div>
-      <BannerProfil />
-      <NavProfilPage />
-      <PageMain>friends</PageMain>
-    </div>
+    <>
+      <FriendsRequest />
+      <MyFriends />
+    </>
   )
 }
 

@@ -43,7 +43,6 @@ const Feed = ({ posts }) => {
     }
     reader.readAsDataURL(img)
   }
-  console.log(posts)
 
   return (
     <div className="feed">
@@ -58,7 +57,7 @@ const Feed = ({ posts }) => {
           newPostImg={imagePreview}
           post={{
             authorName: `${user.firstName} ${user.lastName}`,
-            authorId: user.id,
+            avatar: user.image,
             body: contentText,
             createdAt: getDataFromTimestamp(Date.now()),
           }}

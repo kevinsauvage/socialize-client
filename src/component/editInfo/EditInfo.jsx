@@ -1,7 +1,6 @@
 import BlocTitle from '../blocTitle/BlocTitle'
 import './EditInfo.scss'
 import { BsInfoCircle } from 'react-icons/bs/index'
-import { AiOutlineSchedule } from 'react-icons/ai/index'
 import {
   MdFavoriteBorder,
   MdLockOutline,
@@ -18,11 +17,6 @@ const EditInfo = () => {
           icon={<BsInfoCircle />}
           text="Basic Info"
           to="/profil/edit/basic_info"
-        />
-        <ListItem
-          icon={<AiOutlineSchedule />}
-          text="Education & Work"
-          to="/profil/edit/education_work"
         />
         <ListItem
           icon={<MdFavoriteBorder />}

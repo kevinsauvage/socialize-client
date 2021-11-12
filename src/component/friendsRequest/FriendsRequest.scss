@@ -1,0 +1,13 @@
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
+
+.FriendsRequest {
+  @include blocSetUp;
+
+  p {
+    color: $white;
+    line-height: 23px;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+}

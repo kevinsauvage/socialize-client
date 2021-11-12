@@ -73,7 +73,7 @@ const NavProfilPage = () => {
         <li className="navProfilPage__list-item">
           <NavLink
             activeClassName="navProfilPage__link--active"
-            to="/profil/edit"
+            to="/profil/edit/basic_info"
           >
             Edit
           </NavLink>

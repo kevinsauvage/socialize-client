@@ -23,7 +23,13 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const response = await register(formData)
+
+    const user = {
+      ...formData,
+      username: `${formData.firstName} ${formData.lastName}`,
+    }
+
+    const response = await register(user)
     setLoading(false)
     if (response.ok) {
       history.push('/login')

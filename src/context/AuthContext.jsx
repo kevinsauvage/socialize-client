@@ -10,11 +10,10 @@ const { Provider } = AuthContext
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState()
-  const [userAvatar, setUserAvatar] = useState(undefined)
 
   useEffect(() => {
     const userSaved = getValue('user')
-    userSaved && findOne(userSaved?.id)
+    userSaved && findOne(userSaved)
   }, [])
 
   const login = async (formData, callback) => {
@@ -27,16 +26,17 @@ export const AuthProvider = (props) => {
         const data = await response.json()
         setValue('user', JSON.stringify(data))
         setUser(data)
-        callback()
       } else {
         return response
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      callback()
     }
   }
 
-  const register = async (formData, callback) => {
+  const register = async (formData) => {
     try {
       return await fetchUrl(urls.register, {
         method: 'POST',
@@ -49,33 +49,45 @@ export const AuthProvider = (props) => {
 
   const logout = () => {
     removeStorage('user')
-    window.location.reload()
+    localStorage.clear()
+    setUser(undefined)
+    window.location.pathname = '/login'
   }
 
-  const updateUser = async (form) => {
-    return await fetchUrl(`users/${user.id}`, {
+  const updateUser = async (form, userToUpdate) => {
+    return await fetchUrl(`users/${userToUpdate._id}`, {
       method: 'PUT',
       body: JSON.stringify(form),
     })
   }
 
   const findOne = async (user) => {
-    console.log('caleld')
-    const response = await fetchUrl(`users/${user?.id}`, { method: 'GET' })
+    const response = await fetchUrl(`users/${user?._id}`, { method: 'GET' })
     const json = await response.json()
-    setUserAvatar(json?.image)
     setUser(json)
     return json
   }
-  console.log(user)
 
   const updateUserPassword = async (formData) => {
-    return await fetchUrl(`users/${user?.id}/password`, {
+    return await fetchUrl(`users/${user?._id}/password`, {
       method: 'PUT',
       body: JSON.stringify({
         newPassword: formData.newPassword,
         oldPassword: formData.oldPassword,
       }),
+    })
+  }
+
+  const searchUsers = async (query) => {
+    return await fetchUrl(`search?query=${query}`, {
+      method: 'GET',
+    })
+  }
+
+  const searchByIds = async (ids) => {
+    return await fetchUrl('searchByIds', {
+      method: 'POST',
+      body: JSON.stringify(ids),
     })
   }
 
@@ -85,8 +97,9 @@ export const AuthProvider = (props) => {
     logout,
     user,
     updateUser,
-    userAvatar,
     findOne,
+    searchUsers,
+    searchByIds,
     updateUserPassword,
   }
 

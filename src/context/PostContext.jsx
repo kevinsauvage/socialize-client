@@ -16,7 +16,7 @@ export const PostProvider = (props) => {
       method: 'Post',
       body: JSON.stringify({
         body: contentText,
-        authorId: `${user?.id}`,
+        authorId: `${user?._id}`,
         authorName: `${user?.firstName} ${user?.lastName}`,
         image: image,
         authorAvatar: authorAvatar,
@@ -34,7 +34,7 @@ export const PostProvider = (props) => {
   }, [])
 
   const getUserPost = async () => {
-    return await fetchUrl(`posts/user/${user?.id}`)
+    return await fetchUrl(`posts/user/${user?._id}`)
   }
 
   const value = {

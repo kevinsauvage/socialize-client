@@ -1,0 +1,17 @@
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
+
+.MyFriends {
+  @include blocSetUp;
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 20px;
+  width: 100%;
+
+  p {
+    color: $white;
+    line-height: 23px;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+}

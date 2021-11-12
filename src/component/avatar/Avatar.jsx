@@ -1,11 +1,11 @@
 import './Avatar.scss'
 import AvatarDefault from '../../img/avatarDefault.png'
 
-const Avatar = ({ AvatarImg, name, ...rest }) => {
+const Avatar = ({ avatarImg, name, ...rest }) => {
   return (
     <div className="avatar" {...rest}>
       <img
-        src={AvatarImg ? AvatarImg : AvatarDefault}
+        src={avatarImg ? avatarImg : AvatarDefault}
         alt="avatar"
         className="avatar__img"
       />

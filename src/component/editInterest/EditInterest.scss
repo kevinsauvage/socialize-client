@@ -1,0 +1,85 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.EditInterest {
+  @include blocSetUp;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__label {
+    margin-bottom: 1rem;
+    color: $white;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__input {
+    font-size: 14px;
+    padding: 10px 20px;
+    width: 100%;
+    background-color: $darkGrey;
+    border: 1px solid $darkGrey;
+    border-radius: 4px;
+    margin-right: 4px;
+    color: $white;
+
+    &:focus {
+      outline: 1px solid $lightGrey;
+    }
+
+  }
+
+  &__formRow {
+    display: flex;
+    align-items: center;
+    height: 38px;
+  }
+
+  &__addBtn {
+    @include buttonSetUp;
+    border: 1px solid $blue;
+    height: 100%;
+    width: 12%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $blue;
+  }
+
+  &__list {
+    padding: 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+
+  &__listItem {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    background-color: $mediumLightGrey;
+    border: 1px solid $lightGrey;
+    width: fit-content;
+    margin-bottom: 0.5rem;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+
+    svg {
+      color: $white;
+      font-size: 22px;
+    }
+
+    p {
+      color: $white;
+      margin-left: 1rem;
+    }
+  }
+
+  &__deleteIcon {
+    cursor: pointer;
+  }
+}

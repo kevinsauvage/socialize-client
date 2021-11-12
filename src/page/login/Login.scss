@@ -3,6 +3,7 @@
 .login {
   display: flex;
   height: 100vh;
+  z-index: 999999999999;
 
   &__left {
     width: 50%;
