@@ -8,6 +8,7 @@ const ListItem = ({ icon, text, onClick, to, activeClassName }) => {
       {to ? (
         <NavLink
           to={to}
+          onClick={() => window.scrollTo(0, 0)}
           activeClassName="listItem__link--active"
           className="listItem__link"
         >

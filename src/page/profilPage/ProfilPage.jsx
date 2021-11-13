@@ -25,8 +25,6 @@ const ProfilPage = () => {
       .then((data) => setUserPosts(data))
   }, [getUserPost])
 
-  useEffect(() => window.scrollTo(0, 0), [location.pathname])
-
   return (
     <section className="profilPage">
       <ProfilPageWrapper>
