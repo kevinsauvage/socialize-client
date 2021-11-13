@@ -25,31 +25,59 @@ const Shortcuts = () => {
       <BlocTitle text="Shortcuts" />
       <ul className="shortcuts__list">
         <ListItem
+          scrollTop={true}
           icon={<MdOutlineDynamicFeed />}
           text="Timeline"
           to="/profil/timeline"
         />
         <ListItem
+          scrollTop={true}
           icon={<AiOutlineFileImage />}
           text="Photos"
           to="/profil/photos"
         />
         <ListItem
+          scrollTop={true}
           icon={<AiOutlineVideoCameraAdd />}
           text="Vidéos"
           to="/profil/videos"
         />
-        <ListItem icon={<MdPeople />} text="Friends" to="/profil/friends" />
         <ListItem
+          scrollTop={true}
+          icon={<MdPeople />}
+          text="Friends"
+          to="/profil/friends"
+        />
+        <ListItem
+          scrollTop={true}
           icon={<MdOutlineGroups />}
           text="Groups"
           to="/profil/groups"
         />
-        <ListItem icon={<SiAboutdotme />} text="About" to="/profil/about" />
-        <ListItem icon={<MdMessage />} text="Inbox" to={'/profil/inbox'} />
-        <ListItem icon={<ImFilesEmpty />} text="My Pages" to="/profil/pages" />
-
-        <ListItem icon={<MdLogout />} onClick={logout} text="Logout" />
+        <ListItem
+          scrollTop={true}
+          icon={<SiAboutdotme />}
+          text="About"
+          to="/profil/about"
+        />
+        <ListItem
+          scrollTop={true}
+          icon={<MdMessage />}
+          text="Inbox"
+          to={'/profil/inbox'}
+        />
+        <ListItem
+          scrollTop={true}
+          icon={<ImFilesEmpty />}
+          text="My Pages"
+          to="/profil/pages"
+        />
+        <ListItem
+          scrollTop={true}
+          icon={<MdLogout />}
+          onClick={logout}
+          text="Logout"
+        />
       </ul>
     </div>
   )

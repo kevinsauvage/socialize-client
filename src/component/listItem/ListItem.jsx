@@ -1,14 +1,14 @@
 import { NavLink } from 'react-router-dom'
 import './ListItem.scss'
 
-const ListItem = ({ icon, text, onClick, to, activeClassName }) => {
+const ListItem = ({ icon, text, onClick, to, scrollTop }) => {
   return (
     <li className="listItem" onClick={() => onClick && onClick()}>
       {icon}
       {to ? (
         <NavLink
           to={to}
-          onClick={() => window.scrollTo(0, 0)}
+          onClick={() => scrollTop && window.scrollTo(0, 0)}
           activeClassName="listItem__link--active"
           className="listItem__link"
         >
