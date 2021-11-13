@@ -91,6 +91,48 @@ export const AuthProvider = (props) => {
     })
   }
 
+  const handleUnfriend = async (friend, callback) => {
+    const res = await fetchUrl(`users/${user._id}/unfriends/${friend._id}`, {
+      method: 'PUT',
+    })
+    await findOne(user)
+    callback && callback()
+    return res
+  }
+
+  const handleAddFriend = async (friend, callback) => {
+    const res = await fetchUrl(
+      `users/${user._id}/sendAddfriends/${friend._id}`,
+      {
+        method: 'PUT',
+      },
+    )
+    await findOne(user)
+    callback && callback()
+    return res
+  }
+
+  const handleUnsedFriendRequest = async (friend, callback) => {
+    const res = await fetchUrl(
+      `users/${user._id}/unsendAddfriends/${friend._id}`,
+      {
+        method: 'PUT',
+      },
+    )
+    await findOne(user)
+    callback && callback()
+    return res
+  }
+
+  const handleAcceptFriend = async (friend, callback) => {
+    const res = await fetchUrl(`users/${user._id}/acceptfriend/${friend._id}`, {
+      method: 'PUT',
+    })
+    await findOne(user)
+    callback && callback()
+    return res
+  }
+
   const value = {
     login,
     register,
@@ -101,6 +143,10 @@ export const AuthProvider = (props) => {
     searchUsers,
     searchByIds,
     updateUserPassword,
+    handleAcceptFriend,
+    handleUnsedFriendRequest,
+    handleAddFriend,
+    handleUnfriend,
   }
 
   return <Provider value={value}>{props.children}</Provider>

@@ -29,6 +29,11 @@ const EditInfo = () => {
           to="/profil/edit/account_setting"
         />
         <ListItem
+          icon={<MdSettingsSuggest />}
+          text="Work And Education"
+          to="/profil/edit/work_and_education"
+        />
+        <ListItem
           icon={<MdLockOutline />}
           text="Change Password"
           to="/profil/edit/change_password"

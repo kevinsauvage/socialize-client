@@ -1,6 +1,6 @@
 import BlocTitle from '../blocTitle/BlocTitle'
 import './EditInterest.scss'
-import { useEffect, useState } from 'react/cjs/react.development'
+import { useEffect, useState } from 'react'
 import { MdOutlineDeleteSweep } from 'react-icons/md'
 import FormBtns from '../formBtns/FormBtns'
 import { useContext } from 'react'

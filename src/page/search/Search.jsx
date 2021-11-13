@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react'
-import { useEffect } from 'react'
 import './Search.scss'
+import { useContext, useState, useEffect } from 'react'
 import { AuthContext } from './../../context/AuthContext'
 import { useLocation } from 'react-router'
 import EditInfo from './../../component/editInfo/EditInfo'
@@ -11,42 +10,23 @@ import SidebarLeft from '../../layout/sidebarLeft/SidebarLeft'
 import SidebarRight from '../../layout/sidebarRight/SidebarRight'
 import BlocTitle from '../../component/blocTitle/BlocTitle'
 import Header from './../../layout/header/Header'
+import { useCallback } from 'react'
 
 const Search = () => {
-  const { searchUsers, updateUser, user } = useContext(AuthContext)
+  const { searchUsers } = useContext(AuthContext)
   const location = useLocation()
   const [users, setUsers] = useState([])
 
-  useEffect(() => {
+  const handleSearch = useCallback(() => {
     setUsers([])
     searchUsers(location.state)
       .then((res) => res.json())
       .then((users) => setUsers(users))
-  }, [location.state, searchUsers])
+  }, [location, searchUsers])
 
-  const handleAddFriend = async (friend) => {
-    const { _id } = user
-    if (friend?.friendsRequests?.includes(_id)) {
-      window.alert('already friends')
-      return
-    }
-    const objetToUpdate = {
-      friendsRequests: [_id],
-    }
-
-    const res = await updateUser(objetToUpdate, friend)
-
-    if (res.ok) {
-      setUsers([])
-      searchUsers(location.state)
-        .then((res) => res.json())
-        .then((users) => setUsers(users))
-    }
-
-    const data = await res.json()
-
-    console.log(data)
-  }
+  useEffect(() => {
+    handleSearch()
+  }, [handleSearch])
 
   useEffect(() => {
     users.length > 0 && console.log(users)
@@ -65,13 +45,9 @@ const Search = () => {
         <ul className="Search__list">
           <BlocTitle text="Results" />
           {users.length > 0 &&
-            users?.map((user) => (
-              <li key={user.id}>
-                <FriendCard
-                  onClick={handleAddFriend}
-                  user={user}
-                  btnText="Add friend"
-                />
+            users?.map((user, i) => (
+              <li key={i}>
+                <FriendCard friend={user} callback={handleSearch} />
               </li>
             ))}
         </ul>

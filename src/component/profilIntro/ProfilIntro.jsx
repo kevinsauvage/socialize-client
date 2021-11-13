@@ -39,6 +39,12 @@ const ProfilIntro = () => {
             <p>No birthday added yet</p>
           )}
         </div>
+        {user?.website && (
+          <div className="profilIntro__box">
+            <h6 className="profilIntro__box-title">Website</h6>
+            <p>{user.website}</p>
+          </div>
+        )}
       </div>
     </div>
   )

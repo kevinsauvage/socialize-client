@@ -6,7 +6,7 @@ import useForm from './../../hooks/useForm'
 import { useCallback } from 'react'
 import FormBtns from '../formBtns/FormBtns'
 import { AuthContext } from '../../context/AuthContext'
-import { useEffect } from 'react/cjs/react.development'
+import { useEffect } from 'react'
 import ErrorMessage from './../errorMessage/ErrorMessage'
 
 const EditPassword = () => {

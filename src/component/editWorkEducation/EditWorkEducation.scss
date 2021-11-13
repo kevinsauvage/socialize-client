@@ -1,0 +1,19 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.EditWorkEducation {
+  @include blocSetUp;
+
+  &__checkBox {
+    margin-right: 3rem;
+
+    label {
+      font-size: 20px;
+      font-weight: 600;
+      color: $white;
+      margin-right: 1rem;
+    }
+  }
+
+
+}

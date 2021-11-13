@@ -1,0 +1,32 @@
+@import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
+
+.TextArea {
+  &__label {
+    color: $XlightGrey;
+    font-weight: 500;
+    opacity: 0.8;
+    transform-origin: left;
+
+    &--focus {
+      color: $blue;
+    }
+  }
+
+  &__input {
+    min-height: 100px;
+    resize: vertical;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 0.1px solid $XlightGrey;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: $XlightGrey;
+
+    &--focus {
+      border-bottom: 1px solid $blue;
+    }
+  }
+}

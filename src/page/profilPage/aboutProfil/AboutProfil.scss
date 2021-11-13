@@ -1,0 +1,56 @@
+@import "../../../scss/variable.scss";
+@import "../../../scss/mixins.scss";
+
+.AboutProfil {
+  @include blocSetUp;
+
+  &__aboutTop {
+    color: $white;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.7;
+    opacity: 0.8;
+  }
+
+  &__table {
+    display: flex;
+    margin-top: 3rem;
+    border: 1px solid $lightGrey;
+  }
+
+  &__list {
+    background-color: $mediumLightGrey;
+  }
+
+  &__listItem {
+    padding: 10px;
+    color: $white;
+    opacity: 0.8;
+    list-style: none;
+    cursor: pointer;
+
+    &--active {
+      background-color: $blue;
+    }
+  }
+
+  &__result {
+    padding: 0.5rem;
+  }
+
+  &__resultItem {
+
+    padding: 10px;
+    color: $white;
+    opacity: 0.8;
+    list-style: none;
+    display: flex;
+    align-items: center;
+
+    svg {
+      color: $blue;
+      margin-right: 1rem;
+    }
+  }
+
+}

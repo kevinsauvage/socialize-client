@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import './Input.scss'
 
-const Input = ({ label, type, name, value, onChange, ...rest }) => {
+const Input = ({ label, type, name, value = '', onChange, ...rest }) => {
   const [focus, setFocus] = useState(false)
   const inputRef = useRef()
 
   const handleClickLabel = () => inputRef.current.focus()
-
+  console.log(value)
   return (
     <div className="inputContainer" {...rest}>
       <label
