@@ -1,6 +1,6 @@
 import './ProfilPage.scss'
 import { useEffect, useState, useContext, lazy, Suspense } from 'react'
-import { Route, Switch, useLocation } from 'react-router'
+import { Route, Switch } from 'react-router'
 import { PostContext } from './../../context/PostContext'
 import ProfilPageWrapper from '../../layout/profilPageWrapper/ProfilPageWrapper'
 import Loader from '../../component/loader/Loader'
@@ -17,7 +17,6 @@ const Feed = lazy(() => import('../../layout/feed/Feed'))
 const ProfilPage = () => {
   const { getUserPost } = useContext(PostContext)
   const [userPosts, setUserPosts] = useState([])
-  const location = useLocation()
 
   useEffect(() => {
     getUserPost()
