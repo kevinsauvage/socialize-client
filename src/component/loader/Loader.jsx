@@ -1,7 +1,11 @@
 import './Loader.scss'
 
-const Loader = () => {
-  return <div className="loader"></div>
+const Loader = ({ ...rest }) => {
+  return (
+    <div className="loader" {...rest}>
+      <div className="lds-ring"></div>
+    </div>
+  )
 }
 
 export default Loader

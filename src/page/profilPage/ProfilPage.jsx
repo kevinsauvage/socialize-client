@@ -1,20 +1,23 @@
 import './ProfilPage.scss'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, lazy, Suspense } from 'react'
+import { Route, Switch, useLocation } from 'react-router'
 import { PostContext } from './../../context/PostContext'
-import Feed from '../../layout/feed/Feed'
 import ProfilPageWrapper from '../../layout/profilPageWrapper/ProfilPageWrapper'
-import { Route, Switch } from 'react-router'
-import PhotoProfil from './photoProfil/PhotoProfil'
-import EditProfilInfo from './editProfilInfo/EditProfilInfo'
-import VideosProfil from './videosProfil/VideosProfil'
-import FriendsProfil from './friendsProfil/FriendsProfil'
-import GroupsProfil from './groupsProfil/GroupsProfil'
-import PagesProfil from './pagesProfil/PagesProfil'
-import AboutProfil from './aboutProfil/AboutProfil'
+import Loader from '../../component/loader/Loader'
+
+const PhotoProfil = lazy(() => import('./photoProfil/PhotoProfil'))
+const EditProfilInfo = lazy(() => import('./editProfilInfo/EditProfilInfo'))
+const VideosProfil = lazy(() => import('./videosProfil/VideosProfil'))
+const FriendsProfil = lazy(() => import('./friendsProfil/FriendsProfil'))
+const GroupsProfil = lazy(() => import('./groupsProfil/GroupsProfil'))
+const PagesProfil = lazy(() => import('./pagesProfil/PagesProfil'))
+const AboutProfil = lazy(() => import('./aboutProfil/AboutProfil'))
+const Feed = lazy(() => import('../../layout/feed/Feed'))
 
 const ProfilPage = () => {
   const { getUserPost } = useContext(PostContext)
   const [userPosts, setUserPosts] = useState([])
+  const location = useLocation()
 
   useEffect(() => {
     getUserPost()
@@ -22,21 +25,25 @@ const ProfilPage = () => {
       .then((data) => setUserPosts(data))
   }, [getUserPost])
 
+  useEffect(() => window.scrollTo(0, 0), [location.pathname])
+
   return (
     <section className="profilPage">
       <ProfilPageWrapper>
-        <Switch>
-          <Route path="/profil/timeline">
-            <Feed posts={userPosts} />
-          </Route>
-          <Route path="/profil/photos" component={PhotoProfil} />
-          <Route path="/profil/edit" component={EditProfilInfo} />
-          <Route path="/profil/videos" component={VideosProfil} />
-          <Route path="/profil/Friends" component={FriendsProfil} />
-          <Route path="/profil/groups" component={GroupsProfil} />
-          <Route path="/profil/pages" component={PagesProfil} />
-          <Route path="/profil/about" component={AboutProfil} />
-        </Switch>
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route path="/profil/timeline">
+              <Feed posts={userPosts} />
+            </Route>
+            <Route path="/profil/photos" component={PhotoProfil} />
+            <Route path="/profil/edit" component={EditProfilInfo} />
+            <Route path="/profil/videos" component={VideosProfil} />
+            <Route path="/profil/Friends" component={FriendsProfil} />
+            <Route path="/profil/groups" component={GroupsProfil} />
+            <Route path="/profil/pages" component={PagesProfil} />
+            <Route path="/profil/about" component={AboutProfil} />
+          </Switch>
+        </Suspense>
       </ProfilPageWrapper>
     </section>
   )
