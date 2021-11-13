@@ -16,16 +16,16 @@ const HomeContent = () => {
     <div className="homeContent">
       <aside>
         <EditInfo />
-        <Friends />
-        <LastNotification />
+        <Shortcuts />
       </aside>
       <section>
         <Feed posts={posts} />
       </section>
       <aside>
         <ProfilIntro />
-        <Shortcuts />
         <InviteFriends />
+        <LastNotification />
+        <Friends />
       </aside>
     </div>
   )
