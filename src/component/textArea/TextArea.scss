@@ -2,6 +2,8 @@
 @import "../../scss/mixins.scss";
 
 .TextArea {
+  margin-top: 2rem;
+
   &__label {
     color: $XlightGrey;
     font-weight: 500;

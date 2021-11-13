@@ -16,7 +16,7 @@ const EditWorkEducation = () => {
     handleSubmit,
     setFormData,
     loading,
-  } = useForm({}, submitCallback)
+  } = useForm({ type: 'Education' }, submitCallback)
 
   const handleCheckBoxes = (e) => {
     var checkboxes = document.getElementsByName('typecheckbox')
@@ -39,6 +39,7 @@ const EditWorkEducation = () => {
               type="checkbox"
               name="typecheckbox"
               value="Education"
+              checked={formData.type === 'Education'}
               id="Education"
               onChange={handleCheckBoxes}
             />
@@ -48,14 +49,20 @@ const EditWorkEducation = () => {
             <input
               type="checkbox"
               name="typecheckbox"
-              value="School"
+              value="Work"
               id="School"
               onChange={handleCheckBoxes}
             />
           </span>
         </div>
         <Input
-          label="Working at"
+          label={
+            formData.type === 'Education'
+              ? 'Studying at'
+              : formData.type === 'Work'
+              ? 'Working at'
+              : ''
+          }
           type="text"
           name="name"
           value={!loading ? formData?.name : ''}
