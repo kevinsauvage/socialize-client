@@ -31,9 +31,6 @@ const Header = () => {
 
   return (
     <header className="header">
-      <form style={{ display: 'none' }}>
-        <input type="file" id="fileDialogId" />
-      </form>
       <div className="header__logo">
         <Link to="/">Socialize</Link>
       </div>

@@ -9,7 +9,6 @@ import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
   const [imagePreview, setImagePreview] = useState('')
-
   const { user } = useContext(AuthContext)
   const { fetchPosts, sendPosts } = useContext(PostContext)
 
@@ -52,18 +51,17 @@ const Feed = ({ posts }) => {
         contentText={contentText}
         setContentText={setContentText}
       />
-      {contentText || imagePreview ? (
+      {(contentText || imagePreview) && (
         <Post
           newPostImg={imagePreview}
           post={{
             authorName: `${user.firstName} ${user.lastName}`,
-            avatar: user.image,
+            authorAvatar: user.image,
             body: contentText,
             createdAt: getDataFromTimestamp(Date.now()),
+            _id: '3',
           }}
         />
-      ) : (
-        ''
       )}
       {posts?.map((post) => {
         return <Post key={post._id} post={post} />

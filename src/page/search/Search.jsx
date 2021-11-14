@@ -24,18 +24,11 @@ const Search = () => {
       .then((users) => setUsers(users))
   }, [location, searchUsers])
 
-  useEffect(() => {
-    handleSearch()
-  }, [handleSearch])
-
-  useEffect(() => {
-    users.length > 0 && console.log(users)
-  }, [users])
+  useEffect(() => handleSearch(), [handleSearch])
 
   return (
     <div className="Search">
       <Header />
-
       <SidebarLeft />
       <aside>
         <EditInfo />

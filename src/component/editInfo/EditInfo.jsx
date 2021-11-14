@@ -5,6 +5,7 @@ import {
   MdFavoriteBorder,
   MdLockOutline,
   MdSettingsSuggest,
+  MdWorkOutline,
 } from 'react-icons/md/index'
 import ListItem from '../listItem/ListItem'
 
@@ -29,7 +30,7 @@ const EditInfo = () => {
           to="/profil/edit/account_setting"
         />
         <ListItem
-          icon={<MdSettingsSuggest />}
+          icon={<MdWorkOutline />}
           text="Work And Education"
           to="/profil/edit/work_and_education"
         />

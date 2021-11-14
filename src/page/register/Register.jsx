@@ -31,6 +31,7 @@ const Register = () => {
 
     const response = await register(user)
     setLoading(false)
+
     if (response.ok) {
       history.push('/login')
     }

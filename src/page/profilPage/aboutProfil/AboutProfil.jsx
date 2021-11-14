@@ -7,6 +7,7 @@ import { RiUser3Line } from 'react-icons/ri'
 import { GoLocation } from 'react-icons/go'
 import { GiSmartphone } from 'react-icons/gi'
 import { MdContactMail, MdOutlineWeb } from 'react-icons/md'
+import { convertFromRaw, Editor, EditorState } from 'draft-js'
 
 const ListItem = ({ icon, text, ...rest }) => {
   return (
@@ -61,11 +62,20 @@ const AboutProfil = () => {
     setInterest(false)
     setLanguages(true)
   }
+
   return (
     <div className="AboutProfil">
       <BlocTitle text="Personal Info" />
-      <p className="AboutProfil__aboutTop">{user?.about}</p>
-
+      {user?.about ? (
+        <Editor
+          editorState={EditorState.createWithContent(
+            convertFromRaw(JSON.parse(user?.about)),
+          )}
+          readOnly={true}
+        />
+      ) : (
+        <p>No description added yet</p>
+      )}
       <div className="AboutProfil__table">
         <ul className="AboutProfil__list">
           <li

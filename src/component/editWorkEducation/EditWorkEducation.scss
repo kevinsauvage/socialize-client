@@ -15,5 +15,16 @@
     }
   }
 
+  &__row {
+    display: flex;
+    align-items: center;
+
+    .inputContainer {
+      &:first-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+
 
 }

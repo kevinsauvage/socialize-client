@@ -1,5 +1,5 @@
 import './EditBasicInfo.scss'
-import { useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo, useState } from 'react'
 import { useEffect } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import BlocTitle from '../blocTitle/BlocTitle'
@@ -7,9 +7,14 @@ import Input from '../input/Input'
 import useForm from './../../hooks/useForm'
 import FormBtns from '../formBtns/FormBtns'
 import TextArea from '../textArea/TextArea'
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
 const EditBasicInfo = () => {
   const { updateUser, user, findOne } = useContext(AuthContext)
+
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty(),
+  )
 
   const submitCallback = async (form) => {
     await updateUser(form, user)
@@ -23,8 +28,8 @@ const EditBasicInfo = () => {
       email: user?.email ? user?.email : '',
       phone: user?.phone ? user?.phone : '',
       city: user?.city ? user?.city : '',
-      country: user?.country ? user?.country : '',
       about: user?.about ? user?.about : '',
+      country: user?.country ? user?.country : '',
       birthday: user?.birthday ? user?.birthday : '',
       website: user?.website ? user?.website : '',
     }),
@@ -41,7 +46,27 @@ const EditBasicInfo = () => {
 
   useEffect(() => setFormData(initialState), [user, setFormData, initialState])
 
-  const resetForm = () => setFormData(initialState)
+  const setEditorContent = useCallback(() => {
+    if (user.about)
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(user?.about))),
+      )
+    else setEditorState(EditorState.createEmpty())
+  }, [user])
+
+  useEffect(() => user && setEditorContent(), [setEditorContent, user])
+
+  const resetForm = () => {
+    setEditorContent()
+    setFormData(initialState)
+  }
+
+  const handleTextAreaChange = (e) => {
+    setEditorState(e)
+    const data = editorState.getCurrentContent()
+    const content = JSON.stringify(convertToRaw(data))
+    setFormData({ ...formData, about: content })
+  }
 
   return (
     <div className="EditBasicInfo">
@@ -120,8 +145,8 @@ const EditBasicInfo = () => {
           <TextArea
             name="about"
             label="About Me"
-            onChange={handleInputChange}
-            value={!loading ? formData?.about : ''}
+            onChange={handleTextAreaChange}
+            state={editorState}
           />
         </div>
         <FormBtns handleCancel={resetForm} handleSubmit={handleSubmit} />

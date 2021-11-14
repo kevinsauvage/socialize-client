@@ -1,8 +1,7 @@
-import { useContext } from 'react'
 import './PostForm.scss'
+import { useContext } from 'react'
 import { AuthContext } from './../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
-
 import {
   AiOutlineFileImage,
   AiOutlineVideoCameraAdd,
@@ -15,6 +14,7 @@ const PostForm = ({
   contentText,
 }) => {
   const { user } = useContext(AuthContext)
+
   return (
     <div className="postForm">
       <Avatar avatarImg={user?.image} />
@@ -32,11 +32,11 @@ const PostForm = ({
             <AiOutlineVideoCameraAdd />
           </li>
           <li className="postForm__btn">
-            <label htmlFor="file">
+            <label htmlFor="fileInput">
               <AiOutlineFileImage id="icon" htmlFor="fileInput" />
             </label>
             <input
-              id="file"
+              id="fileInput"
               name="file"
               type="file"
               accept=".jpeg, .jpg, .png "

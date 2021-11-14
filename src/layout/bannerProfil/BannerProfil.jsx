@@ -14,9 +14,7 @@ const BannerProfil = () => {
 
   const { updateUser, user } = useContext(AuthContext)
 
-  useEffect(() => {
-    user?.bgProfilPosition && setBgYposition()
-  }, [user])
+  useEffect(() => user?.bgProfilPosition && setBgYposition(), [user])
 
   const updateBgPosition = useCallback(
     (releasePosition) => {
@@ -50,7 +48,6 @@ const BannerProfil = () => {
     const img = e.target.files[0]
     var reader = new FileReader()
     reader.onloadend = async () => setImagePreview(reader.result)
-
     reader.readAsDataURL(img)
   }
 
@@ -63,7 +60,6 @@ const BannerProfil = () => {
   const updateAvatar = async (img) => {
     var reader = new FileReader()
     reader.onloadend = async () => {
-      console.log('RESULT')
       const response = await updateUser({ image: reader.result }, user)
       setAvatarPreview(reader.result)
       const json = await response.json()
@@ -107,6 +103,9 @@ const BannerProfil = () => {
         }%`,
       }}
     >
+      <form style={{ display: 'none' }}>
+        <input type="file" id="fileDialogId" />
+      </form>
       <input
         id="avatarInput"
         name="image"

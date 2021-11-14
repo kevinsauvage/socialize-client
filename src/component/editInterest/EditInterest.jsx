@@ -1,19 +1,16 @@
-import BlocTitle from '../blocTitle/BlocTitle'
 import './EditInterest.scss'
-import { useEffect, useState } from 'react'
+import BlocTitle from '../blocTitle/BlocTitle'
+import { useEffect, useState, useContext } from 'react'
 import { MdOutlineDeleteSweep } from 'react-icons/md'
-import FormBtns from '../formBtns/FormBtns'
-import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import FormBtns from '../formBtns/FormBtns'
 
 const EditInterest = () => {
   const [interests, setInterests] = useState([])
   const [input, setInput] = useState('')
   const { updateUser, user, findOne } = useContext(AuthContext)
 
-  useEffect(() => {
-    user?.interests && setInterests(user.interests)
-  }, [user])
+  useEffect(() => user?.interests && setInterests(user.interests), [user])
 
   const handleSubmit = (e) => {
     e.preventDefault()

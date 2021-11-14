@@ -21,7 +21,6 @@ const Login = () => {
     e.preventDefault()
     setLoading(true)
     await login(formData, redirect)
-
     setLoading(false)
   }
 

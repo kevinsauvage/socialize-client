@@ -9,9 +9,9 @@ const EditProfilInfo = () => {
   const location = useLocation()
   const [displayElement, setDisplayElement] = useState()
 
-  useEffect(() => {
-    setDisplayElement(location.pathname.split('/')[3])
-  }, [location.pathname])
+  useEffect(() => setDisplayElement(location.pathname.split('/')[3]), [
+    location.pathname,
+  ])
 
   return (
     <div className="editProfilInfo">

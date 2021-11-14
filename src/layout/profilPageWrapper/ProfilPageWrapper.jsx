@@ -12,7 +12,6 @@ const ProfilPageWrapper = ({ children }) => {
   return (
     <>
       <Header />
-
       <BannerProfil />
       <NavProfilPage />
       <PageMain>

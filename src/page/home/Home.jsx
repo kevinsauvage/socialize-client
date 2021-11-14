@@ -8,7 +8,6 @@ const Home = () => {
   return (
     <div className="home">
       <Header />
-
       <div className="home__container">
         <SidebarLeft />
         <HomeContent />

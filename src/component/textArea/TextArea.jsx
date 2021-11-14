@@ -1,14 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './TextArea.scss'
+import { convertToRaw, Editor } from 'draft-js'
 
-const TextArea = ({ name, onChange, value = '', label }) => {
+const TextArea = ({ name, state, onChange, label }) => {
+  const editor = useRef(null)
   const [focus, setFocus] = useState(false)
+  const [text, setText] = useState('')
+
+  useEffect(() => {
+    state && setText(convertToRaw(state?.getCurrentContent()).blocks[0].text)
+  }, [state])
+
+  const handleLabelClick = () => editor.current.focus()
 
   return (
-    <div className="TextArea">
+    <div
+      className={
+        text.length !== 0
+          ? 'TextArea TextArea--focus'
+          : focus
+          ? 'TextArea TextArea--focus'
+          : 'TextArea'
+      }
+    >
       <label
+        onClick={handleLabelClick}
         className={
-          value?.length !== 0
+          text.length !== 0
             ? 'TextArea__label TextArea__label--focus'
             : focus
             ? 'TextArea__label TextArea__label--focus'
@@ -17,20 +35,14 @@ const TextArea = ({ name, onChange, value = '', label }) => {
       >
         {label}
       </label>
-      <textarea
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        onChange={onChange}
+      <Editor
+        ref={editor}
         name={name}
-        value={value}
-        className={
-          value?.length !== 0
-            ? 'TextArea__input TextArea__input--focus'
-            : focus
-            ? 'TextArea__input TextArea__input--focus'
-            : 'TextArea__input'
-        }
-      ></textarea>
+        onFocus={() => setFocus(true)}
+        onBlur={() => text.length === 0 && setFocus(false)}
+        editorState={state}
+        onChange={onChange}
+      />
     </div>
   )
 }

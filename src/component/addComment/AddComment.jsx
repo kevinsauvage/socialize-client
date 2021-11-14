@@ -1,31 +1,10 @@
+import { useContext } from 'react'
 import Avatar from '../avatar/Avatar'
 import './AddComment.scss'
-import { fetchUrl } from './../../helpers/fetch'
-import { useContext, useState } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from './../../context/AuthContext'
 
-const AddComment = ({ post, getComments }) => {
-  const [comment, setComment] = useState()
+const AddComment = ({ value, handleSubmit, handleChange }) => {
   const { user } = useContext(AuthContext)
-
-  const handleSubmit = async () => {
-    const res = await fetchUrl('comment', {
-      method: 'POST',
-      body: JSON.stringify({
-        body: comment,
-        authorId: `${user?.id}`,
-        authorName: `${user?.firstName} ${user?.lastName}`,
-        parentCommentId: '',
-        postId: post._id,
-      }),
-    })
-
-    if (res.ok) {
-      setComment('')
-      getComments()
-    }
-  }
-  const handleChange = (e) => setComment(e.target.value)
 
   return (
     <>
@@ -35,15 +14,15 @@ const AddComment = ({ post, getComments }) => {
           type="text"
           placeholder="Post your comment"
           className={
-            comment
+            value
               ? 'add-comment__input add-comment__input--active'
               : 'add-comment__input'
           }
-          value={comment}
+          value={value}
           onChange={handleChange}
         />
       </div>
-      {comment && (
+      {value && (
         <button
           className="add-comment__send-btn"
           onClick={(e) => handleSubmit(e)}

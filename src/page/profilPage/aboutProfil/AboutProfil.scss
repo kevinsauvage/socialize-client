@@ -3,6 +3,7 @@
 
 .AboutProfil {
   @include blocSetUp;
+  color: $white;
 
   &__aboutTop {
     color: $white;

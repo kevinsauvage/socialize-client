@@ -6,7 +6,7 @@ const Input = ({ label, type, name, value = '', onChange, ...rest }) => {
   const inputRef = useRef()
 
   const handleClickLabel = () => inputRef.current.focus()
-  console.log(value)
+
   return (
     <div className="inputContainer" {...rest}>
       <label

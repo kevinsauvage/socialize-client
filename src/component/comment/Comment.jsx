@@ -1,11 +1,11 @@
-import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
-import Avatar from '../avatar/Avatar'
 import './Comment.scss'
-import { FaComments } from 'react-icons/fa/index'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import AddComment from '../addComment/AddComment'
+import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
+import { FaComments } from 'react-icons/fa/index'
 import { fetchUrl } from './../../helpers/fetch'
 import { AuthContext } from './../../context/AuthContext'
+import Avatar from '../avatar/Avatar'
+import AddComment from '../addComment/AddComment'
 
 const Comment = ({ comment }) => {
   const [addComment, setAddComment] = useState(false)

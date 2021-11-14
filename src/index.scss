@@ -27,7 +27,8 @@ a {
   text-decoration: none;
 }
 
-#file {
+#file,
+#fileInput {
   position: absolute;
   z-index: -1;
   opacity: 0;

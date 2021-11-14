@@ -2,13 +2,16 @@ import './Post.scss'
 import Avatar from '../avatar/Avatar'
 import PostStats from '../postStats/PostStats'
 import Comment from './../comment/Comment'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { fetchUrl } from './../../helpers/fetch'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 import AddComment from '../addComment/AddComment'
+import { AuthContext } from './../../context/AuthContext'
 
-const Post = ({ post, newPostImg, avatar }) => {
+const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
+  const [comment, setComment] = useState()
+  const { user } = useContext(AuthContext)
 
   const getComments = useCallback(() => {
     fetchUrl(`comment/${post._id}`)
@@ -18,10 +21,29 @@ const Post = ({ post, newPostImg, avatar }) => {
 
   useEffect(() => getComments(), [getComments])
 
+  const handleSubmit = async () => {
+    const res = await fetchUrl('comment', {
+      method: 'POST',
+      body: JSON.stringify({
+        body: comment,
+        authorId: `${user?._id}`,
+        authorName: `${user?.firstName} ${user?.lastName}`,
+        parentCommentId: '',
+        postId: post._id,
+      }),
+    })
+
+    if (res.ok) {
+      setComment('')
+      getComments()
+    }
+  }
+  const handleChange = (e) => setComment(e.target.value)
+
   return (
     <div className="post">
       <header className="post__header">
-        <Avatar avatarImg={avatar ? avatar : post.authorAvatar} />
+        <Avatar avatarImg={post.authorAvatar} />
         <div className="post__detail">
           <h2 className="post__username">{post.authorName}</h2>
           <i className="post__published">
@@ -40,7 +62,12 @@ const Post = ({ post, newPostImg, avatar }) => {
           <Comment key={comment._id} comment={comment} />
         ))}
       </div>
-      <AddComment post={post} getComments={getComments} />
+      <AddComment
+        value={comment}
+        getComments={getComments}
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+      />
     </div>
   )
 }

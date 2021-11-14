@@ -3,6 +3,7 @@ import BlocTitle from './../blocTitle/BlocTitle'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
+import { convertFromRaw, Editor, EditorState } from 'draft-js'
 
 const ProfilIntro = () => {
   const { user } = useContext(AuthContext)
@@ -20,7 +21,16 @@ const ProfilIntro = () => {
       <div>
         <div className="profilIntro__box profilIntro__box--about">
           <h6 className="profilIntro__box-title">About</h6>
-          {user?.about ? <p>{user.about}</p> : <p>No description added yet</p>}
+          {user?.about ? (
+            <Editor
+              editorState={EditorState.createWithContent(
+                convertFromRaw(JSON.parse(user?.about)),
+              )}
+              readOnly={true}
+            />
+          ) : (
+            <p>No description added yet</p>
+          )}
         </div>
         <div className="profilIntro__box profilIntro__box--birthday">
           <h6 className="profilIntro__box-title">Country</h6>
@@ -30,7 +40,6 @@ const ProfilIntro = () => {
           <h6 className="profilIntro__box-title">City</h6>
           {user?.city ? <p>{user.city}</p> : <p>No city added yet</p>}
         </div>
-
         <div className="profilIntro__box profilIntro__box--birthday">
           <h6 className="profilIntro__box-title">Birthday</h6>
           {user?.birthday ? (
