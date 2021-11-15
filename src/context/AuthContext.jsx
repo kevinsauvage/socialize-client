@@ -133,6 +133,13 @@ export const AuthProvider = (props) => {
     return res
   }
 
+  const findUsers = async (array) => {
+    return await fetchUrl('users/find', {
+      method: 'POST',
+      body: JSON.stringify({ userFriends: array }),
+    })
+  }
+
   const value = {
     login,
     register,
@@ -147,6 +154,7 @@ export const AuthProvider = (props) => {
     handleUnsedFriendRequest,
     handleAddFriend,
     handleUnfriend,
+    findUsers,
   }
 
   return <Provider value={value}>{props.children}</Provider>
