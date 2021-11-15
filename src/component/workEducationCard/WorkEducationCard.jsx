@@ -1,6 +1,6 @@
 import { convertFromRaw, Editor, EditorState } from 'draft-js'
-import { MdDeleteSweep, MdEdit } from 'react-icons/md'
 import BlocTitle from '../blocTitle/BlocTitle'
+import EditionBtns from '../editionBtns/EditionBtns'
 import './WorkEducationCard.scss'
 
 const WorkEducationCard = ({ item, handleDelete, handleModify, ...rest }) => {
@@ -29,20 +29,10 @@ const WorkEducationCard = ({ item, handleDelete, handleModify, ...rest }) => {
           />
         )}
       </div>
-      <div className="WorkEducationCard__btns">
-        <span
-          className="WorkEducationCard__btn WorkEducationCard__btn--edit"
-          onClick={() => handleModify(item)}
-        >
-          <MdEdit />
-        </span>
-        <span
-          className="WorkEducationCard__btn WorkEducationCard__btn--delete"
-          onClick={() => handleDelete(item)}
-        >
-          <MdDeleteSweep />
-        </span>
-      </div>
+      <EditionBtns
+        handleDelete={() => handleDelete(item)}
+        handleModify={() => handleModify(item)}
+      />
     </div>
   )
 }

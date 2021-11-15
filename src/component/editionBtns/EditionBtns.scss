@@ -1,0 +1,32 @@
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
+
+.EditionBtns {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  display: flex;
+
+  &__btn {
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    @include buttonSetUp;
+    font-size: 18px;
+    padding: 5px;
+
+    &--edit {
+      background-color: $blue;
+      margin-right: 8px;
+      border: 1px solid $blue;
+    }
+
+    &--delete {
+      background-color: $red;
+      border: 1px solid $red;
+
+    }
+  }
+}

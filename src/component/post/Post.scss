@@ -5,6 +5,7 @@
   @include blocSetUp;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   &__header {
     display: flex;

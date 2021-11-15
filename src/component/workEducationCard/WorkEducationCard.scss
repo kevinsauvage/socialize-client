@@ -33,30 +33,5 @@
     align-items: baseline;
   }
 
-  &__btns {
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
-    display: flex;
-  }
 
-  &__btn {
-    border-radius: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    @include buttonSetUp;
-    font-size: 18px;
-
-    &--edit {
-      background-color: $blue;
-      margin-right: 8px;
-      font-size: 16px;
-    }
-
-    &--delete {
-      background-color: rgb(255, 43, 43);
-    }
-  }
 }

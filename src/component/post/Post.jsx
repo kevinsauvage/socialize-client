@@ -6,11 +6,14 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import { fetchUrl } from './../../helpers/fetch'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 import AddComment from '../addComment/AddComment'
+import EditionBtns from '../editionBtns/EditionBtns'
+import { PostContext } from './../../context/PostContext'
 import { AuthContext } from './../../context/AuthContext'
 
 const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
+  const { deletePost, commentPost } = useContext(PostContext)
   const { user } = useContext(AuthContext)
 
   const getComments = useCallback(() => {
@@ -22,26 +25,18 @@ const Post = ({ post, newPostImg }) => {
   useEffect(() => getComments(), [getComments])
 
   const handleSubmit = async () => {
-    const res = await fetchUrl('comment', {
-      method: 'POST',
-      body: JSON.stringify({
-        body: comment,
-        authorId: `${user?._id}`,
-        authorName: `${user?.firstName} ${user?.lastName}`,
-        parentCommentId: '',
-        postId: post._id,
-      }),
-    })
-
+    const res = await commentPost(comment, post._id)
     if (res.ok) {
       setComment('')
       getComments()
     }
   }
-  const handleChange = (e) => setComment(e.target.value)
 
   return (
     <div className="post">
+      {user?._id === post?.authorId && (
+        <EditionBtns handleDelete={() => deletePost(post._id)} />
+      )}
       <header className="post__header">
         <Avatar avatarImg={post.authorAvatar} />
         <div className="post__detail">
@@ -66,7 +61,7 @@ const Post = ({ post, newPostImg }) => {
         value={comment}
         getComments={getComments}
         handleSubmit={handleSubmit}
-        handleChange={handleChange}
+        handleChange={(e) => setComment(e.target.value)}
       />
     </div>
   )
