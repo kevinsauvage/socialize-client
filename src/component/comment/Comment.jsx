@@ -1,7 +1,7 @@
 import './Comment.scss'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
-import { FaComments } from 'react-icons/fa/index'
+import { FaComments } from 'react-icons/fa'
 import { fetchUrl } from './../../helpers/fetch'
 import { AuthContext } from './../../context/AuthContext'
 import Avatar from '../avatar/Avatar'

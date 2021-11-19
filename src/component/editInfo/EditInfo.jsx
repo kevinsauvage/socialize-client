@@ -1,12 +1,12 @@
 import BlocTitle from '../blocTitle/BlocTitle'
 import './EditInfo.scss'
-import { BsInfoCircle } from 'react-icons/bs/index'
+import { BsInfoCircle } from 'react-icons/bs'
 import {
   MdFavoriteBorder,
   MdLockOutline,
   MdSettingsSuggest,
   MdWorkOutline,
-} from 'react-icons/md/index'
+} from 'react-icons/md'
 import ListItem from '../listItem/ListItem'
 
 const EditInfo = ({ location }) => {

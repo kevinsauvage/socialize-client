@@ -1,6 +1,6 @@
 import './PostStats.scss'
-import { GoCommentDiscussion } from 'react-icons/go/index'
-import { RiDislikeLine, RiHeart3Line } from 'react-icons/ri/index'
+import { GoCommentDiscussion } from 'react-icons/go'
+import { RiDislikeLine, RiHeart3Line } from 'react-icons/ri'
 import { useContext } from 'react'
 import { PostContext } from '../../context/PostContext'
 import { AuthContext } from '../../context/AuthContext'

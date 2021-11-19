@@ -1,5 +1,5 @@
 import './Notification.scss'
-import { FiExternalLink } from 'react-icons/fi/index'
+import { FiExternalLink } from 'react-icons/fi'
 
 const Notification = () => {
   return (

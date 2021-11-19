@@ -2,10 +2,7 @@ import './PostForm.scss'
 import { useContext } from 'react'
 import { AuthContext } from './../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
-import {
-  AiOutlineFileImage,
-  AiOutlineVideoCameraAdd,
-} from 'react-icons/ai/index'
+import { AiOutlineFileImage, AiOutlineVideoCameraAdd } from 'react-icons/ai'
 
 const PostForm = ({
   onImageChange,

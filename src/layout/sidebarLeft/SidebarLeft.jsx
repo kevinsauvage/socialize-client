@@ -7,7 +7,7 @@ import {
   MdPeople,
   MdQueryStats,
   MdSettings,
-} from 'react-icons/md/index'
+} from 'react-icons/md'
 import { useState } from 'react'
 
 const Icon = ({ Icon, detail }) => {
