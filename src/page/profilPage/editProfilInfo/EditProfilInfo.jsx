@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { useLocation } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import Loader from '../../../component/loader/Loader'
 
 const EditPassword = lazy(() =>
@@ -17,11 +17,17 @@ const EditWorkEducation = lazy(() =>
 
 const EditProfilInfo = () => {
   const location = useLocation()
+  const history = useHistory()
   const [displayElement, setDisplayElement] = useState()
 
-  useEffect(() => setDisplayElement(location.pathname.split('/')[3]), [
-    location.pathname,
-  ])
+  useEffect(() => {
+    console.log(location.pathname.split('/'))
+    if (location.pathname.split('/')[3]) {
+      setDisplayElement(location.pathname.split('/')[3])
+    } else {
+      history.push('/profil/edit/basic_info')
+    }
+  }, [location.pathname, history])
 
   return (
     <div className="editProfilInfo">

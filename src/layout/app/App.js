@@ -24,7 +24,6 @@ const App = () => {
               <PrivateRoute path="/" exact component={Home} />
               <PrivateRoute path="/profil" component={ProfilPage} />
               <PrivateRoute path="/search" component={Search} />
-              <Redirect to="/" />
             </Suspense>
           </Router>
         </PostProvider>

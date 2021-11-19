@@ -50,12 +50,6 @@ const Shortcuts = () => {
         />
         <ListItem
           scrollTop={true}
-          icon={<MdOutlineGroups />}
-          text="Groups"
-          to="/profil/groups"
-        />
-        <ListItem
-          scrollTop={true}
           icon={<SiAboutdotme />}
           text="About"
           to="/profil/about"
@@ -65,12 +59,6 @@ const Shortcuts = () => {
           icon={<MdMessage />}
           text="Inbox"
           to={'/profil/inbox'}
-        />
-        <ListItem
-          scrollTop={true}
-          icon={<ImFilesEmpty />}
-          text="My Pages"
-          to="/profil/pages"
         />
         <ListItem
           scrollTop={true}

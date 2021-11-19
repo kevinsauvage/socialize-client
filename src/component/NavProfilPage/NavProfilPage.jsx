@@ -25,6 +25,14 @@ const NavProfilPage = () => {
         <li className="navProfilPage__list-item">
           <NavLink
             activeClassName="navProfilPage__link--active"
+            to="/profil/inbox"
+          >
+            Inbox
+          </NavLink>
+        </li>
+        <li className="navProfilPage__list-item">
+          <NavLink
+            activeClassName="navProfilPage__link--active"
             to="/profil/photos"
           >
             Photo
@@ -49,22 +57,6 @@ const NavProfilPage = () => {
         <li className="navProfilPage__list-item">
           <NavLink
             activeClassName="navProfilPage__link--active"
-            to="/profil/groups"
-          >
-            Groups
-          </NavLink>
-        </li>
-        <li className="navProfilPage__list-item">
-          <NavLink
-            activeClassName="navProfilPage__link--active"
-            to="/profil/pages"
-          >
-            Pages
-          </NavLink>
-        </li>
-        <li className="navProfilPage__list-item">
-          <NavLink
-            activeClassName="navProfilPage__link--active"
             to="/profil/about"
           >
             About
@@ -73,7 +65,7 @@ const NavProfilPage = () => {
         <li className="navProfilPage__list-item">
           <NavLink
             activeClassName="navProfilPage__link--active"
-            to="/profil/edit/basic_info"
+            to="/profil/edit/"
           >
             Edit
           </NavLink>

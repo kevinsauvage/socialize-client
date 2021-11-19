@@ -9,8 +9,6 @@ const PhotoProfil = lazy(() => import('./photoProfil/PhotoProfil'))
 const EditProfilInfo = lazy(() => import('./editProfilInfo/EditProfilInfo'))
 const VideosProfil = lazy(() => import('./videosProfil/VideosProfil'))
 const FriendsProfil = lazy(() => import('./friendsProfil/FriendsProfil'))
-const GroupsProfil = lazy(() => import('./groupsProfil/GroupsProfil'))
-const PagesProfil = lazy(() => import('./pagesProfil/PagesProfil'))
 const AboutProfil = lazy(() => import('./aboutProfil/AboutProfil'))
 const Feed = lazy(() => import('../../layout/feed/Feed'))
 
@@ -33,11 +31,9 @@ const ProfilPage = () => {
               <Feed posts={userPosts} />
             </Route>
             <Route path="/profil/photos" component={PhotoProfil} />
-            <Route path="/profil/edit/:name" component={EditProfilInfo} />
+            <Route path="/profil/edit" component={EditProfilInfo} />
             <Route path="/profil/videos" component={VideosProfil} />
             <Route path="/profil/Friends" component={FriendsProfil} />
-            <Route path="/profil/groups" component={GroupsProfil} />
-            <Route path="/profil/pages" component={PagesProfil} />
             <Route path="/profil/about" component={AboutProfil} />
           </Switch>
         </Suspense>
