@@ -6,6 +6,7 @@ const PageLoader = () => {
     <div className="PageLoader">
       <div>
         <Loader />
+        <p>Page is loading, please wait!</p>
       </div>
     </div>
   )

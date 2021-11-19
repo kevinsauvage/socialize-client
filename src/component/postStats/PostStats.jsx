@@ -42,13 +42,13 @@ const PostStats = ({ totalComment, likes, postId }) => {
       </li>
       <li
         className={
-          !user.likedPost.includes(postId)
+          !user?.likedPost.includes(postId)
             ? 'postStats__item postStats__item--like'
             : 'postStats__item postStats__item--like--unlike'
         }
         onClick={handleUpdateLikes}
       >
-        {user.likedPost.includes(postId) ? (
+        {user?.likedPost.includes(postId) ? (
           <RiDislikeLine className="postStats__icon" />
         ) : (
           <RiHeart3Line className="postStats__icon" />

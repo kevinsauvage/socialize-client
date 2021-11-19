@@ -5,6 +5,7 @@ import { PostContext } from './../../context/PostContext'
 import PostForm from '../../component/postForm/PostForm'
 import { AuthContext } from '../../context/AuthContext'
 import Compressor from 'compressorjs'
+import Loader from '../../component/loader/Loader'
 
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
@@ -57,9 +58,13 @@ const Feed = ({ posts }) => {
         setContentText={setContentText}
       />
       <div>
-        {posts?.map((post) => {
-          return <Post key={post._id} post={post} />
-        })}
+        {posts?.length > 0 ? (
+          posts?.map((post) => {
+            return <Post key={post._id} post={post} />
+          })
+        ) : (
+          <Loader />
+        )}
       </div>
     </div>
   )
