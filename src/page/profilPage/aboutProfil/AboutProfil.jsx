@@ -178,7 +178,11 @@ const AboutProfil = () => {
         )}
         {interest && (
           <div className="AboutProfil__result">
-            <p>interest</p>
+            {user.interests.map((interest, i) => (
+              <p key={i} className="AboutProfil__resultItem">
+                {interest}
+              </p>
+            ))}
           </div>
         )}
         {languages && (

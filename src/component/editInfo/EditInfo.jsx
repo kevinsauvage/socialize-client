@@ -9,7 +9,7 @@ import {
 } from 'react-icons/md/index'
 import ListItem from '../listItem/ListItem'
 
-const EditInfo = () => {
+const EditInfo = ({ location }) => {
   return (
     <div className="editInfo">
       <BlocTitle text="Edit Info" />

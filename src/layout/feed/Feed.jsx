@@ -4,6 +4,7 @@ import './Feed.scss'
 import { PostContext } from './../../context/PostContext'
 import PostForm from '../../component/postForm/PostForm'
 import { AuthContext } from '../../context/AuthContext'
+import Compressor from 'compressorjs'
 
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
@@ -34,12 +35,17 @@ const Feed = ({ posts }) => {
 
   const onImageChange = (event) => {
     const img = event.target.files[0]
-    var reader = new FileReader()
-    reader.onloadend = async () => {
-      console.log('RESULT')
-      setImagePreview(reader.result)
-    }
-    reader.readAsDataURL(img)
+    new Compressor(img, {
+      quality: 0.6,
+      success(result) {
+        var reader = new FileReader()
+        reader.onloadend = async () => setImagePreview(reader.result)
+        reader.readAsDataURL(result)
+      },
+      error(err) {
+        console.log(err.message)
+      },
+    })
   }
 
   return (

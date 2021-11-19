@@ -55,6 +55,16 @@ export const PostProvider = (props) => {
       method: 'DELETE',
     }).then(() => fetchPosts())
   }
+
+  const updatePost = async (form, id) => {
+    const res = await fetchUrl(`posts/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(form),
+    })
+    fetchPosts()
+    return res
+  }
+
   const value = {
     sendPosts,
     fetchPosts,
@@ -62,6 +72,7 @@ export const PostProvider = (props) => {
     getUserPost,
     deletePost,
     commentPost,
+    updatePost,
   }
 
   return <Provider value={value}>{props.children}</Provider>

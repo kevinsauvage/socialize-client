@@ -1,9 +1,19 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
-import EditBasicInfo from './../../../component/editBasicInfo/EditBasicInfo'
-import EditPassword from './../../../component/editPassword/EditPassword'
-import EditInterest from '../../../component/editInterest/EditInterest'
-import EditWorkEducation from './../../../component/editWorkEducation/EditWorkEducation'
+import Loader from '../../../component/loader/Loader'
+
+const EditPassword = lazy(() =>
+  import('./../../../component/editPassword/EditPassword'),
+)
+const EditBasicInfo = lazy(() =>
+  import('./../../../component/editBasicInfo/EditBasicInfo'),
+)
+const EditInterest = lazy(() =>
+  import('../../../component/editInterest/EditInterest'),
+)
+const EditWorkEducation = lazy(() =>
+  import('./../../../component/editWorkEducation/EditWorkEducation'),
+)
 
 const EditProfilInfo = () => {
   const location = useLocation()
@@ -15,10 +25,12 @@ const EditProfilInfo = () => {
 
   return (
     <div className="editProfilInfo">
-      {displayElement === 'basic_info' && <EditBasicInfo />}
-      {displayElement === 'change_password' && <EditPassword />}
-      {displayElement === 'my_interest' && <EditInterest />}
-      {displayElement === 'work_and_education' && <EditWorkEducation />}
+      <Suspense fallback={<Loader />}>
+        {displayElement === 'basic_info' && <EditBasicInfo />}
+        {displayElement === 'change_password' && <EditPassword />}
+        {displayElement === 'my_interest' && <EditInterest />}
+        {displayElement === 'work_and_education' && <EditWorkEducation />}
+      </Suspense>
     </div>
   )
 }

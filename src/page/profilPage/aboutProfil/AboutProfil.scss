@@ -21,6 +21,7 @@
 
   &__list {
     background-color: $mediumLightGrey;
+    width: 40%;
   }
 
   &__listItem {
@@ -37,6 +38,22 @@
 
   &__result {
     padding: 0.5rem;
+    height: 195px;
+    overflow: auto;
+    box-sizing: content-box;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    width: 60%;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $blue;
+    }
+
   }
 
   &__resultItem {

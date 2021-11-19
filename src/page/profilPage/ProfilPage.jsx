@@ -33,7 +33,7 @@ const ProfilPage = () => {
               <Feed posts={userPosts} />
             </Route>
             <Route path="/profil/photos" component={PhotoProfil} />
-            <Route path="/profil/edit" component={EditProfilInfo} />
+            <Route path="/profil/edit/:name" component={EditProfilInfo} />
             <Route path="/profil/videos" component={VideosProfil} />
             <Route path="/profil/Friends" component={FriendsProfil} />
             <Route path="/profil/groups" component={GroupsProfil} />

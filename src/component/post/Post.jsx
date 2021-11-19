@@ -50,7 +50,11 @@ const Post = ({ post, newPostImg }) => {
         <p className="post__description">{post.body}</p>
         {post.image && <img src={post.image} alt="post img" />}
         {newPostImg && <img src={newPostImg} alt="post img" />}
-        <PostStats totalComment={comments.length} />
+        <PostStats
+          totalComment={comments.length}
+          likes={post.likes}
+          postId={post._id}
+        />
       </div>
       <div className="post__comments">
         {comments?.map((comment) => (

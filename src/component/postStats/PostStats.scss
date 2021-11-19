@@ -17,6 +17,10 @@
 
     &--like {
       color: green;
+
+      &--unlike {
+        color: red;
+      }
     }
 
     &--comment {

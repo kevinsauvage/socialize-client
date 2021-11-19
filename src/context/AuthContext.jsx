@@ -13,7 +13,7 @@ export const AuthProvider = (props) => {
 
   useEffect(() => {
     const userSaved = getValue('user')
-    userSaved && findOne(userSaved)
+    if (userSaved) findOne(userSaved)
   }, [])
 
   const login = async (formData, callback) => {
@@ -55,16 +55,21 @@ export const AuthProvider = (props) => {
   }
 
   const updateUser = async (form, userToUpdate) => {
-    return await fetchUrl(`users/${userToUpdate._id}`, {
+    const res = await fetchUrl(`users/${userToUpdate._id}`, {
       method: 'PUT',
       body: JSON.stringify(form),
     })
+    await findOne(user)
+    return res
   }
 
   const findOne = async (user) => {
+    console.log(user)
     const response = await fetchUrl(`users/${user?._id}`, { method: 'GET' })
     const json = await response.json()
     setUser(json)
+    setValue('user', JSON.stringify(json))
+
     return json
   }
 
