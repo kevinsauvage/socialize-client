@@ -5,14 +5,9 @@ import {
   MdPeople,
   MdLogout,
   MdOutlineDynamicFeed,
-  MdOutlineGroups,
-} from 'react-icons/md/index'
-import {
-  AiOutlineVideoCameraAdd,
-  AiOutlineFileImage,
-} from 'react-icons/ai/index'
-import { SiAboutdotme } from 'react-icons/si/index'
-import { ImFilesEmpty } from 'react-icons/im/index'
+} from 'react-icons/md'
+import { AiOutlineVideoCameraAdd, AiOutlineFileImage } from 'react-icons/ai'
+import { SiAboutdotme } from 'react-icons/si'
 import ListItem from '../listItem/ListItem'
 import { useContext } from 'react'
 import { AuthContext } from './../../context/AuthContext'

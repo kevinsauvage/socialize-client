@@ -1,6 +1,6 @@
 import './App.scss'
 import { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AuthProvider } from '../../context/AuthContext'
 import { PostProvider } from '../../context/PostContext'
 import PageLoader from './../../component/pageLoader/PageLoader'
