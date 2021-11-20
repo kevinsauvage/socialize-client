@@ -13,21 +13,17 @@ const PostStats = ({ totalComment, likes, postId }) => {
     if (user.likedPost.includes(postId)) {
       const res = await updatePost({ likes: parseInt(likes) - 1 }, postId)
       if (res.ok)
-        await updateUser(
-          { likedPost: user.likedPost.filter((item) => item !== postId) },
-          user,
-        )
+        await updateUser({
+          likedPost: user.likedPost.filter((item) => item !== postId),
+        })
       const data = await res.json()
       console.log(data)
     } else {
       const res = await updatePost({ likes: parseInt(likes) + 1 }, postId)
       if (res.ok)
-        await updateUser(
-          {
-            likedPost: user.likedPost ? [...user.likedPost, postId] : [postId],
-          },
-          user,
-        )
+        await updateUser({
+          likedPost: user.likedPost ? [...user.likedPost, postId] : [postId],
+        })
 
       const data = await res.json()
       console.log(data)

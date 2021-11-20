@@ -2,10 +2,14 @@
 
 .blocTitle {
   position: relative;
-  font-size: 15px;
-  font-weight: 500;
-  color: $white;
   margin-bottom: 3rem;
+  z-index: 2;
+
+  &__title {
+    font-size: 15px;
+    font-weight: 500;
+    color: $white;
+  }
 
   &::after {
     content: '';

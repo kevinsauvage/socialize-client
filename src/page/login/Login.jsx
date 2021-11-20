@@ -3,16 +3,12 @@ import { Link } from 'react-router-dom'
 import './Login.scss'
 import { AuthContext } from '../../context/AuthContext'
 import { useContext, useState } from 'react'
-import { useHistory } from 'react-router'
 import Loader from '../../component/loader/Loader'
 
 const Login = () => {
   const { login } = useContext(AuthContext)
-  const history = useHistory()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [isLoading, setLoading] = useState(false)
-
-  const redirect = () => history.push('/')
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -20,7 +16,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    await login(formData, redirect)
+    await login(formData)
     setLoading(false)
   }
 

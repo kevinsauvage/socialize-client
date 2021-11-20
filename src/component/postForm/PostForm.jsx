@@ -14,7 +14,7 @@ const PostForm = ({
 
   return (
     <div className="postForm">
-      <Avatar avatarImg={user?.image} />
+      <Avatar avatarImg={user?.avatar} />
       <form action="submit" className="postForm__form" onSubmit={handleSubmit}>
         <textarea
           name="postContent"

@@ -46,7 +46,7 @@ const EditWorkEducation = () => {
       }
     }
 
-    const res = await updateUser(newForm, user)
+    const res = await updateUser(newForm)
 
     if (res.ok) {
       setEditorState(EditorState.createEmpty())
@@ -57,7 +57,7 @@ const EditWorkEducation = () => {
     const data = await res.json()
     console.log(data)
 
-    findOne(user)
+    findOne(user._id)
   }
 
   const {
@@ -88,14 +88,14 @@ const EditWorkEducation = () => {
     if (item.type === 'Education') {
       const newEdu = user.educations.filter((edu) => edu._id !== item._id)
       const objectToUpdate = { educations: newEdu }
-      updateUser(objectToUpdate, user)
+      updateUser(objectToUpdate)
     }
     if (item.type === 'Work') {
       const newWork = user.works.filter((edu) => edu._id !== item._id)
       const objectToUpdate = { works: newWork }
-      updateUser(objectToUpdate, user)
+      updateUser(objectToUpdate)
     }
-    findOne(user)
+    findOne(user._id)
   }
 
   const handleModify = (item) => {

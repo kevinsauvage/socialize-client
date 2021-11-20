@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import { getValue, removeStorage } from '../helpers/localStorage'
 import { urls } from './../ApiCall/apiUrl'
 import { fetchUrl } from './../helpers/fetch'
@@ -11,12 +11,20 @@ const { Provider } = AuthContext
 export const AuthProvider = (props) => {
   const [user, setUser] = useState()
 
-  useEffect(() => {
-    const userSaved = getValue('user')
-    if (userSaved) findOne(userSaved)
+  const findOne = useCallback(async (id) => {
+    const response = await fetchUrl(`users/${id}`, { method: 'GET' })
+    const json = await response.json()
+    setUser(json)
+    setValue('user', JSON.stringify(json))
+    return json
   }, [])
 
-  const login = async (formData, callback) => {
+  useEffect(() => {
+    const userSaved = getValue('user')
+    if (userSaved) findOne(userSaved._id)
+  }, [findOne])
+
+  const login = async (formData) => {
     try {
       const response = await fetchUrl(urls.login, {
         method: 'POST',
@@ -26,13 +34,12 @@ export const AuthProvider = (props) => {
         const data = await response.json()
         setValue('user', JSON.stringify(data))
         setUser(data)
+        window.location.pathname = '/'
       } else {
         return response
       }
     } catch (error) {
       console.log(error)
-    } finally {
-      callback()
     }
   }
 
@@ -54,23 +61,13 @@ export const AuthProvider = (props) => {
     window.location.pathname = '/login'
   }
 
-  const updateUser = async (form, userToUpdate) => {
-    const res = await fetchUrl(`users/${userToUpdate._id}`, {
+  const updateUser = async (form) => {
+    const res = await fetchUrl(`users/${user._id}`, {
       method: 'PUT',
       body: JSON.stringify(form),
     })
-    await findOne(user)
+    await findOne(user._id)
     return res
-  }
-
-  const findOne = async (user) => {
-    console.log(user)
-    const response = await fetchUrl(`users/${user?._id}`, { method: 'GET' })
-    const json = await response.json()
-    setUser(json)
-    setValue('user', JSON.stringify(json))
-
-    return json
   }
 
   const updateUserPassword = async (formData) => {
@@ -100,7 +97,7 @@ export const AuthProvider = (props) => {
     const res = await fetchUrl(`users/${user._id}/unfriends/${friend._id}`, {
       method: 'PUT',
     })
-    await findOne(user)
+    await findOne(user._id)
     callback && callback()
     return res
   }
@@ -112,7 +109,7 @@ export const AuthProvider = (props) => {
         method: 'PUT',
       },
     )
-    await findOne(user)
+    await findOne(user._id)
     callback && callback()
     return res
   }
@@ -124,7 +121,7 @@ export const AuthProvider = (props) => {
         method: 'PUT',
       },
     )
-    await findOne(user)
+    await findOne(user._id)
     callback && callback()
     return res
   }
@@ -133,7 +130,7 @@ export const AuthProvider = (props) => {
     const res = await fetchUrl(`users/${user._id}/acceptfriend/${friend._id}`, {
       method: 'PUT',
     })
-    await findOne(user)
+    await findOne(user._id)
     callback && callback()
     return res
   }

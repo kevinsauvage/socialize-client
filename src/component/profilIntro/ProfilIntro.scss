@@ -43,14 +43,13 @@
     p {
       line-height: 23px;
       font-size: 14px;
-      opacity: 0.6;
+      color: rgba($white, .5);
       margin-bottom: 1rem;
     }
   }
 
   .DraftEditor-root {
-    color: $white;
-    opacity: 0.7;
+    color: rgba($white, .5);
     font-size: 14px;
     margin-bottom: 1rem;
   }

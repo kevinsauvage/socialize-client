@@ -4,12 +4,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { useMousePosition } from './../../hooks/useMousePosition'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import uploadImage from '../../helpers/uploadImage'
+import Loader from '../../component/loader/Loader'
 
 const BannerProfil = () => {
   const [imagePreview, setImagePreview] = useState('')
   const [bgYposition, setBgYposition] = useState(0)
   const [pressPosition, setPressPosition] = useState()
-  const [avatarPreview, setAvatarPreview] = useState(false)
+  const [avatarLoading, setAvatarLoading] = useState(false)
   const mousePosition = useMousePosition()
 
   const { updateUser, user } = useContext(AuthContext)
@@ -36,46 +38,37 @@ const BannerProfil = () => {
     if (bgYposition > 100) setBgYposition(100)
   }, [bgYposition, imagePreview])
 
-  const handlePress = () => {
-    setPressPosition(mousePosition.y)
-  }
+  const handlePress = () => setPressPosition(mousePosition.y)
 
-  const handleRelease = () => {
-    updateBgPosition(mousePosition.y)
-  }
+  const handleRelease = () => updateBgPosition(mousePosition.y)
 
   const onImageChange = (e) => {
     const img = e.target.files[0]
     var reader = new FileReader()
-    reader.onloadend = async () => setImagePreview(reader.result)
+    reader.onloadend = async () =>
+      setImagePreview({ img: reader.result, file: img })
     reader.readAsDataURL(img)
   }
 
-  const onAvatarChange = (e) => {
-    const img = e.target.files[0]
-    img.filename = 'userAvatar'
-    updateAvatar(img)
-  }
+  const onAvatarChange = async (e) => {
+    setAvatarLoading(true)
 
-  const updateAvatar = async (img) => {
-    var reader = new FileReader()
-    reader.onloadend = async () => {
-      const response = await updateUser({ image: reader.result }, user)
-      setAvatarPreview(reader.result)
-      const json = await response.json()
-      console.log(json)
-    }
-    reader.readAsDataURL(img)
+    const data = await uploadImage(e.target.files[0])
+    const response = await updateUser({ avatar: data.eager[1].secure_url })
+
+    if (response.ok) setAvatarLoading(false)
+
+    const json = await response.json()
+    console.log(json)
   }
 
   const handleSubmitBg = async () => {
-    const response = await updateUser(
-      {
-        backgroundImg: imagePreview,
-        bgProfilPosition: bgYposition,
-      },
-      user,
-    )
+    const data = await uploadImage(imagePreview.file)
+    const response = await updateUser({
+      backgroundImg: data.eager[2].secure_url,
+      bgProfilPosition: bgYposition,
+    })
+    if (response.ok) setImagePreview(undefined)
     const json = await response.json()
     console.log(json)
   }
@@ -95,11 +88,11 @@ const BannerProfil = () => {
       onMouseDown={imagePreview ? handlePress : null}
       onMouseUp={imagePreview ? handleRelease : null}
       style={{
-        backgroundImage: imagePreview
-          ? 'url(' + imagePreview + ')'
+        backgroundImage: imagePreview?.img
+          ? 'url(' + imagePreview?.img + ')'
           : 'url(' + user?.backgroundImg + ')',
         backgroundPosition: `100% ${
-          imagePreview ? bgYposition : user?.bgProfilPosition
+          imagePreview?.img ? bgYposition : user?.bgProfilPosition
         }%`,
       }}
     >
@@ -117,12 +110,16 @@ const BannerProfil = () => {
       <div className="bannerProfil__container">
         <div className="bannerProfil__content">
           <div className="bannerProfil__avatar-wrapper">
-            <img
-              src={avatarPreview ? avatarPreview : user?.image}
-              alt="avatar"
-              className="bannerProfil__avatar"
-              onClick={handleClickAvatar}
-            />
+            {avatarLoading ? (
+              <Loader style={{ transform: 'scale(0.3)' }} />
+            ) : (
+              <img
+                src={user?.avatar}
+                alt="avatar"
+                className="bannerProfil__avatar"
+                onClick={handleClickAvatar}
+              />
+            )}
           </div>
           <label htmlFor="file" className="bannerProfil__edit-cover">
             <AiOutlineFileImage id="icon" htmlFor="fileInput" /> Edit Cover
@@ -136,7 +133,7 @@ const BannerProfil = () => {
             onChange={onImageChange}
           />
         </div>
-        {imagePreview && (
+        {imagePreview?.img && (
           <div className="bannerProfil__btns">
             <div
               className="bannerProfil__btn bannerProfil__btn--confirm"

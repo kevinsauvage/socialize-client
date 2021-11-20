@@ -11,7 +11,7 @@ import ErrorMessage from './../errorMessage/ErrorMessage'
 
 const EditPassword = () => {
   const [error, setError] = useState('')
-  const { updateUserPassword, user } = useContext(AuthContext)
+  const { updateUserPassword } = useContext(AuthContext)
 
   const submitCallback = useCallback(
     (formData) => {
@@ -27,11 +27,11 @@ const EditPassword = () => {
       if (formData.newPassword !== formData.confirmNewPassword) {
         setError('Passwords are diferent')
       }
-      updateUserPassword(formData, user)
+      updateUserPassword(formData)
         .then((res) => res.json())
         .then((data) => console.log(data))
     },
-    [updateUserPassword, user],
+    [updateUserPassword],
   )
 
   const { formData, handleInputChange, handleSubmit, handleReset } = useForm(

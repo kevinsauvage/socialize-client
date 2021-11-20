@@ -29,12 +29,13 @@ const EditInterest = () => {
   }
 
   const handleUpdateInterest = () => {
-    updateUser({ interests: interests }, user)
+    updateUser({ interests: interests })
       .then((res) => res.json())
       .then((data) => console.log(data))
       .then(() => setInterests([]))
-      .finally(() => findOne(user))
+      .finally(() => findOne(user._id))
   }
+
   return (
     <div className="EditInterest">
       <BlocTitle text="My Interests" style={{ fontSize: '24px' }} />

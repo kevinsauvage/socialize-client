@@ -11,15 +11,14 @@ export const PostProvider = (props) => {
 
   const { user } = useContext(AuthContext)
 
-  const sendPosts = async (contentText, image, authorAvatar) => {
+  const sendPosts = async (contentText, imageUrl) => {
     const res = await fetchUrl('posts', {
       method: 'Post',
       body: JSON.stringify({
         body: contentText,
         authorId: `${user?._id}`,
         authorName: `${user?.firstName} ${user?.lastName}`,
-        image: image,
-        authorAvatar: authorAvatar,
+        image: imageUrl,
       }),
     })
     return res

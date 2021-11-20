@@ -17,8 +17,8 @@ const EditBasicInfo = () => {
   )
 
   const submitCallback = async (form) => {
-    await updateUser(form, user)
-    await findOne(user)
+    await updateUser(form)
+    await findOne(user._id)
   }
 
   const initialState = useMemo(

@@ -6,10 +6,13 @@ import PostForm from '../../component/postForm/PostForm'
 import { AuthContext } from '../../context/AuthContext'
 import Compressor from 'compressorjs'
 import Loader from '../../component/loader/Loader'
+import uploadImage from '../../helpers/uploadImage'
 
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
+  // eslint-disable-next-line no-unused-vars
   const [imagePreview, setImagePreview] = useState('')
+  const [image, setImage] = useState('')
   const { user } = useContext(AuthContext)
   const { fetchPosts, sendPosts } = useContext(PostContext)
 
@@ -17,15 +20,17 @@ const Feed = ({ posts }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (imagePreview) {
-      const res = await sendPosts(contentText, imagePreview, user?.image)
+    if (image) {
+      const data = await uploadImage(image, 400)
+
+      const res = await sendPosts(contentText, data.eager?.[0]?.secure_url)
       if (res.ok) {
         setContentText('')
         fetchPosts()
         setImagePreview('')
       }
     } else {
-      const res = await sendPosts(contentText, null, user?.image)
+      const res = await sendPosts(contentText)
       if (res.ok) {
         setContentText('')
         fetchPosts()
@@ -36,6 +41,7 @@ const Feed = ({ posts }) => {
 
   const onImageChange = (event) => {
     const img = event.target.files[0]
+    setImage(img)
     new Compressor(img, {
       quality: 0.6,
       success(result) {

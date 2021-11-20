@@ -13,8 +13,9 @@ import { AuthContext } from './../../context/AuthContext'
 const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
+  const [author, setAuthor] = useState(undefined)
   const { deletePost, commentPost } = useContext(PostContext)
-  const { user } = useContext(AuthContext)
+  const { user, findOne } = useContext(AuthContext)
 
   const getComments = useCallback(() => {
     fetchUrl(`comment/${post._id}`)
@@ -22,7 +23,13 @@ const Post = ({ post, newPostImg }) => {
       .then((data) => setComments(data))
   }, [post])
 
-  useEffect(() => getComments(), [getComments])
+  useEffect(() => {
+    findOne(post.authorId).then((data) => setAuthor(data))
+  }, [findOne, post.authorId])
+
+  useEffect(() => {
+    getComments()
+  }, [getComments])
 
   const handleSubmit = async () => {
     const res = await commentPost(comment, post._id)
@@ -38,9 +45,9 @@ const Post = ({ post, newPostImg }) => {
         <EditionBtns handleDelete={() => deletePost(post._id)} />
       )}
       <header className="post__header">
-        <Avatar avatarImg={post.authorAvatar} />
+        <Avatar avatarImg={author?.avatar} />
         <div className="post__detail">
-          <h2 className="post__username">{post.authorName}</h2>
+          <h2 className="post__username">{author?.username}</h2>
           <i className="post__published">
             {getDataFromTimestamp(post.createdAt)}
           </i>

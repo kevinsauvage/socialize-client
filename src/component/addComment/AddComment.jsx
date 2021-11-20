@@ -9,7 +9,7 @@ const AddComment = ({ value, handleSubmit, handleChange }) => {
   return (
     <>
       <div className="add-comment">
-        <Avatar avatarImg={user?.image} />
+        <Avatar avatarImg={user?.avatar} />
         <textarea
           type="text"
           placeholder="Post your comment"

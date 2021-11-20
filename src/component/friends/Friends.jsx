@@ -14,7 +14,6 @@ const Friends = () => {
       .then((data) => setResult(data))
   }
 
-
   return (
     <section className="friends">
       <BlocTitle text={'Friends'} />
@@ -33,7 +32,7 @@ const Friends = () => {
       </form>
       <div className="friends__container">
         {result.map((user) => (
-          <Avatar avatarImg={user.image} name={user.username} />
+          <Avatar avatarImg={user.avatar} name={user.username} />
         ))}
       </div>
     </section>

@@ -1,10 +1,15 @@
 import './App.scss'
 import { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom'
 import { AuthProvider } from '../../context/AuthContext'
 import { PostProvider } from '../../context/PostContext'
 import PageLoader from './../../component/pageLoader/PageLoader'
-import PrivateRoute from './../../helpers/PrivateRoute'
+import { getValue } from '../../helpers/localStorage'
 
 const Search = lazy(() => import('../../page/search/Search'))
 const ProfilPage = lazy(() => import('./../../page/profilPage/ProfilPage'))
@@ -19,11 +24,14 @@ const App = () => {
         <PostProvider>
           <Router>
             <Suspense fallback={<PageLoader />}>
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-              <PrivateRoute path="/" exact component={Home} />
-              <PrivateRoute path="/profil" component={ProfilPage} />
-              <PrivateRoute path="/search" component={Search} />
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                {!getValue('user') && <Redirect to="/login" />}
+                <Route path="/" exact component={Home} />
+                <Route path="/profil" component={ProfilPage} />
+                <Route path="/search" component={Search} />
+              </Switch>
             </Suspense>
           </Router>
         </PostProvider>

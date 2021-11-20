@@ -12,7 +12,7 @@ const ProfilIntro = () => {
     <div className="profilIntro">
       <BlocTitle text="Profil Intro" />
       <div className="profilIntro__username">
-        <Avatar avatarImg={user?.image} />
+        <Avatar avatarImg={user?.avatar} />
         <div className="profilIntro__name">
           <h5 className="profilIntro__firstname">{user?.firstName}</h5>
           <h2 className="profilIntro__lastname">{user?.lastName}</h2>
