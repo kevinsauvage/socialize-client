@@ -6,16 +6,20 @@ import './PhotoProfil.scss'
 import { TiArrowLeftOutline, TiArrowRightOutline } from 'react-icons/ti'
 import { CgCloseO } from 'react-icons/cg'
 import { MdDeleteForever } from 'react-icons/md'
+import Loader from '../../../component/loader/Loader'
 
 const PhotoProfil = () => {
   const { user, updateUser } = useContext(AuthContext)
   const [index, setIndex] = useState(undefined)
+  const [loading, setLoading] = useState(false)
 
   const onChangePhoto = async (e) => {
+    setLoading(true)
     const data = await uploadImage(e.target.files[0])
     const url = data.eager[3].secure_url
     const response = await updateUser({ images: [...user.images, url] })
     const json = await response.json()
+    setLoading(false)
     console.log(json)
   }
 
@@ -44,6 +48,11 @@ const PhotoProfil = () => {
             <img onClick={() => setIndex(i)} src={url} alt="user gallery" />
           </div>
         ))}
+        {loading && (
+          <div className="PhotoProfil__imgLoader">
+            <Loader />
+          </div>
+        )}
         <div
           onClick={() => document.querySelector('#addPhotoGallery').click()}
           className="PhotoProfil__addBtn"

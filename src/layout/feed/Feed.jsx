@@ -64,12 +64,13 @@ const Feed = ({ posts }) => {
         setContentText={setContentText}
       />
       <div>
+        {console.log(posts)}
         {posts?.length > 0 ? (
           posts?.map((post) => {
             return <Post key={post._id} post={post} />
           })
         ) : (
-          <Loader />
+          <Loader style={{ margin: '100px 0' }} />
         )}
       </div>
     </div>

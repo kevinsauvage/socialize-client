@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router'
 import { PostContext } from './../../context/PostContext'
 import ProfilPageWrapper from '../../layout/profilPageWrapper/ProfilPageWrapper'
 import Loader from '../../component/loader/Loader'
+import { AuthContext } from '../../context/AuthContext'
 
 const PhotoProfil = lazy(() => import('./photoProfil/PhotoProfil'))
 const EditProfilInfo = lazy(() => import('./editProfilInfo/EditProfilInfo'))
@@ -14,13 +15,15 @@ const Feed = lazy(() => import('../../layout/feed/Feed'))
 
 const ProfilPage = () => {
   const { getUserPost } = useContext(PostContext)
+  const { user } = useContext(AuthContext)
   const [userPosts, setUserPosts] = useState([])
 
   useEffect(() => {
-    getUserPost()
-      .then((res) => res.json())
-      .then((data) => setUserPosts(data))
-  }, [getUserPost])
+    user &&
+      getUserPost()
+        .then((res) => res.json())
+        .then((data) => setUserPosts(data))
+  }, [getUserPost, user])
 
   return (
     <section className="profilPage">
