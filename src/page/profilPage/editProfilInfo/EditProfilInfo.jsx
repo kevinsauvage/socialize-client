@@ -31,7 +31,7 @@ const EditProfilInfo = () => {
 
   return (
     <div className="editProfilInfo">
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader style={{ margin: '200px 0' }} />}>
         {displayElement === 'basic_info' && <EditBasicInfo />}
         {displayElement === 'change_password' && <EditPassword />}
         {displayElement === 'my_interest' && <EditInterest />}

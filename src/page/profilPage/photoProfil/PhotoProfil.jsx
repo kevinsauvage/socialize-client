@@ -13,9 +13,8 @@ const PhotoProfil = () => {
 
   const onChangePhoto = async (e) => {
     const data = await uploadImage(e.target.files[0])
-    const response = await updateUser({
-      images: [...user.images, data.eager[3].secure_url],
-    })
+    const url = data.eager[3].secure_url
+    const response = await updateUser({ images: [...user.images, url] })
     const json = await response.json()
     console.log(json)
   }
@@ -27,10 +26,8 @@ const PhotoProfil = () => {
   }
 
   const handleImageDelete = async (url) => {
-    const newUserImages = user.images.filter((item) => item !== url)
-    const response = await updateUser({
-      images: newUserImages,
-    })
+    const newUserImages = await user.images.filter((item) => item !== url)
+    const response = await updateUser({ images: newUserImages })
     const data = await response.json()
     console.log(data)
   }
