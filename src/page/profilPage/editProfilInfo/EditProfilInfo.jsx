@@ -21,17 +21,14 @@ const EditProfilInfo = () => {
   const [displayElement, setDisplayElement] = useState()
 
   useEffect(() => {
-    console.log(location.pathname.split('/'))
-    if (location.pathname.split('/')[3]) {
-      setDisplayElement(location.pathname.split('/')[3])
-    } else {
-      history.push('/profil/edit/basic_info')
-    }
+    location.pathname.split('/')[3]
+      ? setDisplayElement(location.pathname.split('/')[3])
+      : history.push('/profil/edit/basic_info')
   }, [location.pathname, history])
 
   return (
     <div className="editProfilInfo">
-      <Suspense fallback={<Loader style={{ margin: '200px 0' }} />}>
+      <Suspense fallback={<Loader style={{ margin: '100px 0' }} />}>
         {displayElement === 'basic_info' && <EditBasicInfo />}
         {displayElement === 'change_password' && <EditPassword />}
         {displayElement === 'my_interest' && <EditInterest />}

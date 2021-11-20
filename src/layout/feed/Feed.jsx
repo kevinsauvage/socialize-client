@@ -14,7 +14,7 @@ const Feed = ({ posts }) => {
   const [imagePreview, setImagePreview] = useState('')
   const [image, setImage] = useState('')
   const { user } = useContext(AuthContext)
-  const { fetchPosts, sendPosts } = useContext(PostContext)
+  const { fetchPosts, sendPosts, fetchPostLoader } = useContext(PostContext)
 
   useEffect(() => user && fetchPosts(), [fetchPosts, user])
 
@@ -22,7 +22,6 @@ const Feed = ({ posts }) => {
     e.preventDefault()
     if (image) {
       const data = await uploadImage(image, 400)
-
       const res = await sendPosts(contentText, data.eager?.[0]?.secure_url)
       if (res.ok) {
         setContentText('')
@@ -64,7 +63,9 @@ const Feed = ({ posts }) => {
         setContentText={setContentText}
       />
       <div>
-        {console.log(posts)}
+        {fetchPostLoader && (
+          <Loader style={{ margin: '100px 0', transform: 'scale(0.4)' }} />
+        )}
         {posts?.length > 0 ? (
           posts?.map((post) => {
             return <Post key={post._id} post={post} />

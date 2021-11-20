@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useState } from 'react'
-import { getValue, removeStorage } from '../helpers/localStorage'
+import { getValue } from '../helpers/localStorage'
 import { urls } from './../ApiCall/apiUrl'
 import { fetchUrl } from './../helpers/fetch'
 import { setValue } from './../helpers/localStorage'
@@ -9,22 +9,21 @@ export const AuthContext = createContext()
 const { Provider } = AuthContext
 
 export const AuthProvider = (props) => {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(getValue('user'))
 
   const findOne = useCallback(async (id) => {
-    const response = await fetchUrl(`users/${id}`, { method: 'GET' })
-    const json = await response.json()
-    setUser(json)
-    setValue('user', JSON.stringify(json))
-    return json
+    try {
+      const response = await fetchUrl(`users/${id}`, { method: 'GET' })
+      const json = await response.json()
+      setUser(json)
+      setValue('user', JSON.stringify(json))
+      return json
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
 
-  useEffect(() => {
-    const userSaved = getValue('user')
-    if (userSaved) findOne(userSaved._id)
-  }, [findOne])
-
-  const login = async (formData) => {
+  const login = useCallback(async (formData) => {
     try {
       const response = await fetchUrl(urls.login, {
         method: 'POST',
@@ -41,9 +40,9 @@ export const AuthProvider = (props) => {
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [])
 
-  const register = async (formData) => {
+  const register = useCallback(async (formData) => {
     try {
       return await fetchUrl(urls.register, {
         method: 'POST',
@@ -52,95 +51,147 @@ export const AuthProvider = (props) => {
     } catch (e) {
       console.log(e)
     }
-  }
+  }, [])
 
-  const logout = () => {
-    removeStorage('user')
+  const logout = useCallback(() => {
     localStorage.clear()
     setUser(undefined)
     window.location.pathname = '/login'
-  }
+  }, [])
 
-  const updateUser = async (form) => {
-    const res = await fetchUrl(`users/${user._id}`, {
-      method: 'PUT',
-      body: JSON.stringify(form),
-    })
-    await findOne(user._id)
-    return res
-  }
+  const updateUser = useCallback(
+    async (form) => {
+      try {
+        return await fetchUrl(`users/${user._id}`, {
+          method: 'PUT',
+          body: JSON.stringify(form),
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        findOne(user._id)
+      }
+    },
+    [findOne, user],
+  )
 
-  const updateUserPassword = async (formData) => {
-    return await fetchUrl(`users/${user?._id}/password`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        newPassword: formData.newPassword,
-        oldPassword: formData.oldPassword,
-      }),
-    })
-  }
+  const updateUserPassword = useCallback(
+    async (formData) => {
+      try {
+        return await fetchUrl(`users/${user?._id}/password`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            newPassword: formData.newPassword,
+            oldPassword: formData.oldPassword,
+          }),
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user],
+  )
 
-  const searchUsers = async (query) => {
-    return await fetchUrl(`search?query=${query}`, {
-      method: 'GET',
-    })
-  }
+  const searchUsers = useCallback(async (query) => {
+    try {
+      return await fetchUrl(`search?query=${query}`, {
+        method: 'GET',
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
-  const searchByIds = async (ids) => {
-    return await fetchUrl('searchByIds', {
-      method: 'POST',
-      body: JSON.stringify(ids),
-    })
-  }
+  const searchByIds = useCallback(async (ids) => {
+    try {
+      return await fetchUrl('searchByIds', {
+        method: 'POST',
+        body: JSON.stringify(ids),
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
-  const handleUnfriend = async (friend, callback) => {
-    const res = await fetchUrl(`users/${user._id}/unfriends/${friend._id}`, {
-      method: 'PUT',
-    })
-    await findOne(user._id)
-    callback && callback()
-    return res
-  }
+  const handleUnfriend = useCallback(
+    async (friend, callback) => {
+      try {
+        return await fetchUrl(`users/${user._id}/unfriends/${friend._id}`, {
+          method: 'PUT',
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        findOne(user._id)
+        callback && callback()
+      }
+    },
+    [findOne, user],
+  )
 
-  const handleAddFriend = async (friend, callback) => {
-    const res = await fetchUrl(
-      `users/${user._id}/sendAddfriends/${friend._id}`,
-      {
-        method: 'PUT',
-      },
-    )
-    await findOne(user._id)
-    callback && callback()
-    return res
-  }
+  const handleAddFriend = useCallback(
+    async (friend, callback) => {
+      try {
+        return await fetchUrl(
+          `users/${user._id}/sendAddfriends/${friend._id}`,
+          {
+            method: 'PUT',
+          },
+        )
+      } catch (error) {
+        console.log(error)
+      } finally {
+        findOne(user._id)
+        callback && callback()
+      }
+    },
+    [findOne, user],
+  )
 
-  const handleUnsedFriendRequest = async (friend, callback) => {
-    const res = await fetchUrl(
-      `users/${user._id}/unsendAddfriends/${friend._id}`,
-      {
-        method: 'PUT',
-      },
-    )
-    await findOne(user._id)
-    callback && callback()
-    return res
-  }
+  const handleUnsedFriendRequest = useCallback(
+    async (friend, callback) => {
+      try {
+        return await fetchUrl(
+          `users/${user._id}/unsendAddfriends/${friend._id}`,
+          {
+            method: 'PUT',
+          },
+        )
+      } catch (error) {
+        console.log(error)
+      } finally {
+        findOne(user._id)
+        callback && callback()
+      }
+    },
+    [findOne, user],
+  )
 
-  const handleAcceptFriend = async (friend, callback) => {
-    const res = await fetchUrl(`users/${user._id}/acceptfriend/${friend._id}`, {
-      method: 'PUT',
-    })
-    await findOne(user._id)
-    callback && callback()
-    return res
-  }
+  const handleAcceptFriend = useCallback(
+    async (friend) => {
+      try {
+        return await fetchUrl(`users/${user._id}/acceptfriend/${friend._id}`, {
+          method: 'PUT',
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        findOne(user._id)
+      }
+    },
+    [findOne, user],
+  )
 
-  const findUsers = async (array) => {
-    return await fetchUrl('users/find', {
-      method: 'POST',
-      body: JSON.stringify({ userFriends: array }),
-    })
-  }
+  const findUsers = useCallback(async (array) => {
+    try {
+      return await fetchUrl('users/find', {
+        method: 'POST',
+        body: JSON.stringify({ userFriends: array }),
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
   const value = {
     login,

@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react'
-import { RiImageAddFill } from 'react-icons/ri'
-import { AuthContext } from '../../../context/AuthContext'
-import uploadImage from '../../../helpers/uploadImage'
 import './PhotoProfil.scss'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { RiImageAddFill } from 'react-icons/ri'
 import { TiArrowLeftOutline, TiArrowRightOutline } from 'react-icons/ti'
 import { CgCloseO } from 'react-icons/cg'
 import { MdDeleteForever } from 'react-icons/md'
+import uploadImage from '../../../helpers/uploadImage'
 import Loader from '../../../component/loader/Loader'
 
 const PhotoProfil = () => {
@@ -16,11 +16,11 @@ const PhotoProfil = () => {
   const onChangePhoto = async (e) => {
     setLoading(true)
     const data = await uploadImage(e.target.files[0])
-    const url = data.eager[3].secure_url
+    const url = await data.eager[3].secure_url
     const response = await updateUser({ images: [...user.images, url] })
-    const json = await response.json()
+    if (!response.ok) window.alert('Oups, something went wrong, try again.')
     setLoading(false)
-    console.log(json)
+    return
   }
 
   const handleUpdate = (newIndex) => {
@@ -31,11 +31,10 @@ const PhotoProfil = () => {
 
   const handleImageDelete = async (url) => {
     const newUserImages = await user.images.filter((item) => item !== url)
-    console.log(newUserImages)
     const response = await updateUser({ images: newUserImages })
-    console.log(response)
-    const data = await response.json()
-    console.log(data)
+    if (!response.ok) window.alert('Oups, something went wrong, try again.')
+    setLoading(false)
+    return
   }
 
   return (
