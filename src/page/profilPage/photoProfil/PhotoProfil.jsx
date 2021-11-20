@@ -31,7 +31,9 @@ const PhotoProfil = () => {
 
   const handleImageDelete = async (url) => {
     const newUserImages = await user.images.filter((item) => item !== url)
+    console.log(newUserImages)
     const response = await updateUser({ images: newUserImages })
+    console.log(response)
     const data = await response.json()
     console.log(data)
   }
