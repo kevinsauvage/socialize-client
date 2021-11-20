@@ -20,15 +20,21 @@
             cursor: pointer;
         }
 
+        &:hover>&Delete {
+            opacity: 1;
+        }
+
     }
 
     &__imgDelete {
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: 7px;
+        top: 7px;
         color: $white;
         cursor: pointer;
-        font-size: 20px
+        font-size: 20px;
+
+        opacity: 0;
     }
 
     &__addBtn {
