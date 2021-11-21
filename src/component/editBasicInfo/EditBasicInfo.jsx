@@ -10,16 +10,13 @@ import TextArea from '../textArea/TextArea'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
 const EditBasicInfo = () => {
-  const { updateUser, user, findOne } = useContext(AuthContext)
+  const { updateUser, user } = useContext(AuthContext)
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(),
   )
 
-  const submitCallback = async (form) => {
-    await updateUser(form)
-    await findOne(user._id)
-  }
+  const submitCallback = async (form) => updateUser(form)
 
   const initialState = useMemo(
     () => ({

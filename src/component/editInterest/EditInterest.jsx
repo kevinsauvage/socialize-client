@@ -8,7 +8,7 @@ import FormBtns from '../formBtns/FormBtns'
 const EditInterest = () => {
   const [interests, setInterests] = useState([])
   const [input, setInput] = useState('')
-  const { updateUser, user, findOne } = useContext(AuthContext)
+  const { updateUser, user } = useContext(AuthContext)
 
   useEffect(() => user?.interests && setInterests(user.interests), [user])
 
@@ -33,7 +33,6 @@ const EditInterest = () => {
       .then((res) => res.json())
       .then((data) => console.log(data))
       .then(() => setInterests([]))
-      .finally(() => findOne(user._id))
   }
 
   return (

@@ -20,7 +20,7 @@ const SidebarRight = () => {
       {friends &&
         friends.map((friend) => (
           <Link key={friend._id} to={`/user/${friend._id}`}>
-            <Avatar avatarImg={friend?.image} />
+            <Avatar avatarImg={friend?.avatar} />
           </Link>
         ))}
     </div>

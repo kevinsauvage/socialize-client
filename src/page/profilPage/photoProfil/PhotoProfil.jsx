@@ -5,7 +5,7 @@ import { RiImageAddFill } from 'react-icons/ri'
 import { TiArrowLeftOutline, TiArrowRightOutline } from 'react-icons/ti'
 import { CgCloseO } from 'react-icons/cg'
 import { MdDeleteForever } from 'react-icons/md'
-import uploadImage from '../../../helpers/uploadImage'
+import { uploadImage } from '../../../helpers/uploadCloudinary'
 import Loader from '../../../component/loader/Loader'
 
 const PhotoProfil = () => {

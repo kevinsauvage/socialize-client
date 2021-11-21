@@ -7,44 +7,44 @@ export const PostContext = createContext()
 const { Provider } = PostContext
 
 export const PostProvider = (props) => {
-  const [posts, setPosts] = useState([])
   const [fetchPostLoader, setFetchPost] = useState(false)
-
   const { user } = useContext(AuthContext)
 
-  const sendPosts = useCallback(
-    async (contentText, imageUrl) => {
-      try {
-        setFetchPost(true)
-        return await fetchUrl('posts', {
-          method: 'Post',
-          body: JSON.stringify({
-            body: contentText,
-            authorId: `${user?._id}`,
-            authorName: `${user?.firstName} ${user?.lastName}`,
-            image: imageUrl,
-          }),
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    [user],
-  )
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchPosts = useCallback(async () => {
     try {
-      const res = await fetchUrl(`posts/${user._id}`)
-      if (res.ok) {
-        const data = await res.json()
-        setPosts(data)
-      }
+      return await fetchUrl(`posts/${user._id}`)
     } catch (error) {
       console.log(error)
     } finally {
       setFetchPost(false)
     }
   }, [user])
+
+  const sendPosts = useCallback(
+    async (contentText, imageUrl, videoUrl) => {
+      try {
+        setFetchPost(true)
+
+        const res = await fetchUrl('posts', {
+          method: 'Post',
+          body: JSON.stringify({
+            body: contentText,
+            authorId: `${user?._id}`,
+            image: imageUrl,
+            video: videoUrl,
+          }),
+        })
+
+        setFetchPost(false)
+
+        return res
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user],
+  )
 
   const getUserPost = useCallback(async () => {
     return await fetchUrl(`posts/user/${user?._id}`)
@@ -70,30 +70,25 @@ export const PostProvider = (props) => {
     [user],
   )
 
-  const deletePost = useCallback(
-    async (id) => {
-      try {
-        return await fetchUrl(`posts/${id}`, { method: 'DELETE' })
-      } catch (error) {
-        console.log(error)
-      } finally {
-        fetchPosts()
-      }
-    },
-    [fetchPosts],
-  )
+  const deletePost = useCallback(async (id) => {
+    try {
+      return await fetchUrl(`posts/${id}`, { method: 'DELETE' })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
   const updatePost = useCallback(
     async (form, id) => {
       try {
-        return await fetchUrl(`posts/${id}`, {
+        const res = await fetchUrl(`posts/${id}`, {
           method: 'PUT',
           body: JSON.stringify(form),
         })
+        await fetchPosts()
+        return res
       } catch (error) {
         console.log(error)
-      } finally {
-        fetchPosts()
       }
     },
     [fetchPosts],
@@ -102,7 +97,6 @@ export const PostProvider = (props) => {
   const value = {
     sendPosts,
     fetchPosts,
-    posts,
     getUserPost,
     deletePost,
     commentPost,

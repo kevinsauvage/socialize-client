@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 const EditWorkEducation = () => {
-  const { updateUser, user, findOne } = useContext(AuthContext)
+  const { updateUser, user } = useContext(AuthContext)
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(),
   )
@@ -56,8 +56,6 @@ const EditWorkEducation = () => {
     }
     const data = await res.json()
     console.log(data)
-
-    findOne(user._id)
   }
 
   const {
@@ -95,7 +93,6 @@ const EditWorkEducation = () => {
       const objectToUpdate = { works: newWork }
       updateUser(objectToUpdate)
     }
-    findOne(user._id)
   }
 
   const handleModify = (item) => {

@@ -6,6 +6,7 @@ import { AiOutlineFileImage, AiOutlineVideoCameraAdd } from 'react-icons/ai'
 
 const PostForm = ({
   onImageChange,
+  onVideoChange,
   handleSubmit,
   setContentText,
   contentText,
@@ -25,8 +26,17 @@ const PostForm = ({
           onChange={(e) => setContentText(e.target.value)}
         ></textarea>
         <ul className="postForm__btns">
-          <li className="postForm__btn">
-            <AiOutlineVideoCameraAdd />
+          <li className="postForm__btn" htmlFor="videoInput">
+            <label htmlFor="videoInput">
+              <AiOutlineVideoCameraAdd htmlFor="videoInput" />
+            </label>
+            <input
+              id="videoInput"
+              name="video"
+              type="file"
+              accept=".mp4"
+              onChange={onVideoChange}
+            />
           </li>
           <li className="postForm__btn">
             <label htmlFor="fileInput">

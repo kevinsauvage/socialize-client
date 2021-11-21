@@ -1,4 +1,5 @@
-import { createContext, useCallback, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
+import { io } from 'socket.io-client'
 import { getValue } from '../helpers/localStorage'
 import { urls } from './../ApiCall/apiUrl'
 import { fetchUrl } from './../helpers/fetch'
@@ -11,12 +12,21 @@ const { Provider } = AuthContext
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(getValue('user'))
 
+  useEffect(() => {
+    const socket = io('ws://localhost:5000')
+    socket.on('connnection', () => console.log('connected to server'))
+    socket.on('user-changed', (newUser) => {
+      setValue('user', JSON.stringify(newUser))
+      setUser(newUser)
+    })
+    socket.on('message', (message) => console.log(message))
+    socket.on('disconnect', () => console.log('Socket disconnecting'))
+  }, [])
+
   const findOne = useCallback(async (id) => {
     try {
       const response = await fetchUrl(`users/${id}`, { method: 'GET' })
       const json = await response.json()
-      setUser(json)
-      setValue('user', JSON.stringify(json))
       return json
     } catch (error) {
       console.log(error)
@@ -54,9 +64,11 @@ export const AuthProvider = (props) => {
   }, [])
 
   const logout = useCallback(() => {
+    localStorage.removeItem('user')
     localStorage.clear()
     setUser(undefined)
     window.location.pathname = '/login'
+    window.location.reload(true)
   }, [])
 
   const updateUser = useCallback(
@@ -68,11 +80,9 @@ export const AuthProvider = (props) => {
         })
       } catch (error) {
         console.log(error)
-      } finally {
-        findOne(user._id)
       }
     },
-    [findOne, user],
+    [user],
   )
 
   const updateUserPassword = useCallback(
@@ -122,11 +132,10 @@ export const AuthProvider = (props) => {
       } catch (error) {
         console.log(error)
       } finally {
-        findOne(user._id)
         callback && callback()
       }
     },
-    [findOne, user],
+    [user],
   )
 
   const handleAddFriend = useCallback(
@@ -141,30 +150,28 @@ export const AuthProvider = (props) => {
       } catch (error) {
         console.log(error)
       } finally {
-        findOne(user._id)
         callback && callback()
       }
     },
-    [findOne, user],
+    [user],
   )
 
   const handleUnsedFriendRequest = useCallback(
     async (friend, callback) => {
       try {
-        return await fetchUrl(
+        const res = await fetchUrl(
           `users/${user._id}/unsendAddfriends/${friend._id}`,
           {
             method: 'PUT',
           },
         )
+        callback && callback()
+        return res
       } catch (error) {
         console.log(error)
-      } finally {
-        findOne(user._id)
-        callback && callback()
       }
     },
-    [findOne, user],
+    [user],
   )
 
   const handleAcceptFriend = useCallback(
@@ -175,11 +182,9 @@ export const AuthProvider = (props) => {
         })
       } catch (error) {
         console.log(error)
-      } finally {
-        findOne(user._id)
       }
     },
-    [findOne, user],
+    [user],
   )
 
   const findUsers = useCallback(async (array) => {

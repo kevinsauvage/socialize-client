@@ -9,6 +9,7 @@ import AddComment from '../addComment/AddComment'
 import EditionBtns from '../editionBtns/EditionBtns'
 import { PostContext } from './../../context/PostContext'
 import { AuthContext } from './../../context/AuthContext'
+import ReactPlayer from 'react-player'
 
 const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
@@ -44,6 +45,7 @@ const Post = ({ post, newPostImg }) => {
       {user?._id === post?.authorId && (
         <EditionBtns handleDelete={() => deletePost(post._id)} />
       )}
+
       <header className="post__header">
         <Avatar avatarImg={author?.avatar} />
         <div className="post__detail">
@@ -53,21 +55,36 @@ const Post = ({ post, newPostImg }) => {
           </i>
         </div>
       </header>
+
       <div className="post__content">
         <p className="post__description">{post.body}</p>
+
         {post.image && <img src={post.image} alt="post img" />}
+
+        {post.video && (
+          <ReactPlayer
+            url={post.video}
+            controls={true}
+            width={'100%'}
+            className="videoPlayer"
+          />
+        )}
+
         {newPostImg && <img src={newPostImg} alt="post img" />}
+
         <PostStats
           totalComment={comments.length}
           likes={post.likes}
           postId={post._id}
         />
       </div>
+
       <div className="post__comments">
         {comments?.map((comment) => (
           <Comment key={comment._id} comment={comment} />
         ))}
       </div>
+
       <AddComment
         value={comment}
         getComments={getComments}

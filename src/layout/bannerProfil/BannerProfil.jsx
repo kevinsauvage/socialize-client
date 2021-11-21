@@ -4,8 +4,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { useMousePosition } from './../../hooks/useMousePosition'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import uploadImage from '../../helpers/uploadImage'
+import { uploadImage } from '../../helpers/uploadCloudinary'
 import Loader from '../../component/loader/Loader'
+import { MdAddPhotoAlternate } from 'react-icons/md'
 
 const BannerProfil = () => {
   const [imagePreview, setImagePreview] = useState('')
@@ -112,12 +113,18 @@ const BannerProfil = () => {
           <div className="bannerProfil__avatar-wrapper">
             {avatarLoading ? (
               <Loader style={{ transform: 'scale(0.3)' }} />
-            ) : (
+            ) : user.avatar ? (
               <img
                 src={user?.avatar}
                 alt="avatar"
                 className="bannerProfil__avatar"
                 onClick={handleClickAvatar}
+              />
+            ) : (
+              <MdAddPhotoAlternate
+                onClick={handleClickAvatar}
+                size={35}
+                color="whitesmoke"
               />
             )}
           </div>

@@ -23,45 +23,34 @@ const AboutProfil = () => {
   const [location, setLocation] = useState(false)
   const [work, setWork] = useState(false)
   const [interest, setInterest] = useState(false)
-  const [languages, setLanguages] = useState(false)
 
   const handleSetBasic = () => {
     setLocation(false)
     setWork(false)
     setInterest(false)
-    setLanguages(false)
     setBasicInfo(true)
   }
 
   const handleSetLocation = () => {
     setWork(false)
     setInterest(false)
-    setLanguages(false)
     setBasicInfo(false)
     setLocation(true)
   }
   const handleSetWork = () => {
     setInterest(false)
-    setLanguages(false)
     setBasicInfo(false)
     setLocation(false)
     setWork(true)
   }
   const handleSetInterest = () => {
-    setLanguages(false)
     setBasicInfo(false)
     setLocation(false)
     setWork(false)
     setInterest(true)
   }
 
-  const handleSetLanguage = () => {
-    setBasicInfo(false)
-    setLocation(false)
-    setWork(false)
-    setInterest(false)
-    setLanguages(true)
-  }
+  console.log(user)
 
   return (
     <div className="AboutProfil">
@@ -118,16 +107,6 @@ const AboutProfil = () => {
           >
             Interest
           </li>
-          <li
-            className={
-              languages
-                ? 'AboutProfil__listItem AboutProfil__listItem--active'
-                : 'AboutProfil__listItem'
-            }
-            onClick={handleSetLanguage}
-          >
-            Languages
-          </li>
         </ul>
         {basicInfo && (
           <ul className="AboutProfil__result">
@@ -173,7 +152,40 @@ const AboutProfil = () => {
         )}
         {work && (
           <div className="AboutProfil__result">
-            <p>work</p>
+            {user.educations.map((edu) => {
+              return (
+                <div className="AboutProfil__resultEdu">
+                  <h6 className="AboutProfil__resultItem AboutProfil__resultEduTitle">
+                    Studying at {edu.name}
+                  </h6>
+                  <div className="AboutProfil__resultEdu__date">
+                    <p className="AboutProfil__resultEdu__from">
+                      <strong>From :</strong> {edu.from}
+                    </p>
+                    <p className="AboutProfil__resultEdu__to">
+                      <strong>To :</strong> {edu.to}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+            {user.works.map((edu) => {
+              return (
+                <div>
+                  <h6 className="AboutProfil__resultItem AboutProfil__resultEduTitle">
+                    Working at {edu.name}
+                  </h6>
+                  <div className="AboutProfil__resultEdu__date">
+                    <p>
+                      <strong>From :</strong> {edu.from}
+                    </p>
+                    <p>
+                      <strong>To :</strong> {edu.to || 'today'}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         )}
         {interest && (
@@ -183,11 +195,6 @@ const AboutProfil = () => {
                 {interest}
               </p>
             ))}
-          </div>
-        )}
-        {languages && (
-          <div className="AboutProfil__result">
-            <p>languages</p>
           </div>
         )}
       </div>

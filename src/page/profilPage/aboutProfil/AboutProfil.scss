@@ -71,4 +71,23 @@
     }
   }
 
+  &__resultEdu {
+    margin-bottom: 2rem;
+  }
+
+  &__resultEduTitle {
+    color: $blue;
+    font-size: 13px;
+  }
+
+  &__resultEdu__date {
+    display: flex;
+    align-items: center;
+
+    p {
+      font-size: 12px;
+      margin-left: 2rem;
+    }
+  }
+
 }

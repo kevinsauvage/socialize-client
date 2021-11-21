@@ -1,38 +1,68 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import Post from '../../component/post/Post'
 import './Feed.scss'
 import { PostContext } from './../../context/PostContext'
 import PostForm from '../../component/postForm/PostForm'
-import { AuthContext } from '../../context/AuthContext'
 import Compressor from 'compressorjs'
 import Loader from '../../component/loader/Loader'
-import uploadImage from '../../helpers/uploadImage'
+import { uploadImage, uploadVideo } from '../../helpers/uploadCloudinary'
 
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
   // eslint-disable-next-line no-unused-vars
   const [imagePreview, setImagePreview] = useState('')
   const [image, setImage] = useState('')
-  const { user } = useContext(AuthContext)
-  const { fetchPosts, sendPosts, fetchPostLoader } = useContext(PostContext)
+  const [video, setVideo] = useState('')
+  const { sendPosts, fetchPostLoader } = useContext(PostContext)
 
-  useEffect(() => user && fetchPosts(), [fetchPosts, user])
+  console.log(posts)
+
+  const validateFile = (file) => {
+    var video = document.createElement('video')
+    video.preload = 'metadata'
+
+    video.onloadedmetadata = function () {
+      window.URL.revokeObjectURL(video.src)
+
+      if (video.duration > 120) {
+        return window.alert(
+          'Video is to big, only video less then 2 minute accepted.',
+        )
+      }
+
+      setVideo(file)
+    }
+
+    video.src = URL.createObjectURL(file)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (image) {
-      const data = await uploadImage(image, 400)
+      const data = await uploadImage(image)
       const res = await sendPosts(contentText, data.eager?.[0]?.secure_url)
       if (res.ok) {
         setContentText('')
-        fetchPosts()
         setImagePreview('')
+        setImage('')
       }
+    } else if (video) {
+      const data = await uploadVideo(video)
+      const res = await sendPosts(
+        contentText,
+        null,
+        data.eager?.[4]?.secure_url,
+      )
+      if (res.ok) {
+        setContentText('')
+        setImagePreview('')
+        setVideo('')
+      }
+      console.log(data)
     } else {
       const res = await sendPosts(contentText)
       if (res.ok) {
         setContentText('')
-        fetchPosts()
         setImagePreview('')
       }
     }
@@ -53,6 +83,10 @@ const Feed = ({ posts }) => {
       },
     })
   }
+  const onVideoChange = async (e) => {
+    const video = e.target.files[0]
+    validateFile(video)
+  }
 
   return (
     <div className="feed">
@@ -60,6 +94,7 @@ const Feed = ({ posts }) => {
         handleSubmit={handleSubmit}
         onImageChange={onImageChange}
         contentText={contentText}
+        onVideoChange={onVideoChange}
         setContentText={setContentText}
       />
       <div>
