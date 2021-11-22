@@ -17,6 +17,7 @@ const PostStats = ({ totalComment, likes, postId }) => {
           likedPost: user.likedPost.filter((item) => item !== postId),
         })
       const data = await res.json()
+
       console.log(data)
     } else {
       const res = await updatePost({ likes: parseInt(likes) + 1 }, postId)
@@ -26,6 +27,7 @@ const PostStats = ({ totalComment, likes, postId }) => {
         })
 
       const data = await res.json()
+
       console.log(data)
     }
   }

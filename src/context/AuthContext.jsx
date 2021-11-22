@@ -13,7 +13,7 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(getValue('user'))
 
   useEffect(() => {
-    const socket = io('ws://localhost:5000')
+    const socket = io(urls.baseUrl)
     socket.on('connnection', () => console.log('connected to server'))
     socket.on('user-changed', (newUser) => {
       setValue('user', JSON.stringify(newUser))

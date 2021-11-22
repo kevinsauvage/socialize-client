@@ -1,12 +1,15 @@
 import './PhotoProfil.scss'
-import { useContext, useState } from 'react'
+import { lazy, Suspense, useContext, useState } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
 import { RiImageAddFill } from 'react-icons/ri'
-import { TiArrowLeftOutline, TiArrowRightOutline } from 'react-icons/ti'
-import { CgCloseO } from 'react-icons/cg'
 import { MdDeleteForever } from 'react-icons/md'
 import { uploadImage } from '../../../helpers/uploadCloudinary'
 import Loader from '../../../component/loader/Loader'
+import PageLoader from '../../../component/pageLoader/PageLoader'
+
+const ModalPlayer = lazy(() =>
+  import('../../../component/modalPlayer/ModalPlayer'),
+)
 
 const PhotoProfil = () => {
   const { user, updateUser } = useContext(AuthContext)
@@ -62,39 +65,21 @@ const PhotoProfil = () => {
         </div>
       </div>
       {index !== undefined && (
-        <div className="PhotoProfil__gallery">
-          <CgCloseO
-            className="PhotoProfil__galleryClose"
-            onClick={() => setIndex(undefined)}
-          />
-          <div
-            onClick={() => handleUpdate(index - 1)}
-            className={
-              index <= 0
-                ? 'PhotoProfil__galleryArrow PhotoProfil__galleryArrow--leftInactive'
-                : 'PhotoProfil__galleryArrow'
-            }
+        <Suspense fallback={<PageLoader />}>
+          <ModalPlayer
+            handleIndexUpdate={handleUpdate}
+            index={index}
+            comparation={user.images}
           >
-            <TiArrowLeftOutline />
-          </div>
-          <img
-            src={user.images[index]}
-            alt="user gallery"
-            className="PhotoProfil__galleryImg"
-            width="600"
-            height="450"
-          />
-          <div
-            onClick={() => handleUpdate(index + 1)}
-            className={
-              index >= user.images.length - 1
-                ? 'PhotoProfil__galleryArrow PhotoProfil__galleryArrow--rightInactive'
-                : 'PhotoProfil__galleryArrow'
-            }
-          >
-            <TiArrowRightOutline />
-          </div>
-        </div>
+            <img
+              src={user.images[index]}
+              alt="user gallery"
+              className="PhotoProfil__galleryImg"
+              width="600"
+              height="450"
+            />
+          </ModalPlayer>
+        </Suspense>
       )}
       <input
         id="addPhotoGallery"

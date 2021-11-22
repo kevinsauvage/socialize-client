@@ -10,6 +10,7 @@ import { PostContext } from './../../context/PostContext'
 import ProfilIntro from '../../component/profilIntro/ProfilIntro'
 import { AuthContext } from '../../context/AuthContext'
 import { io } from 'socket.io-client'
+import { urls } from '../../ApiCall/apiUrl'
 
 const HomeContent = () => {
   const { user } = useContext(AuthContext)
@@ -25,10 +26,9 @@ const HomeContent = () => {
   }, [fetchPosts, user])
 
   useEffect(() => {
-    const socket = io('ws://localhost:5000')
+    const socket = io(urls.baseUrl)
     socket.on('connnection', () => console.log('connected to server'))
     socket.on('post-changed', (newPosts) => setPosts(newPosts))
-    socket.on('post-deleted', (newPosts) => setPosts(newPosts))
     socket.on('message', (message) => console.log(message))
     socket.on('disconnect', () => console.log('Socket disconnecting'))
   }, [])
