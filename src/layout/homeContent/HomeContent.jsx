@@ -21,7 +21,10 @@ const HomeContent = () => {
       Math.ceil(window.innerHeight + window.scrollY) >=
       document.documentElement.scrollHeight
 
-    if (bottom) return setLimit((prev) => prev + 10)
+    if (bottom) {
+      setLimit((prev) => prev + 10)
+      return
+    }
   }, [])
 
   useEffect(() => {
