@@ -11,8 +11,8 @@ const ModalPlayer = lazy(() =>
   import('../../../component/modalPlayer/ModalPlayer'),
 )
 
-const PhotoProfil = () => {
-  const { user, updateUser } = useContext(AuthContext)
+const PhotoProfil = ({ user }) => {
+  const { updateUser } = useContext(AuthContext)
   const [index, setIndex] = useState(undefined)
   const [loading, setLoading] = useState(false)
 

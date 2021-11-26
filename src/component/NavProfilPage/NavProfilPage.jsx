@@ -1,11 +1,7 @@
-import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
 import './NavProfilPage.scss'
 
-const NavProfilPage = () => {
-  const { user } = useContext(AuthContext)
-
+const NavProfilPage = ({ user }) => {
   return (
     <nav className="navProfilPage">
       <ul className="navProfilPage__list">

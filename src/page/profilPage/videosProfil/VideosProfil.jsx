@@ -7,8 +7,8 @@ import { MdDeleteForever, MdOutlinePlayCircleOutline } from 'react-icons/md'
 import VideoPlayerModal from '../../../component/videoPlayerModal/VideoPlayerModal'
 import Loader from '../../../component/loader/Loader'
 
-const VideosProfil = () => {
-  const { user, updateUser } = useContext(AuthContext)
+const VideosProfil = ({ user }) => {
+  const { updateUser } = useContext(AuthContext)
   const [index, setIndex] = useState(undefined)
   const [loading, setLoading] = useState(false)
   const input = useRef(null)

@@ -1,13 +1,12 @@
-import { useContext } from 'react'
-import BlocTitle from '../../../component/blocTitle/BlocTitle'
 import './AboutProfil.scss'
-import { AuthContext } from './../../../context/AuthContext'
+import BlocTitle from '../../../component/blocTitle/BlocTitle'
 import { useState } from 'react'
 import { RiUser3Line } from 'react-icons/ri'
 import { GoLocation } from 'react-icons/go'
 import { GiSmartphone } from 'react-icons/gi'
 import { MdContactMail, MdOutlineWeb } from 'react-icons/md'
 import { convertFromRaw, Editor, EditorState } from 'draft-js'
+import { FaBirthdayCake } from 'react-icons/fa'
 
 const ListItem = ({ icon, text, ...rest }) => {
   return (
@@ -17,35 +16,24 @@ const ListItem = ({ icon, text, ...rest }) => {
   )
 }
 
-const AboutProfil = () => {
-  const { user } = useContext(AuthContext)
+const AboutProfil = ({ user }) => {
   const [basicInfo, setBasicInfo] = useState(true)
-  const [location, setLocation] = useState(false)
   const [work, setWork] = useState(false)
   const [interest, setInterest] = useState(false)
 
   const handleSetBasic = () => {
-    setLocation(false)
     setWork(false)
     setInterest(false)
     setBasicInfo(true)
   }
 
-  const handleSetLocation = () => {
-    setWork(false)
-    setInterest(false)
-    setBasicInfo(false)
-    setLocation(true)
-  }
   const handleSetWork = () => {
     setInterest(false)
     setBasicInfo(false)
-    setLocation(false)
     setWork(true)
   }
   const handleSetInterest = () => {
     setBasicInfo(false)
-    setLocation(false)
     setWork(false)
     setInterest(true)
   }
@@ -77,16 +65,7 @@ const AboutProfil = () => {
           >
             Basic Info
           </li>
-          <li
-            className={
-              location
-                ? 'AboutProfil__listItem AboutProfil__listItem--active'
-                : 'AboutProfil__listItem'
-            }
-            onClick={handleSetLocation}
-          >
-            Location
-          </li>
+
           <li
             className={
               work
@@ -143,18 +122,21 @@ const AboutProfil = () => {
                 text={user?.website}
               />
             )}
+            {user?.birthday && (
+              <ListItem
+                className="AboutProfil__resultItem"
+                icon={<FaBirthdayCake />}
+                text={user.birthday}
+              />
+            )}
           </ul>
         )}
-        {location && (
-          <div className="AboutProfil__result">
-            <p>location</p>
-          </div>
-        )}
+
         {work && (
           <div className="AboutProfil__result">
-            {user.educations.map((edu) => {
+            {user.educations.map((edu, i) => {
               return (
-                <div className="AboutProfil__resultEdu">
+                <div key={i} className="AboutProfil__resultEdu">
                   <h6 className="AboutProfil__resultItem AboutProfil__resultEduTitle">
                     Studying at {edu.name}
                   </h6>
@@ -169,9 +151,9 @@ const AboutProfil = () => {
                 </div>
               )
             })}
-            {user.works.map((edu) => {
+            {user.works.map((edu, i) => {
               return (
-                <div>
+                <div key={i}>
                   <h6 className="AboutProfil__resultItem AboutProfil__resultEduTitle">
                     Working at {edu.name}
                   </h6>

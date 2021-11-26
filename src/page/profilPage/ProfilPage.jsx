@@ -27,17 +27,23 @@ const ProfilPage = () => {
 
   return (
     <section className="profilPage">
-      <ProfilPageWrapper>
+      <ProfilPageWrapper user={user}>
         <Suspense fallback={<Loader />}>
           <Switch>
             <Route path="/profil/timeline">
               <Feed posts={userPosts} />
             </Route>
-            <Route path="/profil/photos" component={PhotoProfil} />
+            <Route path="/profil/photos">
+              <PhotoProfil user={user} />
+            </Route>
             <Route path="/profil/edit" component={EditProfilInfo} />
-            <Route path="/profil/videos" component={VideosProfil} />
+            <Route path="/profil/videos">
+              <VideosProfil user={user} />
+            </Route>
             <Route path="/profil/Friends" component={FriendsProfil} />
-            <Route path="/profil/about" component={AboutProfil} />
+            <Route path="/profil/about">
+              <AboutProfil user={user} />
+            </Route>
           </Switch>
         </Suspense>
       </ProfilPageWrapper>

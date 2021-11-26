@@ -53,7 +53,9 @@ const Header = () => {
         <nav>
           <ul className="header__icons">
             <li className="header__icon">
-              <RiHome2Line size={22} />
+              <Link to="/">
+                <RiHome2Line size={22} />
+              </Link>
             </li>
             <li className="header__icon">
               <RiNotification2Line size={22} />

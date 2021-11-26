@@ -8,12 +8,12 @@ import ProfilIntro from '../../component/profilIntro/ProfilIntro'
 import Friends from './../../component/friends/Friends'
 import Header from './../header/Header'
 
-const ProfilPageWrapper = ({ children }) => {
+const ProfilPageWrapper = ({ children, user }) => {
   return (
     <>
       <Header />
-      <BannerProfil />
-      <NavProfilPage />
+      <BannerProfil user={user} />
+      <NavProfilPage user={user} />
       <PageMain>
         <aside>
           <EditInfo />
@@ -21,7 +21,7 @@ const ProfilPageWrapper = ({ children }) => {
         </aside>
         <section>{children}</section>
         <aside>
-          <ProfilIntro />
+          <ProfilIntro user={user} />
           <Friends />
         </aside>
       </PageMain>

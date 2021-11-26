@@ -7,15 +7,17 @@ import { AuthContext } from '../../context/AuthContext'
 import { uploadImage } from '../../helpers/uploadCloudinary'
 import Loader from '../../component/loader/Loader'
 import { MdAddPhotoAlternate } from 'react-icons/md'
+import { getValue } from '../../helpers/localStorage'
 
-const BannerProfil = () => {
+const BannerProfil = ({ user }) => {
   const [imagePreview, setImagePreview] = useState('')
   const [bgYposition, setBgYposition] = useState(0)
   const [pressPosition, setPressPosition] = useState()
   const [avatarLoading, setAvatarLoading] = useState(false)
   const mousePosition = useMousePosition()
+  const [currentUser] = useState(getValue('user'))
 
-  const { updateUser, user } = useContext(AuthContext)
+  const { updateUser } = useContext(AuthContext)
 
   useEffect(() => user?.bgProfilPosition && setBgYposition(), [user])
 
@@ -111,34 +113,46 @@ const BannerProfil = () => {
       <div className="bannerProfil__container">
         <div className="bannerProfil__content">
           <div className="bannerProfil__avatar-wrapper">
-            {avatarLoading ? (
-              <Loader style={{ transform: 'scale(0.3)' }} />
-            ) : user.avatar ? (
+            {user._id === currentUser._id ? (
+              avatarLoading ? (
+                <Loader style={{ transform: 'scale(0.3)' }} />
+              ) : user.avatar ? (
+                <img
+                  src={user?.avatar}
+                  alt="avatar"
+                  className="bannerProfil__avatar"
+                  onClick={handleClickAvatar}
+                />
+              ) : (
+                <MdAddPhotoAlternate
+                  onClick={handleClickAvatar}
+                  size={35}
+                  color="whitesmoke"
+                />
+              )
+            ) : (
               <img
                 src={user?.avatar}
                 alt="avatar"
-                className="bannerProfil__avatar"
-                onClick={handleClickAvatar}
-              />
-            ) : (
-              <MdAddPhotoAlternate
-                onClick={handleClickAvatar}
-                size={35}
-                color="whitesmoke"
+                className="bannerProfil__avatar-public"
               />
             )}
           </div>
-          <label htmlFor="file" className="bannerProfil__edit-cover">
-            <AiOutlineFileImage id="icon" htmlFor="fileInput" /> Edit Cover
-            Photo
-          </label>
-          <input
-            id="file"
-            name="file"
-            type="file"
-            accept=".jpeg, .jpg, .png "
-            onChange={onImageChange}
-          />
+          {user._id === currentUser._id && (
+            <>
+              <label htmlFor="file" className="bannerProfil__edit-cover">
+                <AiOutlineFileImage id="icon" htmlFor="fileInput" /> Edit Cover
+                Photo
+              </label>
+              <input
+                id="file"
+                name="file"
+                type="file"
+                accept=".jpeg, .jpg, .png "
+                onChange={onImageChange}
+              />
+            </>
+          )}
         </div>
         {imagePreview?.img && (
           <div className="bannerProfil__btns">

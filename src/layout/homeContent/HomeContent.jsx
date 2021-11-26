@@ -1,8 +1,6 @@
 import './HomeContent.scss'
 import Shortcuts from '../../component/shortcuts/Shortcuts'
 import Friends from '../../component/friends/Friends'
-import LastNotification from './../../component/lastNotification/LastNotification'
-import InviteFriends from './../../component/inviteFriends/InviteFriends'
 import EditInfo from './../../component/editInfo/EditInfo'
 import Feed from '../feed/Feed'
 import { useContext, useEffect, useState } from 'react'
@@ -44,8 +42,6 @@ const HomeContent = () => {
       </section>
       <aside>
         <ProfilIntro />
-        <InviteFriends />
-        <LastNotification />
         <Friends />
       </aside>
     </div>

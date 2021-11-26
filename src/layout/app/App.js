@@ -10,6 +10,7 @@ import { AuthProvider } from '../../context/AuthContext'
 import { PostProvider } from '../../context/PostContext'
 import PageLoader from './../../component/pageLoader/PageLoader'
 import { getValue } from '../../helpers/localStorage'
+import PublicUser from '../../page/publicUser/PublicUser'
 
 const Search = lazy(() => import('../../page/search/Search'))
 const ProfilPage = lazy(() => import('./../../page/profilPage/ProfilPage'))
@@ -27,6 +28,7 @@ const App = () => {
               <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/user/:id" component={PublicUser} />
                 {!getValue('user') && <Redirect to="/login" />}
                 <Route path="/" exact component={Home} />
                 <Route path="/profil" component={ProfilPage} />

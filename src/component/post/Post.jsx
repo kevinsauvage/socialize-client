@@ -10,6 +10,7 @@ import EditionBtns from '../editionBtns/EditionBtns'
 import { PostContext } from './../../context/PostContext'
 import { AuthContext } from './../../context/AuthContext'
 import ReactPlayer from 'react-player'
+import { Link } from 'react-router-dom'
 
 const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
@@ -49,7 +50,9 @@ const Post = ({ post, newPostImg }) => {
       <header className="post__header">
         <Avatar avatarImg={author?.avatar} />
         <div className="post__detail">
-          <h2 className="post__username">{author?.username}</h2>
+          <Link to={`/user/${post?.authorId}`}>
+            <h2 className="post__username">{author?.username}</h2>
+          </Link>
           <i className="post__published">
             {getDataFromTimestamp(post.createdAt)}
           </i>

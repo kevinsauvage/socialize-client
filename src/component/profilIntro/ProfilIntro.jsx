@@ -1,13 +1,9 @@
 import './ProfilIntro.scss'
 import BlocTitle from './../blocTitle/BlocTitle'
-import { useContext } from 'react'
-import { AuthContext } from '../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
 import { convertFromRaw, Editor, EditorState } from 'draft-js'
 
-const ProfilIntro = () => {
-  const { user } = useContext(AuthContext)
-
+const ProfilIntro = ({ user }) => {
   return (
     <div className="profilIntro">
       <BlocTitle text="Profil Intro" />
