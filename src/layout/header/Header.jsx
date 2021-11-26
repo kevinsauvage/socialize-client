@@ -4,7 +4,6 @@ import {
   RiHome2Line,
   RiNotification2Line,
   RiUser3Line,
-  RiMenuFoldLine,
 } from 'react-icons/ri'
 
 import { ImSearch } from 'react-icons/im'
@@ -58,18 +57,19 @@ const Header = () => {
               </Link>
             </li>
             <li className="header__icon">
-              <RiNotification2Line size={22} />
+              <Link>
+                <RiNotification2Line size={22} />
+              </Link>
             </li>
             <li className="header__icon">
-              <RiDiscussLine size={22} />
+              <Link>
+                <RiDiscussLine size={22} />
+              </Link>
             </li>
             <li className="header__icon">
               <Link to="/profil/timeline">
                 <RiUser3Line size={22} />
               </Link>
-            </li>
-            <li className="header__icon">
-              <RiMenuFoldLine size={22} />
             </li>
           </ul>
         </nav>

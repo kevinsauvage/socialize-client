@@ -41,7 +41,7 @@ const HomeContent = () => {
         <Feed posts={posts} />
       </section>
       <aside>
-        <ProfilIntro />
+        <ProfilIntro user={user} />
         <Friends />
       </aside>
     </div>
