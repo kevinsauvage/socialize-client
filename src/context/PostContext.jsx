@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+  useEffect,
+} from 'react'
+import { io } from 'socket.io-client'
+import { urls } from '../ApiCall/apiUrl'
 import { fetchUrl } from './../helpers/fetch'
 import { AuthContext } from './AuthContext'
 
@@ -9,17 +17,31 @@ const { Provider } = PostContext
 export const PostProvider = (props) => {
   const [fetchPostLoader, setFetchPost] = useState(false)
   const { user } = useContext(AuthContext)
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    const socket = io(urls.baseUrl)
+    socket.on('connnection', () => console.log('connected to server'))
+    socket.on('post-changed', (newPosts) => setPosts(newPosts))
+    socket.on('message', (message) => console.log(message))
+    socket.on('disconnect', () => console.log('Socket disconnecting'))
+  }, [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchPosts = useCallback(async () => {
-    try {
-      return await fetchUrl(`posts/${user._id}`)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setFetchPost(false)
-    }
-  }, [user])
+  const fetchPosts = useCallback(
+    async (limit) => {
+      try {
+        return fetchUrl(`posts/${user._id}?limit=${limit}`)
+          .then((res) => res.json())
+          .then((data) => setPosts((prev) => [...prev, ...data]))
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setFetchPost(false)
+      }
+    },
+    [user],
+  )
 
   const sendPosts = useCallback(
     async (contentText, imageUrl, videoUrl) => {
@@ -102,6 +124,7 @@ export const PostProvider = (props) => {
     commentPost,
     fetchPostLoader,
     updatePost,
+    posts,
   }
 
   return <Provider value={value}>{props.children}</Provider>

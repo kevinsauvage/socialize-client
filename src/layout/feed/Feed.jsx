@@ -15,8 +15,6 @@ const Feed = ({ posts }) => {
   const [video, setVideo] = useState('')
   const { sendPosts, fetchPostLoader } = useContext(PostContext)
 
-  console.log(posts)
-
   const validateFile = (file) => {
     var video = document.createElement('video')
     video.preload = 'metadata'
@@ -24,11 +22,10 @@ const Feed = ({ posts }) => {
     video.onloadedmetadata = function () {
       window.URL.revokeObjectURL(video.src)
 
-      if (video.duration > 120) {
+      if (video.duration > 120)
         return window.alert(
           'Video is to big, only video less then 2 minute accepted.',
         )
-      }
 
       setVideo(file)
     }
@@ -53,12 +50,12 @@ const Feed = ({ posts }) => {
         null,
         data.eager?.[4]?.secure_url,
       )
+
       if (res.ok) {
         setContentText('')
         setImagePreview('')
         setVideo('')
       }
-      console.log(data)
     } else {
       const res = await sendPosts(contentText)
       if (res.ok) {

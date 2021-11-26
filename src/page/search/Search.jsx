@@ -13,7 +13,7 @@ import Header from './../../layout/header/Header'
 import { useCallback } from 'react'
 
 const Search = () => {
-  const { searchUsers } = useContext(AuthContext)
+  const { searchUsers, user } = useContext(AuthContext)
   const location = useLocation()
   const [users, setUsers] = useState([])
 
@@ -46,7 +46,7 @@ const Search = () => {
         </ul>
       </section>
       <aside>
-        <ProfilIntro />
+        <ProfilIntro user={user} />
       </aside>
       <SidebarRight />
     </div>

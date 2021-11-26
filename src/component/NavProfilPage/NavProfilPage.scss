@@ -33,6 +33,28 @@
       list-style: none;
       font-weight: 500;
       cursor: pointer;
+      position: relative;
+
+      &-hint {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        line-height: 22px;
+        border-radius: 50%;
+        right: -15px;
+        top: -10px;
+        font-size: 12px;
+        background-color: red;
+        font-weight: 700;
+
+        p {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+      }
     }
   }
 

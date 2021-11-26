@@ -25,56 +25,56 @@ const FriendCard = ({ friend, callback }) => {
   }, [user.friends, user.friendsRequests, user, friend])
 
   return (
-    <Link to={`/user/${friend?._id}`}>
-      <div className="FriendCard">
-        <div className="FriendCard__left">
-          <img
-            src={friend?.image || defaultImg}
-            alt="user avatar"
-            className="FriendCard__img"
-          />
+    <div className="FriendCard">
+      <div className="FriendCard__left">
+        <img
+          src={friend?.image || defaultImg}
+          alt="user avatar"
+          className="FriendCard__img"
+        />
+        <Link to={`/user/${friend?._id}`}>
           <h2 className="FriendCard__name">
             {friend?.firstName} {friend?.lastName}
           </h2>
-        </div>
-
-        {askedAsFriends && (
-          <button
-            className="FriendCard__btn"
-            onClick={() => handleAcceptFriend(friend, callback)}
-          >
-            Accept
-          </button>
-        )}
-
-        {areFriends && (
-          <button
-            className="FriendCard__btn"
-            onClick={() => handleUnfriend(friend, callback)}
-          >
-            Unfriend
-          </button>
-        )}
-
-        {!areFriends && !askedAsFriends && !sendFriendRequest && (
-          <button
-            className="FriendCard__btn"
-            onClick={() => handleAddFriend(friend, callback)}
-          >
-            Add friend
-          </button>
-        )}
-
-        {sendFriendRequest && (
-          <button
-            className="FriendCard__btn"
-            onClick={() => handleUnsedFriendRequest(friend, callback)}
-          >
-            Unsend Request
-          </button>
-        )}
+        </Link>
       </div>
-    </Link>
+
+      {askedAsFriends && (
+        <button
+          className="FriendCard__btn"
+          onClick={() => handleAcceptFriend(friend, callback)}
+        >
+          Accept
+        </button>
+      )}
+
+      {areFriends && (
+        <button
+          className="FriendCard__btn"
+          onClick={() => handleUnfriend(friend, callback)}
+        >
+          Unfriend
+        </button>
+      )}
+
+      {!areFriends && !askedAsFriends && !sendFriendRequest && (
+        <button
+          className="FriendCard__btn"
+          onClick={() => handleAddFriend(friend, callback)}
+        >
+          Add friend
+        </button>
+      )}
+
+      {sendFriendRequest && (
+        <button
+          className="FriendCard__btn"
+          onClick={() => handleUnsedFriendRequest(friend, callback)}
+        >
+          Unsend Request
+        </button>
+      )}
+    </div>
   )
 }
 

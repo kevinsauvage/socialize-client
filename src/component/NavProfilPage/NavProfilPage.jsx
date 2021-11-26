@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import './NavProfilPage.scss'
 
 const NavProfilPage = ({ user }) => {
+  console.log(user)
   return (
     <nav className="navProfilPage">
       <ul className="navProfilPage__list">
@@ -49,6 +50,11 @@ const NavProfilPage = ({ user }) => {
           >
             Friends
           </NavLink>
+          {user?.friendsRequests?.length !== 0 && (
+            <span className="navProfilPage__list-item-hint">
+              <p>user?.friendsRequests?.length</p>
+            </span>
+          )}
         </li>
         <li className="navProfilPage__list-item">
           <NavLink

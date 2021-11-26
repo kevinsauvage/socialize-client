@@ -19,6 +19,8 @@ const PublicUser = () => {
 
   useEffect(() => findOne(id).then((res) => setUser(res)), [id, findOne])
 
+  useEffect(() => window.scrollTo(0, 0), [])
+
   return (
     <div className="PublicUser">
       <Header />
