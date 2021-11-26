@@ -1,7 +1,6 @@
 import './PublicUser.scss'
 import { useParams } from 'react-router'
-import { useContext, useEffect } from 'react'
-import { useState } from 'react/cjs/react.development'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import Header from '../../layout/header/Header'
 import BannerProfil from '../../layout/bannerProfil/BannerProfil'
