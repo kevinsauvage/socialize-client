@@ -14,15 +14,11 @@ const AboutProfil = lazy(() => import('./aboutProfil/AboutProfil'))
 const Feed = lazy(() => import('../../layout/feed/Feed'))
 
 const ProfilPage = () => {
-  const { getUserPost } = useContext(PostContext)
+  const { getUserPost, userPosts } = useContext(PostContext)
   const { user } = useContext(AuthContext)
-  const [userPosts, setUserPosts] = useState([])
 
   useEffect(() => {
-    user &&
-      getUserPost()
-        .then((res) => res.json())
-        .then((data) => setUserPosts(data))
+    user && getUserPost()
   }, [getUserPost, user])
 
   return (

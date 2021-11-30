@@ -1,4 +1,5 @@
 @import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
 
 .sidebarLeft {
   height: calc(100vh - 59px);
@@ -12,6 +13,10 @@
   left: 0;
   top: 59.5px;
   z-index: 99999999;
+
+  @include respond(laptop) {
+    display: none;
+  }
 
   svg {
     color: $blue;

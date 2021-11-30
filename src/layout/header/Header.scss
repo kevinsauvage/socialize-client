@@ -1,4 +1,5 @@
 @import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
 
 .header {
   width: 100%;
@@ -13,10 +14,23 @@
   padding: 0px 0 0 1rem;
   z-index: 999999;
 
+
+  @include respond(tablet) {
+    height: 120px;
+    padding: 0;
+  }
+
   &__logo {
     color: $white;
     font-size: 25px;
-    width: 15%;
+    width: fit-content;
+    margin-right: 2rem;
+
+    @include respond(tablet) {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+    }
   }
 
   &__content {
@@ -26,10 +40,17 @@
     height: 100%;
     width: 100%;
 
+    @include respond(tablet) {
+      flex-direction: column-reverse;
+      align-items: flex-end;
+    }
+
     nav {
       height: 100%;
-      vertical-align: center;
 
+      @include respond(tablet) {
+        width: 100%
+      }
     }
   }
 
@@ -38,6 +59,15 @@
     height: 100%;
     position: relative;
     padding: 8px 0;
+
+    @include respond(tablet) {
+      margin-right: 1rem;
+      width: 44%;
+    }
+
+    @include respond(mobile) {
+      width: 46%;
+    }
   }
 
   &__search-icon {
@@ -64,6 +94,10 @@
     display: flex;
     align-items: center;
     height: 100%;
+
+    @include respond(tablet) {
+      justify-content: space-between;
+    }
   }
 
   &__icon {

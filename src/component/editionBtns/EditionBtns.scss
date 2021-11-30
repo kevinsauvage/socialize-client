@@ -7,6 +7,11 @@
   top: 2rem;
   display: flex;
 
+  @include respond(tablet) {
+    right: 0.7rem;
+    top: 0.7rem;
+  }
+
   &__btn {
     border-radius: 2px;
     display: flex;

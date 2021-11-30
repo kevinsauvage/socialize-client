@@ -16,7 +16,7 @@ const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
   const [author, setAuthor] = useState(undefined)
-  const { deletePost, commentPost } = useContext(PostContext)
+  const { deletePost, commentPost, sendNotification } = useContext(PostContext)
   const { user, findOne } = useContext(AuthContext)
 
   const getComments = useCallback(() => {
@@ -29,15 +29,14 @@ const Post = ({ post, newPostImg }) => {
     findOne(post.authorId).then((data) => setAuthor(data))
   }, [findOne, post.authorId])
 
-  useEffect(() => {
-    getComments()
-  }, [getComments])
+  useEffect(() => getComments(), [getComments])
 
   const handleSubmit = async () => {
     const res = await commentPost(comment, post._id)
     if (res.ok) {
       setComment('')
       getComments()
+      sendNotification(post.authorId, 'Comment', post._id)
     }
   }
 

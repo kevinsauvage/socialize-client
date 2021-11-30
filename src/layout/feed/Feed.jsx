@@ -99,8 +99,8 @@ const Feed = ({ posts }) => {
           <Loader style={{ margin: '100px 0', transform: 'scale(0.4)' }} />
         )}
         {posts?.length > 0 ? (
-          posts?.map((post) => {
-            return <Post key={post._id} post={post} />
+          posts?.map((post, i) => {
+            return <Post key={post._id + i} post={post} />
           })
         ) : (
           <Loader style={{ margin: '100px 0' }} />

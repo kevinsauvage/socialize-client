@@ -1,3 +1,5 @@
+@import "../../scss/mixins.scss";
+
 .homeContent {
   margin-top: 1.5rem;
   margin-left: calc(70px + 1.5rem);
@@ -6,4 +8,21 @@
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   gap: 1rem;
+
+  @include respond(laptop) {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
+  @include respond(tablet) {
+    grid-template-columns: 1fr;
+    margin-left: .5rem;
+    margin-top: .5rem;
+    margin-right: .5rem;
+
+
+    aside {
+      display: none;
+    }
+  }
 }

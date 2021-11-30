@@ -18,6 +18,8 @@ export const PostProvider = (props) => {
   const [fetchPostLoader, setFetchPost] = useState(false)
   const { user } = useContext(AuthContext)
   const [posts, setPosts] = useState([])
+  const [userPosts, setUserPosts] = useState([])
+  const [userNotification, setUserNotification] = useState([])
 
   useEffect(() => {
     const socket = io(urls.baseUrl)
@@ -69,7 +71,9 @@ export const PostProvider = (props) => {
   )
 
   const getUserPost = useCallback(async () => {
-    return await fetchUrl(`posts/user/${user?._id}`)
+    const res = await fetchUrl(`posts/user/${user?._id}`)
+    const data = await res.json()
+    setUserPosts(data)
   }, [user])
 
   const commentPost = useCallback(
@@ -116,6 +120,40 @@ export const PostProvider = (props) => {
     [fetchPosts],
   )
 
+  const sendNotification = async (authorId, type, postId) => {
+    const body = {
+      type: type,
+      userId: user._id,
+      authorId: authorId,
+      postId: postId,
+    }
+
+    try {
+      const res = await fetchUrl('notification', {
+        method: 'Post',
+        body: JSON.stringify(body),
+      })
+      const data = await res.json()
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getUserNotification = useCallback(async () => {
+    console.log('get user notif')
+    const res = await fetchUrl(`notification/${user._id}`, {
+      method: 'Get',
+    })
+    const data = await res.json()
+    console.log(data)
+    setUserNotification(data)
+  }, [user])
+
+  useEffect(() => {
+    user && getUserNotification()
+  }, [getUserNotification, user])
+
   const value = {
     sendPosts,
     fetchPosts,
@@ -125,6 +163,10 @@ export const PostProvider = (props) => {
     fetchPostLoader,
     updatePost,
     posts,
+    userPosts,
+    sendNotification,
+    getUserNotification,
+    userNotification,
   }
 
   return <Provider value={value}>{props.children}</Provider>

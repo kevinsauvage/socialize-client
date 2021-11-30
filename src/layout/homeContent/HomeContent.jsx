@@ -1,6 +1,5 @@
 import './HomeContent.scss'
 import Shortcuts from '../../component/shortcuts/Shortcuts'
-import Friends from '../../component/friends/Friends'
 import EditInfo from './../../component/editInfo/EditInfo'
 import Feed from '../feed/Feed'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
@@ -44,7 +43,6 @@ const HomeContent = () => {
       </section>
       <aside>
         <ProfilIntro user={user} />
-        <Friends />
       </aside>
     </div>
   )

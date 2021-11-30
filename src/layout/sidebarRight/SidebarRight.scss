@@ -1,4 +1,5 @@
 @import "../../scss/variable.scss";
+@import "../../scss/mixins.scss";
 
 .sidebarRight {
   height: calc(100vh - 59px);
@@ -11,6 +12,10 @@
   right: 0;
   top: 59.5px;
   padding-top: 2rem;
+
+  @include respond(laptop) {
+    display: none;
+  }
 
   a {
     margin-bottom: 1rem;

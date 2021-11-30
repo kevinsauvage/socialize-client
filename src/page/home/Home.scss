@@ -1,10 +1,17 @@
-.home {
+@import '../../scss/mixins.scss';
 
+.home {
   padding-top: 60px;
   min-height: 100vh;
+
+  @include respond(tablet) {
+    padding-top: 120px;
+  }
 
   &__container {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+
   }
 }

@@ -3,7 +3,7 @@ export const setValue = (key, value) => {
 }
 
 export const getValue = (key) => {
-  const data = localStorage.getItem(key)
+  const data = localStorage?.getItem(key)
   return data ? JSON.parse(data) : undefined
 }
 

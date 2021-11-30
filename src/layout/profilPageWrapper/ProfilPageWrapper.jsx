@@ -5,7 +5,6 @@ import './ProfilPageWrapper.scss'
 import EditInfo from './../../component/editInfo/EditInfo'
 import Shortcuts from './../../component/shortcuts/Shortcuts'
 import ProfilIntro from '../../component/profilIntro/ProfilIntro'
-import Friends from './../../component/friends/Friends'
 import Header from './../header/Header'
 
 const ProfilPageWrapper = ({ children, user }) => {
@@ -22,7 +21,6 @@ const ProfilPageWrapper = ({ children, user }) => {
         <section>{children}</section>
         <aside>
           <ProfilIntro user={user} />
-          <Friends />
         </aside>
       </PageMain>
     </>
