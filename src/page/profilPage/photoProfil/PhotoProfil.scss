@@ -66,4 +66,9 @@
             transform: scale(0.2);
         }
     }
+
+    &__noPicture {
+        color: $white;
+        font-weight: 600;
+    }
 }

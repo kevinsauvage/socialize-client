@@ -2,42 +2,37 @@ import './Comment.scss'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 import { FaComments } from 'react-icons/fa'
-import { fetchUrl } from './../../helpers/fetch'
-import { AuthContext } from './../../context/AuthContext'
 import Avatar from '../avatar/Avatar'
 import AddComment from '../addComment/AddComment'
+import { CommentContext } from '../../context/CommentContext'
 
 const Comment = ({ comment }) => {
   const [addComment, setAddComment] = useState(false)
   const [subComment, setSubComment] = useState('')
   const [subComments, setSubComments] = useState([])
+  const { getSubComments, sendSubComment } = useContext(CommentContext)
 
-  const { user } = useContext(AuthContext)
+  const handleGetSubcomment = useCallback(
+    (id) => {
+      getSubComments(id)
+        .then((res) => res.json())
+        .then((data) => setSubComments(data))
+    },
+    [getSubComments],
+  )
+
+  useEffect(() => {
+    handleGetSubcomment(comment._id)
+  }, [handleGetSubcomment, comment])
 
   const handleSubmit = async () => {
-    const res = await fetchUrl('comment', {
-      method: 'POST',
-      body: JSON.stringify({
-        body: subComment,
-        authorId: `${user?.id}`,
-        authorName: `${user?.firstName} ${user?.lastName}`,
-        parentCommentId: comment._id,
-      }),
-    })
-
+    const res = await sendSubComment(subComment, comment._id)
     if (res.ok) {
+      console.log('getsub')
+      handleGetSubcomment(comment._id)
       setSubComment('')
-      getSubComments()
     }
   }
-
-  const getSubComments = useCallback(() => {
-    fetchUrl(`subComment/${comment._id}`)
-      .then((res) => res.json())
-      .then((data) => setSubComments(data))
-  }, [comment])
-
-  useEffect(() => getSubComments(), [getSubComments])
 
   const handleChange = (e) => setSubComment(e.target.value)
 

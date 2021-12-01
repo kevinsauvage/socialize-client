@@ -30,11 +30,11 @@ const ProfilPage = () => {
               <Feed posts={userPosts} />
             </Route>
             <Route path="/profil/photos">
-              <PhotoProfil user={user} />
+              <PhotoProfil displayedUser={user} />
             </Route>
             <Route path="/profil/edit" component={EditProfilInfo} />
             <Route path="/profil/videos">
-              <VideosProfil user={user} />
+              <VideosProfil displayedUser={user} />
             </Route>
             <Route path="/profil/Friends" component={FriendsProfil} />
             <Route path="/profil/about">

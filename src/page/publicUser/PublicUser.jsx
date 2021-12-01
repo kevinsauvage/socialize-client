@@ -29,8 +29,8 @@ const PublicUser = () => {
         <aside></aside>
         <section>
           <AboutProfil user={user} />
-          <PhotoProfil user={user} />
-          <VideosProfil user={user} />
+          <PhotoProfil displayedUser={user} />
+          <VideosProfil displayedUser={user} />
         </section>
         <aside>
           <ProfilIntro user={user} />

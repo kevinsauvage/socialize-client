@@ -7,8 +7,8 @@ import { MdDeleteForever, MdOutlinePlayCircleOutline } from 'react-icons/md'
 import VideoPlayerModal from '../../../component/videoPlayerModal/VideoPlayerModal'
 import Loader from '../../../component/loader/Loader'
 
-const VideosProfil = ({ user }) => {
-  const { updateUser } = useContext(AuthContext)
+const VideosProfil = ({ displayedUser }) => {
+  const { updateUser, user } = useContext(AuthContext)
   const [index, setIndex] = useState(undefined)
   const [loading, setLoading] = useState(false)
   const input = useRef(null)
@@ -18,7 +18,7 @@ const VideosProfil = ({ user }) => {
     const data = await uploadVideo(e.target.files[0])
     const url = await data.eager[3].secure_url
     const response = await updateUser({
-      videos: user.videos ? [...user?.videos, url] : [url],
+      videos: displayedUser.videos ? [...displayedUser?.videos, url] : [url],
     })
     if (!response.ok) window.alert('Oups, something went wrong, try again.')
     input.current.value = ''
@@ -30,12 +30,15 @@ const VideosProfil = ({ user }) => {
   const handleIndexUpdate = (newIndex) => {
     if (newIndex === undefined) setIndex(newIndex)
     if (newIndex <= 0) return setIndex(0)
-    if (newIndex >= user.images.length) return setIndex(user.images.length - 1)
+    if (newIndex >= displayedUser.images.length)
+      return setIndex(displayedUser.images.length - 1)
     return setIndex(newIndex)
   }
 
   const handleVideoDelete = async (url) => {
-    const newUserVideo = await user.videos.filter((item) => item !== url)
+    const newUserVideo = await displayedUser.videos.filter(
+      (item) => item !== url,
+    )
     const response = await updateUser({ videos: newUserVideo })
     if (!response.ok) window.alert('Oups, something went wrong, try again.')
     setLoading(false)
@@ -46,13 +49,13 @@ const VideosProfil = ({ user }) => {
     <div className="VideosProfil">
       {index !== undefined && (
         <VideoPlayerModal
-          url={user.videos[index]}
+          url={displayedUser.videos[index]}
           handleIndexUpdate={handleIndexUpdate}
           index={index}
         />
       )}
       <div className="VideosProfil__container">
-        {user?.videos?.map((item, i) => (
+        {displayedUser?.videos?.map((item, i) => (
           <div className="VideosProfil__videoThumbnail">
             <img
               key={i}
@@ -78,12 +81,18 @@ const VideosProfil = ({ user }) => {
             <Loader />
           </div>
         )}
-        <div
-          className="VideosProfil__addBtn"
-          onClick={() => document.querySelector('#addVideoGallery').click()}
-        >
-          <RiVideoAddLine />
-        </div>
+        {displayedUser?._id === user?._id ? (
+          <div
+            className="VideosProfil__addBtn"
+            onClick={() => document.querySelector('#addVideoGallery').click()}
+          >
+            <RiVideoAddLine />
+          </div>
+        ) : (
+          displayedUser?.videos?.length === 0 && (
+            <p className="VideosProfil__noVideo">No video to show</p>
+          )
+        )}
       </div>
       <input
         ref={input}

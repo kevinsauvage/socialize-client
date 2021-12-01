@@ -11,8 +11,8 @@ const ModalPlayer = lazy(() =>
   import('../../../component/modalPlayer/ModalPlayer'),
 )
 
-const PhotoProfil = ({ user }) => {
-  const { updateUser } = useContext(AuthContext)
+const PhotoProfil = ({ displayedUser }) => {
+  const { updateUser, user } = useContext(AuthContext)
   const [index, setIndex] = useState(undefined)
   const [loading, setLoading] = useState(false)
 
@@ -20,7 +20,9 @@ const PhotoProfil = ({ user }) => {
     setLoading(true)
     const data = await uploadImage(e.target.files[0])
     const url = await data.eager[3].secure_url
-    const response = await updateUser({ images: [...user.images, url] })
+    const response = await updateUser({
+      images: [...displayedUser.images, url],
+    })
     if (!response.ok) window.alert('Oups, something went wrong, try again.')
     setLoading(false)
     return
@@ -28,12 +30,16 @@ const PhotoProfil = ({ user }) => {
 
   const handleUpdate = (newIndex) => {
     if (newIndex <= 0) return setIndex(0)
-    if (newIndex >= user.images.length) return setIndex(user.images.length - 1)
+    if (newIndex >= displayedUser.images.length)
+      return setIndex(displayedUser.images.length - 1)
     return setIndex(newIndex)
   }
+  console.log(displayedUser, user)
 
   const handleImageDelete = async (url) => {
-    const newUserImages = await user.images.filter((item) => item !== url)
+    const newUserImages = await displayedUser.images.filter(
+      (item) => item !== url,
+    )
     const response = await updateUser({ images: newUserImages })
     if (!response.ok) window.alert('Oups, something went wrong, try again.')
     setLoading(false)
@@ -43,7 +49,7 @@ const PhotoProfil = ({ user }) => {
   return (
     <div className="PhotoProfil">
       <div className="PhotoProfil__container">
-        {user?.images?.map((url, i) => (
+        {displayedUser?.images?.map((url, i) => (
           <div key={url} className="PhotoProfil__img">
             <MdDeleteForever
               onClick={() => handleImageDelete(url)}
@@ -57,22 +63,31 @@ const PhotoProfil = ({ user }) => {
             <Loader />
           </div>
         )}
-        <div
-          onClick={() => document.querySelector('#addPhotoGallery').click()}
-          className="PhotoProfil__addBtn"
-        >
-          <RiImageAddFill />
-        </div>
+        {displayedUser?._id === user?._id ? (
+          <div
+            onClick={() =>
+              displayedUser === user &&
+              document.querySelector('#addPhotoGallery').click()
+            }
+            className="PhotoProfil__addBtn"
+          >
+            <RiImageAddFill />
+          </div>
+        ) : (
+          displayedUser?.images?.length === 0 && (
+            <p className="PhotoProfil__noPicture">No picture to show</p>
+          )
+        )}
       </div>
       {index !== undefined && (
         <Suspense fallback={<PageLoader />}>
           <ModalPlayer
             handleIndexUpdate={handleUpdate}
             index={index}
-            comparation={user.images}
+            comparation={displayedUser.images}
           >
             <img
-              src={user.images[index]}
+              src={displayedUser.images[index]}
               alt="user gallery"
               className="PhotoProfil__galleryImg"
               width="600"

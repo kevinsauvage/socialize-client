@@ -28,7 +28,7 @@ const FriendCard = ({ friend, callback }) => {
     <div className="FriendCard">
       <div className="FriendCard__left">
         <img
-          src={friend?.image || defaultImg}
+          src={friend?.avatar || defaultImg}
           alt="user avatar"
           className="FriendCard__img"
         />

@@ -25,11 +25,6 @@ const EditInfo = () => {
           to="/profil/edit/my_interest"
         />
         <ListItem
-          icon={<MdSettingsSuggest />}
-          text="Account Settings"
-          to="/profil/edit/account_setting"
-        />
-        <ListItem
           icon={<MdWorkOutline />}
           text="Work And Education"
           to="/profil/edit/work_and_education"

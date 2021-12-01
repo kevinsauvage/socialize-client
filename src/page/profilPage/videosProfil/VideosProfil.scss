@@ -96,4 +96,9 @@
             transform: scale(0.2);
         }
     }
+
+    &__noVideo {
+        color: $white;
+        font-weight: 600;
+    }
 }

@@ -3,7 +3,6 @@ import Avatar from '../avatar/Avatar'
 import PostStats from '../postStats/PostStats'
 import Comment from './../comment/Comment'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { fetchUrl } from './../../helpers/fetch'
 import { getDataFromTimestamp } from '../../helpers/getDataFromTimestamp'
 import AddComment from '../addComment/AddComment'
 import EditionBtns from '../editionBtns/EditionBtns'
@@ -11,31 +10,38 @@ import { PostContext } from './../../context/PostContext'
 import { AuthContext } from './../../context/AuthContext'
 import ReactPlayer from 'react-player'
 import { Link } from 'react-router-dom'
+import { CommentContext } from '../../context/CommentContext'
 
 const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
   const [author, setAuthor] = useState(undefined)
   const { deletePost, commentPost, sendNotification } = useContext(PostContext)
+  const { getComments } = useContext(CommentContext)
   const { user, findOne } = useContext(AuthContext)
-
-  const getComments = useCallback(() => {
-    fetchUrl(`comment/${post._id}`)
-      .then((res) => res.json())
-      .then((data) => setComments(data))
-  }, [post])
 
   useEffect(() => {
     findOne(post.authorId).then((data) => setAuthor(data))
   }, [findOne, post.authorId])
 
-  useEffect(() => getComments(), [getComments])
+  const handleGetComment = useCallback(
+    (id) => {
+      getComments(id)
+        .then((res) => res.json())
+        .then((data) => setComments(data))
+    },
+    [getComments],
+  )
+
+  useEffect(() => {
+    handleGetComment(post._id)
+  }, [post._id, handleGetComment])
 
   const handleSubmit = async () => {
     const res = await commentPost(comment, post._id)
     if (res.ok) {
       setComment('')
-      getComments()
+      handleGetComment(post._id)
       sendNotification(post.authorId, 'Comment', post._id)
     }
   }

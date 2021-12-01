@@ -7,6 +7,7 @@ import { AuthContext } from '../../context/AuthContext'
 
 const PostStats = ({ totalComment, likes, postId }) => {
   const { updatePost } = useContext(PostContext)
+
   const { updateUser, user } = useContext(AuthContext)
 
   const handleUpdateLikes = async () => {

@@ -29,13 +29,17 @@ export const PostProvider = (props) => {
     socket.on('disconnect', () => console.log('Socket disconnecting'))
   }, [])
 
+  console.log(user)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchPosts = useCallback(
-    async (limit) => {
+    async (limit = 10) => {
       try {
-        return fetchUrl(`posts/${user._id}?limit=${limit}`)
+        return fetchUrl(`posts/${user._id}?limit=${limit}`, null, user.token)
           .then((res) => res.json())
-          .then((data) => setPosts((prev) => [...prev, ...data]))
+          .then((data) => {
+            console.log(data)
+            setPosts((prev) => [...prev, ...data])
+          })
       } catch (error) {
         console.log(error)
       } finally {
@@ -50,15 +54,19 @@ export const PostProvider = (props) => {
       try {
         setFetchPost(true)
 
-        const res = await fetchUrl('posts', {
-          method: 'Post',
-          body: JSON.stringify({
-            body: contentText,
-            authorId: `${user?._id}`,
-            image: imageUrl,
-            video: videoUrl,
-          }),
-        })
+        const res = await fetchUrl(
+          'posts',
+          {
+            method: 'Post',
+            body: JSON.stringify({
+              body: contentText,
+              authorId: `${user?._id}`,
+              image: imageUrl,
+              video: videoUrl,
+            }),
+          },
+          user.token,
+        )
 
         setFetchPost(false)
 
@@ -71,7 +79,7 @@ export const PostProvider = (props) => {
   )
 
   const getUserPost = useCallback(async () => {
-    const res = await fetchUrl(`posts/user/${user?._id}`)
+    const res = await fetchUrl(`posts/user/${user?._id}`, {}, user.token)
     const data = await res.json()
     setUserPosts(data)
   }, [user])
@@ -79,16 +87,20 @@ export const PostProvider = (props) => {
   const commentPost = useCallback(
     async (comment, id) => {
       try {
-        return await fetchUrl('comment', {
-          method: 'POST',
-          body: JSON.stringify({
-            body: comment,
-            authorId: `${user?._id}`,
-            authorName: `${user?.firstName} ${user?.lastName}`,
-            parentCommentId: '',
-            postId: id,
-          }),
-        })
+        return await fetchUrl(
+          'comment',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              body: comment,
+              authorId: `${user?._id}`,
+              authorName: `${user?.firstName} ${user?.lastName}`,
+              parentCommentId: '',
+              postId: id,
+            }),
+          },
+          user.token,
+        )
       } catch (error) {
         console.log(error)
       }
@@ -96,29 +108,33 @@ export const PostProvider = (props) => {
     [user],
   )
 
-  const deletePost = useCallback(async (id) => {
-    try {
-      return await fetchUrl(`posts/${id}`, { method: 'DELETE' })
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
-
-  const updatePost = useCallback(
-    async (form, id) => {
+  const deletePost = useCallback(
+    async (id) => {
       try {
-        const res = await fetchUrl(`posts/${id}`, {
-          method: 'PUT',
-          body: JSON.stringify(form),
-        })
-        await fetchPosts()
-        return res
+        return await fetchUrl(`posts/${id}`, { method: 'DELETE' }, user.token)
       } catch (error) {
         console.log(error)
       }
     },
-    [fetchPosts],
+    [user],
   )
+
+  const updatePost = async (form, id) => {
+    try {
+      const res = await fetchUrl(
+        `posts/${id}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(form),
+        },
+        user.token,
+      )
+      await fetchPosts(10)
+      return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const sendNotification = async (authorId, type, postId) => {
     const body = {
@@ -129,10 +145,14 @@ export const PostProvider = (props) => {
     }
 
     try {
-      const res = await fetchUrl('notification', {
-        method: 'Post',
-        body: JSON.stringify(body),
-      })
+      const res = await fetchUrl(
+        'notification',
+        {
+          method: 'Post',
+          body: JSON.stringify(body),
+        },
+        user.token,
+      )
       const data = await res.json()
       console.log(data)
     } catch (error) {
@@ -142,9 +162,13 @@ export const PostProvider = (props) => {
 
   const getUserNotification = useCallback(async () => {
     console.log('get user notif')
-    const res = await fetchUrl(`notification/${user._id}`, {
-      method: 'Get',
-    })
+    const res = await fetchUrl(
+      `notification/${user._id}`,
+      {
+        method: 'Get',
+      },
+      user.token,
+    )
     const data = await res.json()
     console.log(data)
     setUserNotification(data)

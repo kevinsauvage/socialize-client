@@ -23,15 +23,22 @@ export const AuthProvider = (props) => {
     socket.on('disconnect', () => console.log('Socket disconnecting'))
   }, [])
 
-  const findOne = useCallback(async (id) => {
-    try {
-      const response = await fetchUrl(`users/${id}`, { method: 'GET' })
-      const json = await response.json()
-      return json
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const findOne = useCallback(
+    async (id) => {
+      try {
+        const response = await fetchUrl(
+          `users/${id}`,
+          { method: 'GET' },
+          user.token,
+        )
+        const json = await response.json()
+        return json
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user],
+  )
 
   const login = useCallback(async (formData) => {
     try {
@@ -74,10 +81,14 @@ export const AuthProvider = (props) => {
   const updateUser = useCallback(
     async (form) => {
       try {
-        return await fetchUrl(`users/${user._id}`, {
-          method: 'PUT',
-          body: JSON.stringify(form),
-        })
+        return await fetchUrl(
+          `users/${user._id}`,
+          {
+            method: 'PUT',
+            body: JSON.stringify(form),
+          },
+          user.token,
+        )
       } catch (error) {
         console.log(error)
       }
@@ -88,13 +99,17 @@ export const AuthProvider = (props) => {
   const updateUserPassword = useCallback(
     async (formData) => {
       try {
-        return await fetchUrl(`users/${user?._id}/password`, {
-          method: 'PUT',
-          body: JSON.stringify({
-            newPassword: formData.newPassword,
-            oldPassword: formData.oldPassword,
-          }),
-        })
+        return await fetchUrl(
+          `users/${user?._id}/password`,
+          {
+            method: 'PUT',
+            body: JSON.stringify({
+              newPassword: formData.newPassword,
+              oldPassword: formData.oldPassword,
+            }),
+          },
+          user.token,
+        )
       } catch (error) {
         console.log(error)
       }
@@ -102,33 +117,51 @@ export const AuthProvider = (props) => {
     [user],
   )
 
-  const searchUsers = useCallback(async (query) => {
-    try {
-      return await fetchUrl(`search?query=${query}`, {
-        method: 'GET',
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const searchUsers = useCallback(
+    async (query) => {
+      try {
+        return await fetchUrl(
+          `search?query=${query}`,
+          {
+            method: 'GET',
+          },
+          user.token,
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user],
+  )
 
-  const searchByIds = useCallback(async (ids) => {
-    try {
-      return await fetchUrl('searchByIds', {
-        method: 'POST',
-        body: JSON.stringify(ids),
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const searchByIds = useCallback(
+    async (ids) => {
+      try {
+        return await fetchUrl(
+          'searchByIds',
+          {
+            method: 'POST',
+            body: JSON.stringify(ids),
+          },
+          user.token,
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user],
+  )
 
   const handleUnfriend = useCallback(
     async (friend, callback) => {
       try {
-        return await fetchUrl(`users/${user._id}/unfriends/${friend._id}`, {
-          method: 'PUT',
-        })
+        return await fetchUrl(
+          `users/${user._id}/unfriends/${friend._id}`,
+          {
+            method: 'PUT',
+          },
+          user.token,
+        )
       } catch (error) {
         console.log(error)
       } finally {
@@ -146,6 +179,7 @@ export const AuthProvider = (props) => {
           {
             method: 'PUT',
           },
+          user.token,
         )
       } catch (error) {
         console.log(error)
@@ -164,6 +198,7 @@ export const AuthProvider = (props) => {
           {
             method: 'PUT',
           },
+          user.token,
         )
         callback && callback()
         return res
@@ -177,9 +212,13 @@ export const AuthProvider = (props) => {
   const handleAcceptFriend = useCallback(
     async (friend) => {
       try {
-        return await fetchUrl(`users/${user._id}/acceptfriend/${friend._id}`, {
-          method: 'PUT',
-        })
+        return await fetchUrl(
+          `users/${user._id}/acceptfriend/${friend._id}`,
+          {
+            method: 'PUT',
+          },
+          user.token,
+        )
       } catch (error) {
         console.log(error)
       }
@@ -187,16 +226,23 @@ export const AuthProvider = (props) => {
     [user],
   )
 
-  const findUsers = useCallback(async (array) => {
-    try {
-      return await fetchUrl('users/find', {
-        method: 'POST',
-        body: JSON.stringify({ userFriends: array }),
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const findUsers = useCallback(
+    async (array) => {
+      try {
+        return await fetchUrl(
+          'users/find',
+          {
+            method: 'POST',
+            body: JSON.stringify({ userFriends: array }),
+          },
+          user.token,
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user],
+  )
 
   const value = {
     login,
