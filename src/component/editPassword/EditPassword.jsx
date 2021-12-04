@@ -28,8 +28,6 @@ const EditPassword = () => {
         setError('Passwords are diferent')
       }
       updateUserPassword(formData)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
     },
     [updateUserPassword],
   )

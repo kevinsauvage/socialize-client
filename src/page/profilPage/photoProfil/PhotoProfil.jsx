@@ -3,9 +3,9 @@ import { lazy, Suspense, useContext, useState } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
 import { RiImageAddFill } from 'react-icons/ri'
 import { MdDeleteForever } from 'react-icons/md'
-import { uploadImage } from '../../../helpers/uploadCloudinary'
 import Loader from '../../../component/loader/Loader'
 import PageLoader from '../../../component/pageLoader/PageLoader'
+import { uploadImage } from '../../../helpers/upload'
 
 const ModalPlayer = lazy(() =>
   import('../../../component/modalPlayer/ModalPlayer'),
@@ -34,7 +34,6 @@ const PhotoProfil = ({ displayedUser }) => {
       return setIndex(displayedUser.images.length - 1)
     return setIndex(newIndex)
   }
-  console.log(displayedUser, user)
 
   const handleImageDelete = async (url) => {
     const newUserImages = await displayedUser.images.filter(

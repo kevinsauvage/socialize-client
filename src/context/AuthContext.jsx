@@ -11,6 +11,7 @@ const { Provider } = AuthContext
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(getValue('user'))
+  const [token, setToken] = useState(getValue('token'))
 
   useEffect(() => {
     const socket = io(urls.baseUrl)
@@ -26,18 +27,14 @@ export const AuthProvider = (props) => {
   const findOne = useCallback(
     async (id) => {
       try {
-        const response = await fetchUrl(
-          `users/${id}`,
-          { method: 'GET' },
-          user.token,
-        )
+        const response = await fetchUrl(`users/${id}`, { method: 'GET' }, token)
         const json = await response.json()
         return json
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [token],
   )
 
   const login = useCallback(async (formData) => {
@@ -48,9 +45,13 @@ export const AuthProvider = (props) => {
       })
       if (response.ok) {
         const data = await response.json()
+        console.log(data)
         setValue('user', JSON.stringify(data))
+        setValue('token', JSON.stringify(data.token))
+        setToken(data.token)
         setUser(data)
         window.location.pathname = '/'
+        return
       } else {
         return response
       }
@@ -72,8 +73,9 @@ export const AuthProvider = (props) => {
 
   const logout = useCallback(() => {
     localStorage.removeItem('user')
-    localStorage.clear()
+    localStorage.removeItem('token')
     setUser(undefined)
+    setToken(undefined)
     window.location.pathname = '/login'
     window.location.reload(true)
   }, [])
@@ -87,13 +89,13 @@ export const AuthProvider = (props) => {
             method: 'PUT',
             body: JSON.stringify(form),
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [user, token],
   )
 
   const updateUserPassword = useCallback(
@@ -108,13 +110,13 @@ export const AuthProvider = (props) => {
               oldPassword: formData.oldPassword,
             }),
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [user, token],
   )
 
   const searchUsers = useCallback(
@@ -125,13 +127,13 @@ export const AuthProvider = (props) => {
           {
             method: 'GET',
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [token],
   )
 
   const searchByIds = useCallback(
@@ -143,13 +145,13 @@ export const AuthProvider = (props) => {
             method: 'POST',
             body: JSON.stringify(ids),
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [token],
   )
 
   const handleUnfriend = useCallback(
@@ -160,7 +162,7 @@ export const AuthProvider = (props) => {
           {
             method: 'PUT',
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
@@ -168,7 +170,7 @@ export const AuthProvider = (props) => {
         callback && callback()
       }
     },
-    [user],
+    [token, user],
   )
 
   const handleAddFriend = useCallback(
@@ -179,7 +181,7 @@ export const AuthProvider = (props) => {
           {
             method: 'PUT',
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
@@ -187,7 +189,7 @@ export const AuthProvider = (props) => {
         callback && callback()
       }
     },
-    [user],
+    [user, token],
   )
 
   const handleUnsedFriendRequest = useCallback(
@@ -198,7 +200,7 @@ export const AuthProvider = (props) => {
           {
             method: 'PUT',
           },
-          user.token,
+          token,
         )
         callback && callback()
         return res
@@ -206,7 +208,7 @@ export const AuthProvider = (props) => {
         console.log(error)
       }
     },
-    [user],
+    [user, token],
   )
 
   const handleAcceptFriend = useCallback(
@@ -217,13 +219,13 @@ export const AuthProvider = (props) => {
           {
             method: 'PUT',
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [user, token],
   )
 
   const findUsers = useCallback(
@@ -235,13 +237,13 @@ export const AuthProvider = (props) => {
             method: 'POST',
             body: JSON.stringify({ userFriends: array }),
           },
-          user.token,
+          token,
         )
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [token],
   )
 
   const value = {
@@ -259,6 +261,7 @@ export const AuthProvider = (props) => {
     handleAddFriend,
     handleUnfriend,
     findUsers,
+    token,
   }
 
   return <Provider value={value}>{props.children}</Provider>

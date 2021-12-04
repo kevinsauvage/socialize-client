@@ -5,7 +5,7 @@ import { PostContext } from './../../context/PostContext'
 import PostForm from '../../component/postForm/PostForm'
 import Compressor from 'compressorjs'
 import Loader from '../../component/loader/Loader'
-import { uploadImage, uploadVideo } from '../../helpers/uploadCloudinary'
+import { uploadImage, uploadVideo } from '../../helpers/upload'
 
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
@@ -45,11 +45,8 @@ const Feed = ({ posts }) => {
       }
     } else if (video) {
       const data = await uploadVideo(video)
-      const res = await sendPosts(
-        contentText,
-        null,
-        data.eager?.[4]?.secure_url,
-      )
+      console.log(data)
+      const res = await sendPosts(contentText, null, data.secure_url)
 
       if (res.ok) {
         setContentText('')

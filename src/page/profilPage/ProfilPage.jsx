@@ -1,5 +1,5 @@
 import './ProfilPage.scss'
-import { useEffect, useState, useContext, lazy, Suspense } from 'react'
+import { useEffect, useContext, lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router'
 import { PostContext } from './../../context/PostContext'
 import ProfilPageWrapper from '../../layout/profilPageWrapper/ProfilPageWrapper'
@@ -17,9 +17,9 @@ const ProfilPage = () => {
   const { getUserPost, userPosts } = useContext(PostContext)
   const { user } = useContext(AuthContext)
 
-  useEffect(() => {
-    user && getUserPost()
-  }, [getUserPost, user])
+  useEffect(() => window.scrollTo(0, 0), [])
+
+  useEffect(() => user && getUserPost(), [getUserPost, user])
 
   return (
     <section className="profilPage">

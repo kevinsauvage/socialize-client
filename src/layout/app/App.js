@@ -12,6 +12,7 @@ import PageLoader from './../../component/pageLoader/PageLoader'
 import { getValue } from '../../helpers/localStorage'
 import PublicUser from '../../page/publicUser/PublicUser'
 import { CommentProvider } from '../../context/CommentContext'
+import { NotificationProvider } from '../../context/NotificationContext'
 
 const Search = lazy(() => import('../../page/search/Search'))
 const ProfilPage = lazy(() => import('./../../page/profilPage/ProfilPage'))
@@ -25,19 +26,21 @@ const App = () => {
       <AuthProvider>
         <PostProvider>
           <CommentProvider>
-            <Router>
-              <Suspense fallback={<PageLoader />}>
-                <Switch>
-                  <Route path="/login" component={Login} />
-                  <Route path="/register" component={Register} />
-                  <Route path="/user/:id" component={PublicUser} />
-                  {!getValue('user') && <Redirect to="/login" />}
-                  <Route path="/" exact component={Home} />
-                  <Route path="/profil" component={ProfilPage} />
-                  <Route path="/search" component={Search} />
-                </Switch>
-              </Suspense>
-            </Router>
+            <NotificationProvider>
+              <Router>
+                <Suspense fallback={<PageLoader />}>
+                  <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/user/:id" component={PublicUser} />
+                    {!getValue('user') && <Redirect to="/login" />}
+                    <Route path="/" exact component={Home} />
+                    <Route path="/profil" component={ProfilPage} />
+                    <Route path="/search" component={Search} />
+                  </Switch>
+                </Suspense>
+              </Router>
+            </NotificationProvider>
           </CommentProvider>
         </PostProvider>
       </AuthProvider>

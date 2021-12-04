@@ -2,14 +2,11 @@ import { NavLink } from 'react-router-dom'
 import './NavProfilPage.scss'
 
 const NavProfilPage = ({ user }) => {
-  console.log(user)
   return (
     <nav className="navProfilPage">
       <ul className="navProfilPage__list">
         <div className="navProfilPage__username">
-          <h3>
-            {user?.firstName} {user?.lastName}
-          </h3>
+          <h3>{user?.username}</h3>
         </div>
         <li className="navProfilPage__list-item">
           <NavLink
@@ -52,7 +49,7 @@ const NavProfilPage = ({ user }) => {
           </NavLink>
           {user?.friendsRequests?.length !== 0 && (
             <span className="navProfilPage__list-item-hint">
-              <p>user?.friendsRequests?.length</p>
+              <p>{user?.friendsRequests?.length}</p>
             </span>
           )}
         </li>

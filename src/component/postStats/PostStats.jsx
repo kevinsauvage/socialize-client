@@ -6,32 +6,8 @@ import { PostContext } from '../../context/PostContext'
 import { AuthContext } from '../../context/AuthContext'
 
 const PostStats = ({ totalComment, likes, postId }) => {
-  const { updatePost } = useContext(PostContext)
-
-  const { updateUser, user } = useContext(AuthContext)
-
-  const handleUpdateLikes = async () => {
-    if (user.likedPost.includes(postId)) {
-      const res = await updatePost({ likes: parseInt(likes) - 1 }, postId)
-      if (res.ok)
-        await updateUser({
-          likedPost: user.likedPost.filter((item) => item !== postId),
-        })
-      const data = await res.json()
-
-      console.log(data)
-    } else {
-      const res = await updatePost({ likes: parseInt(likes) + 1 }, postId)
-      if (res.ok)
-        await updateUser({
-          likedPost: user.likedPost ? [...user.likedPost, postId] : [postId],
-        })
-
-      const data = await res.json()
-
-      console.log(data)
-    }
-  }
+  const { handleLike, handleUnlike } = useContext(PostContext)
+  const { user } = useContext(AuthContext)
 
   return (
     <ul className="postStats">
@@ -45,12 +21,15 @@ const PostStats = ({ totalComment, likes, postId }) => {
             ? 'postStats__item postStats__item--like'
             : 'postStats__item postStats__item--like--unlike'
         }
-        onClick={handleUpdateLikes}
       >
         {user?.likedPost.includes(postId) ? (
-          <RiDislikeLine className="postStats__icon" />
+          <div onClick={() => handleUnlike(postId)}>
+            <RiDislikeLine className="postStats__icon" />
+          </div>
         ) : (
-          <RiHeart3Line className="postStats__icon" />
+          <div onClick={() => handleLike(postId)}>
+            <RiHeart3Line className="postStats__icon" />
+          </div>
         )}
         <p className="postStats__value">{likes}</p>
       </li>

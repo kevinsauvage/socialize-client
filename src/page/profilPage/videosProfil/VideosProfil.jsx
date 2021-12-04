@@ -2,10 +2,10 @@ import './VideosProfil.scss'
 import { useContext, useRef, useState } from 'react'
 import { RiVideoAddLine } from 'react-icons/ri'
 import { AuthContext } from '../../../context/AuthContext'
-import { uploadVideo } from '../../../helpers/uploadCloudinary'
 import { MdDeleteForever, MdOutlinePlayCircleOutline } from 'react-icons/md'
 import VideoPlayerModal from '../../../component/videoPlayerModal/VideoPlayerModal'
 import Loader from '../../../component/loader/Loader'
+import { uploadVideo } from '../../../helpers/upload'
 
 const VideosProfil = ({ displayedUser }) => {
   const { updateUser, user } = useContext(AuthContext)
@@ -16,7 +16,7 @@ const VideosProfil = ({ displayedUser }) => {
   const onChangeVideo = async (e) => {
     setLoading(true)
     const data = await uploadVideo(e.target.files[0])
-    const url = await data.eager[3].secure_url
+    const url = await data.secure_url
     const response = await updateUser({
       videos: displayedUser.videos ? [...displayedUser?.videos, url] : [url],
     })
@@ -30,8 +30,8 @@ const VideosProfil = ({ displayedUser }) => {
   const handleIndexUpdate = (newIndex) => {
     if (newIndex === undefined) setIndex(newIndex)
     if (newIndex <= 0) return setIndex(0)
-    if (newIndex >= displayedUser.images.length)
-      return setIndex(displayedUser.images.length - 1)
+    if (newIndex >= displayedUser.videos.length)
+      return setIndex(displayedUser.videos.length - 1)
     return setIndex(newIndex)
   }
 
@@ -56,9 +56,8 @@ const VideosProfil = ({ displayedUser }) => {
       )}
       <div className="VideosProfil__container">
         {displayedUser?.videos?.map((item, i) => (
-          <div className="VideosProfil__videoThumbnail">
+          <div key={i} className="VideosProfil__videoThumbnail">
             <img
-              key={i}
               src={item.substr(0, item.lastIndexOf('.')) + '.jpg'}
               width="200"
               height="150"
@@ -67,7 +66,7 @@ const VideosProfil = ({ displayedUser }) => {
             <div className="VideosProfil__videoThumbnail-hover">
               <MdOutlinePlayCircleOutline
                 className="VideosProfil__play"
-                onClick={() => handleIndexUpdate(i - 1)}
+                onClick={() => handleIndexUpdate(i)}
               />
               <MdDeleteForever
                 onClick={() => handleVideoDelete(item)}

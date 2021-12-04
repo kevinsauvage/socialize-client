@@ -5,12 +5,15 @@ import { FaComments } from 'react-icons/fa'
 import Avatar from '../avatar/Avatar'
 import AddComment from '../addComment/AddComment'
 import { CommentContext } from '../../context/CommentContext'
+import { AuthContext } from '../../context/AuthContext'
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, post }) => {
   const [addComment, setAddComment] = useState(false)
   const [subComment, setSubComment] = useState('')
   const [subComments, setSubComments] = useState([])
+  const [author, setAuthor] = useState(undefined)
   const { getSubComments, sendSubComment } = useContext(CommentContext)
+  const { findOne } = useContext(AuthContext)
 
   const handleGetSubcomment = useCallback(
     (id) => {
@@ -21,14 +24,26 @@ const Comment = ({ comment }) => {
     [getSubComments],
   )
 
+  useEffect(() => handleGetSubcomment(comment._id), [
+    handleGetSubcomment,
+    comment,
+  ])
+
   useEffect(() => {
-    handleGetSubcomment(comment._id)
-  }, [handleGetSubcomment, comment])
+    comment && findOne(comment?.authorId).then((data) => setAuthor(data))
+  }, [findOne, comment])
 
   const handleSubmit = async () => {
-    const res = await sendSubComment(subComment, comment._id)
+    const res = await sendSubComment(
+      subComment,
+      comment._id,
+      post.authorId,
+      post._id,
+    )
+    const data = await res.json()
+    console.log(data)
+    console.log(res)
     if (res.ok) {
-      console.log('getsub')
       handleGetSubcomment(comment._id)
       setSubComment('')
     }
@@ -39,7 +54,7 @@ const Comment = ({ comment }) => {
   return (
     <div className="comment">
       <div className="comment__container">
-        <Avatar />
+        <Avatar avatarImg={author?.avatar} />
         <div className="comment__content">
           <div className="comment__wrapper">
             <div className="comment__detail">

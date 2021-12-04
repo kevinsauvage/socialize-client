@@ -4,10 +4,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { useMousePosition } from './../../hooks/useMousePosition'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import { uploadImage } from '../../helpers/uploadCloudinary'
 import Loader from '../../component/loader/Loader'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import { getValue } from '../../helpers/localStorage'
+import NoAvatar from '../../img/avatarDefault.png'
+import { uploadImage } from '../../helpers/upload'
 
 const BannerProfil = ({ user }) => {
   const [imagePreview, setImagePreview] = useState('')
@@ -16,7 +17,6 @@ const BannerProfil = ({ user }) => {
   const [avatarLoading, setAvatarLoading] = useState(false)
   const mousePosition = useMousePosition()
   const [currentUser] = useState(getValue('user'))
-
   const { updateUser } = useContext(AuthContext)
 
   useEffect(() => user?.bgProfilPosition && setBgYposition(), [user])
@@ -55,9 +55,12 @@ const BannerProfil = ({ user }) => {
 
   const onAvatarChange = async (e) => {
     setAvatarLoading(true)
+    const file = e.target.files[0]
+    const dataCloudinary = await uploadImage(file, user._id)
 
-    const data = await uploadImage(e.target.files[0])
-    const response = await updateUser({ avatar: data.eager[1].secure_url })
+    const response = await updateUser({
+      avatar: dataCloudinary.eager[1].secure_url,
+    })
 
     if (response.ok) setAvatarLoading(false)
 
@@ -67,6 +70,8 @@ const BannerProfil = ({ user }) => {
 
   const handleSubmitBg = async () => {
     const data = await uploadImage(imagePreview.file)
+    console.log(data)
+
     const response = await updateUser({
       backgroundImg: data.eager[2].secure_url,
       bgProfilPosition: bgYposition,
@@ -82,7 +87,6 @@ const BannerProfil = ({ user }) => {
   }
 
   const handleClickAvatar = () => document.querySelector('#avatarInput').click()
-
   return (
     <div
       className="bannerProfil"
@@ -132,7 +136,7 @@ const BannerProfil = ({ user }) => {
               )
             ) : (
               <img
-                src={user?.avatar}
+                src={user?.avatar || NoAvatar}
                 alt="avatar"
                 className="bannerProfil__avatar-public"
               />

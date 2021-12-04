@@ -16,10 +16,9 @@ const { Provider } = PostContext
 
 export const PostProvider = (props) => {
   const [fetchPostLoader, setFetchPost] = useState(false)
-  const { user } = useContext(AuthContext)
+  const { user, token } = useContext(AuthContext)
   const [posts, setPosts] = useState([])
   const [userPosts, setUserPosts] = useState([])
-  const [userNotification, setUserNotification] = useState([])
 
   useEffect(() => {
     const socket = io(urls.baseUrl)
@@ -29,15 +28,13 @@ export const PostProvider = (props) => {
     socket.on('disconnect', () => console.log('Socket disconnecting'))
   }, [])
 
-  console.log(user)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchPosts = useCallback(
     async (limit = 10) => {
       try {
-        return fetchUrl(`posts/${user._id}?limit=${limit}`, null, user.token)
+        return fetchUrl(`posts/?limit=${limit}&userId=${user._id}`, {}, token)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data)
             setPosts((prev) => [...prev, ...data])
           })
       } catch (error) {
@@ -46,7 +43,7 @@ export const PostProvider = (props) => {
         setFetchPost(false)
       }
     },
-    [user],
+    [user, token],
   )
 
   const sendPosts = useCallback(
@@ -60,12 +57,13 @@ export const PostProvider = (props) => {
             method: 'Post',
             body: JSON.stringify({
               body: contentText,
-              authorId: `${user?._id}`,
+              authorId: user?._id,
+              authorName: user?.username,
               image: imageUrl,
               video: videoUrl,
             }),
           },
-          user.token,
+          token,
         )
 
         setFetchPost(false)
@@ -75,49 +73,40 @@ export const PostProvider = (props) => {
         console.log(error)
       }
     },
-    [user],
+    [user, token],
   )
 
   const getUserPost = useCallback(async () => {
-    const res = await fetchUrl(`posts/user/${user?._id}`, {}, user.token)
+    const res = await fetchUrl(`posts/user/${user?._id}`, {}, token)
     const data = await res.json()
     setUserPosts(data)
-  }, [user])
-
-  const commentPost = useCallback(
-    async (comment, id) => {
-      try {
-        return await fetchUrl(
-          'comment',
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              body: comment,
-              authorId: `${user?._id}`,
-              authorName: `${user?.firstName} ${user?.lastName}`,
-              parentCommentId: '',
-              postId: id,
-            }),
-          },
-          user.token,
-        )
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    [user],
-  )
+  }, [user, token])
 
   const deletePost = useCallback(
     async (id) => {
       try {
-        return await fetchUrl(`posts/${id}`, { method: 'DELETE' }, user.token)
+        return await fetchUrl(`posts/${id}`, { method: 'DELETE' }, token)
       } catch (error) {
         console.log(error)
       }
     },
-    [user],
+    [token],
   )
+
+  const findOneAndUpdateFeed = async (id) => {
+    try {
+      const res = await fetchUrl(`posts/${id}`, { method: 'get' }, token)
+      const data = await res.json()
+      const newPosts = posts.map((post) => {
+        if (post._id === id) return data
+        else return post
+      })
+      setPosts(newPosts)
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const updatePost = async (form, id) => {
     try {
@@ -127,70 +116,70 @@ export const PostProvider = (props) => {
           method: 'PUT',
           body: JSON.stringify(form),
         },
-        user.token,
+        token,
       )
-      await fetchPosts(10)
+      if (res.ok) {
+        findOneAndUpdateFeed(id)
+      }
       return res
     } catch (error) {
       console.log(error)
     }
   }
 
-  const sendNotification = async (authorId, type, postId) => {
-    const body = {
-      type: type,
-      userId: user._id,
-      authorId: authorId,
-      postId: postId,
-    }
+  const handleUnlike = async (postId) => {
+    const res = await fetchUrl(
+      `posts/${postId}/dislike`,
+      {
+        method: 'put',
+        body: JSON.stringify({ userId: user._id }),
+      },
+      token,
+    )
 
-    try {
-      const res = await fetchUrl(
-        'notification',
-        {
-          method: 'Post',
-          body: JSON.stringify(body),
-        },
-        user.token,
-      )
+    if (res.ok) {
       const data = await res.json()
-      console.log(data)
-    } catch (error) {
-      console.log(error)
+      const newPost = posts.map((post) => {
+        if (post._id === postId) return data
+        else return post
+      })
+
+      setPosts(newPost)
     }
   }
 
-  const getUserNotification = useCallback(async () => {
-    console.log('get user notif')
+  const handleLike = async (postId) => {
     const res = await fetchUrl(
-      `notification/${user._id}`,
+      `posts/${postId}/like`,
       {
-        method: 'Get',
+        method: 'put',
+        body: JSON.stringify({ userId: user._id }),
       },
-      user.token,
+      token,
     )
-    const data = await res.json()
-    console.log(data)
-    setUserNotification(data)
-  }, [user])
 
-  useEffect(() => {
-    user && getUserNotification()
-  }, [getUserNotification, user])
+    if (res.ok) {
+      const data = await res.json()
+      const newPost = posts.map((post) => {
+        if (post._id === postId) return data
+        else return post
+      })
+
+      setPosts(newPost)
+    }
+  }
 
   const value = {
     sendPosts,
     fetchPosts,
     getUserPost,
     deletePost,
-    commentPost,
     fetchPostLoader,
     updatePost,
     posts,
     userPosts,
-    sendNotification,
-    getUserNotification,
-    userNotification,
+    handleLike,
+    handleUnlike,
   }
 
   return <Provider value={value}>{props.children}</Provider>

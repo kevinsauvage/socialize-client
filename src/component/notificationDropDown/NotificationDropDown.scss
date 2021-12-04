@@ -1,0 +1,44 @@
+@import "../../scss/mixins.scss";
+@import "../../scss/variable.scss";
+
+.NotificationDropDown {
+    width: 300px;
+    max-height: 450px;
+    height: fit-content;
+    background-color: $darkGrey;
+    position: absolute;
+    right: 0rem;
+    border: 1px solid $lightGrey;
+    overflow: auto;
+    top: 60px;
+
+    &__list {
+        height: 100%;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+    }
+
+    &__loadMore {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        background-color: $mediumLightGrey;
+    }
+}

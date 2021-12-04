@@ -16,7 +16,8 @@ const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
   const [author, setAuthor] = useState(undefined)
-  const { deletePost, commentPost, sendNotification } = useContext(PostContext)
+  const { deletePost } = useContext(PostContext)
+  const { commentPost } = useContext(CommentContext)
   const { getComments } = useContext(CommentContext)
   const { user, findOne } = useContext(AuthContext)
 
@@ -25,24 +26,23 @@ const Post = ({ post, newPostImg }) => {
   }, [findOne, post.authorId])
 
   const handleGetComment = useCallback(
-    (id) => {
-      getComments(id)
-        .then((res) => res.json())
-        .then((data) => setComments(data))
+    async (id) => {
+      const res = await getComments(id)
+      const data = await res.json()
+      setComments(data)
     },
     [getComments],
   )
 
-  useEffect(() => {
-    handleGetComment(post._id)
-  }, [post._id, handleGetComment])
+  useEffect(() => handleGetComment(post._id), [post._id, handleGetComment])
 
   const handleSubmit = async () => {
-    const res = await commentPost(comment, post._id)
+    const res = await commentPost(comment, post._id, post.authorId)
     if (res.ok) {
       setComment('')
       handleGetComment(post._id)
-      sendNotification(post.authorId, 'Comment', post._id)
+    } else {
+      window.alert('Something went wrong, try again')
     }
   }
 
@@ -56,7 +56,7 @@ const Post = ({ post, newPostImg }) => {
         <Avatar avatarImg={author?.avatar} />
         <div className="post__detail">
           <Link to={`/user/${post?.authorId}`}>
-            <h2 className="post__username">{author?.username}</h2>
+            <h2 className="post__username">{post?.authorName}</h2>
           </Link>
           <i className="post__published">
             {getDataFromTimestamp(post.createdAt)}
@@ -89,7 +89,7 @@ const Post = ({ post, newPostImg }) => {
 
       <div className="post__comments">
         {comments?.map((comment) => (
-          <Comment key={comment._id} comment={comment} />
+          <Comment key={comment._id} comment={comment} post={post} />
         ))}
       </div>
 

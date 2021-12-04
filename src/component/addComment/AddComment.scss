@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   position: relative;
+  margin-bottom: 1rem;
 
   &__input {
     width: 100%;
@@ -32,6 +33,7 @@
     @include buttonSetUp;
     width: fit-content;
     align-self: flex-end;
-    margin-top: 5px;
+    margin-bottom: 1rem;
+
   }
 }

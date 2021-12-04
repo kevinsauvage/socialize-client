@@ -71,4 +71,21 @@
         color: $white;
         font-weight: 600;
     }
+
+    &__galleryImg {
+        position: relative;
+        animation: grow 0.3s ease forwards;
+
+        @keyframes grow {
+            0% {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    }
 }

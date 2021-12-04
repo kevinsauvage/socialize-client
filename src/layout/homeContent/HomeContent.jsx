@@ -2,35 +2,22 @@ import './HomeContent.scss'
 import Shortcuts from '../../component/shortcuts/Shortcuts'
 import EditInfo from './../../component/editInfo/EditInfo'
 import Feed from '../feed/Feed'
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { PostContext } from './../../context/PostContext'
 import ProfilIntro from '../../component/profilIntro/ProfilIntro'
 import { AuthContext } from '../../context/AuthContext'
+import useIsBottom from '../../hooks/useIsBottom'
 
 const HomeContent = () => {
   const { user } = useContext(AuthContext)
   const { fetchPosts, posts } = useContext(PostContext)
   const [limit, setLimit] = useState(10)
   const containerRef = useRef()
+  const bottom = useIsBottom()
 
   useEffect(() => user && fetchPosts(limit), [fetchPosts, user, limit])
 
-  const handleScroll = useCallback(() => {
-    const bottom =
-      Math.ceil(window.innerHeight + window.scrollY) >=
-      document.documentElement.scrollHeight
-
-    if (bottom) {
-      setLimit((prev) => prev + 10)
-      return
-    }
-  }, [])
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [handleScroll])
+  useEffect(() => bottom && setLimit((prev) => prev + 10), [bottom])
 
   return (
     <div className="homeContent" ref={containerRef}>

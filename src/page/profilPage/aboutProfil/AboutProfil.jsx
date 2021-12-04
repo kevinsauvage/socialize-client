@@ -38,8 +38,6 @@ const AboutProfil = ({ user }) => {
     setInterest(true)
   }
 
-  console.log(user)
-
   return (
     <div className="AboutProfil">
       <BlocTitle text="Personal Info" />

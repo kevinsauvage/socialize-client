@@ -102,11 +102,41 @@
 
   &__icon {
     color: $white;
-    cursor: pointer;
     list-style: none;
     width: 70px;
     height: 100%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &-wrapper {
+      width: 70px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+    }
+
+    span {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      background-color: red;
+      color: $white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 3px;
+      font-weight: 700;
+      font-size: 12px;
+    }
 
     &:hover {
       background-color: $lightGrey;

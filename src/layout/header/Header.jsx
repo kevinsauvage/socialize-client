@@ -1,4 +1,6 @@
 import './Header.scss'
+import { useContext, useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import {
   RiDiscussLine,
   RiHome2Line,
@@ -7,12 +9,20 @@ import {
 } from 'react-icons/ri'
 
 import { ImSearch } from 'react-icons/im'
-import { Link } from 'react-router-dom'
 import useForm from './../../hooks/useForm'
-import { useHistory } from 'react-router'
+import NotificationDropDown from '../../component/notificationDropDown/NotificationDropDown'
+import { NotificationContext } from '../../context/NotificationContext'
+import { AuthContext } from '../../context/AuthContext'
 
 const Header = () => {
   const history = useHistory()
+  const { getUserNotification, userNotification } = useContext(
+    NotificationContext,
+  )
+  const { user } = useContext(AuthContext)
+  const [displayNotification, setDisplayNotification] = useState(false)
+  const [totalNotif, setTotalNotif] = useState(0)
+  const [limit, setLimit] = useState(5)
 
   const submitCallback = (data) => {
     history.push({
@@ -27,6 +37,22 @@ const Header = () => {
     },
     submitCallback,
   )
+
+  useEffect(() => {
+    if (user && limit) getUserNotification(limit)
+  }, [getUserNotification, user, limit])
+
+  useEffect(() => {
+    if (!userNotification || userNotification.length === 0) return
+    let total = 0
+
+    userNotification.forEach((item) => {
+      if (item.consulted === false) {
+        total = total + 1
+      } else return
+    })
+    setTotalNotif(total)
+  }, [userNotification])
 
   return (
     <header className="header">
@@ -57,12 +83,19 @@ const Header = () => {
               </Link>
             </li>
             <li className="header__icon">
-              <Link>
+              <div
+                className="header__icon-wrapper"
+                onClick={() => setDisplayNotification(!displayNotification)}
+              >
+                {totalNotif !== 0 && <span>{totalNotif}</span>}
                 <RiNotification2Line size={22} />
-              </Link>
+              </div>
+              {displayNotification && (
+                <NotificationDropDown setLimit={setLimit} limit={limit} />
+              )}
             </li>
             <li className="header__icon">
-              <Link>
+              <Link to="/">
                 <RiDiscussLine size={22} />
               </Link>
             </li>
