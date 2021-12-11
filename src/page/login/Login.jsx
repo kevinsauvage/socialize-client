@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login__left">
-        <img src={logo} alt="" />
+        <img src={logo} alt="" width="200" height="200" />
       </div>
       <div className="login__right">
         {isLoading ? (

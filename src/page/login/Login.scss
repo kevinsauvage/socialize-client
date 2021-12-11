@@ -6,15 +6,15 @@
   z-index: 999999999999;
 
   &__left {
-    width: 50%;
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $darkGrey;
+    background-color: $lavender;
 
     img {
       width: 200px;
-      height: 200px;
+      height: auto;
     }
   }
 
@@ -34,8 +34,8 @@
   }
 
   &__right {
-    width: 50%;
-    background-color: $lightGrey;
+    width: 60%;
+    background-color: $darkGrey;
     display: flex;
     justify-content: center;
     align-items: center;

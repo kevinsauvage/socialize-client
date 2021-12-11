@@ -40,7 +40,7 @@ const Register = () => {
   return (
     <div className="register">
       <div className="register__left">
-        <img src={logo} alt="logo" />
+        <img src={logo} alt="logo" width="200" height="200" />
       </div>
       <div className="register__right">
         {isLoading ? (
