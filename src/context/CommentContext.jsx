@@ -8,12 +8,12 @@ const { Provider } = CommentContext
 
 export const CommentProvider = (props) => {
   const { user, token } = useContext(AuthContext)
-  const getComments = async (id) => {
-    return await fetchUrl(`comment/${id}`, null, token)
+  const getComments = async (id, opt) => {
+    return await fetchUrl(`comment/${id}`, null, token, opt)
   }
 
-  const getSubComments = async (id) => {
-    return await fetchUrl(`subComment/${id}`, {}, token)
+  const getSubComments = async (id, signal) => {
+    return await fetchUrl(`subComment/${id}`, {}, token, signal)
   }
 
   const sendSubComment = async (

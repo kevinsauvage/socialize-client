@@ -25,11 +25,20 @@ export const AuthProvider = (props) => {
   }, [])
 
   const findOne = useCallback(
-    async (id) => {
+    async (id, signal) => {
       try {
-        const response = await fetchUrl(`users/${id}`, { method: 'GET' }, token)
-        const json = await response.json()
-        return json
+        const response = await fetchUrl(
+          `users/${id}`,
+          { method: 'GET' },
+          token,
+          signal,
+        )
+        if (response.ok) {
+          const json = await response.json()
+          return json
+        } else {
+          return response
+        }
       } catch (error) {
         console.log(error)
       }
@@ -167,6 +176,7 @@ export const AuthProvider = (props) => {
       } catch (error) {
         console.log(error)
       } finally {
+        console.log('callback')
         callback && callback()
       }
     },

@@ -1,12 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useState,
-  useEffect,
-} from 'react'
-import { io } from 'socket.io-client'
-import { urls } from '../ApiCall/apiUrl'
+import { createContext, useCallback, useContext, useState } from 'react'
 import { fetchUrl } from './../helpers/fetch'
 import { AuthContext } from './AuthContext'
 
@@ -17,40 +9,33 @@ const { Provider } = PostContext
 export const PostProvider = (props) => {
   const [fetchPostLoader, setFetchPost] = useState(false)
   const { user, token } = useContext(AuthContext)
-  const [posts, setPosts] = useState([])
-  const [userPosts, setUserPosts] = useState([])
-
-  useEffect(() => {
-    const socket = io(urls.baseUrl)
-    socket.on('connnection', () => console.log('connected to server'))
-    socket.on('post-changed', (newPosts) => setPosts(newPosts))
-    socket.on('message', (message) => console.log(message))
-    socket.on('disconnect', () => console.log('Socket disconnecting'))
-  }, [])
+  const [posts, setPosts] = useState(undefined)
+  const [userPosts, setUserPosts] = useState(undefined)
+  const [limit, setLimit] = useState(10)
+  const [userPostLimit, setLUserPostLimit] = useState(10)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchPosts = useCallback(
-    async (limit = 10) => {
-      try {
-        return fetchUrl(`posts/?limit=${limit}&userId=${user._id}`, {}, token)
-          .then((res) => res.json())
-          .then((data) => {
-            setPosts((prev) => [...prev, ...data])
-          })
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setFetchPost(false)
-      }
-    },
-    [user, token],
-  )
+  const fetchPosts = useCallback(async () => {
+    try {
+      setFetchPost(true)
+
+      return fetchUrl(`posts/?limit=${limit}&userId=${user._id}`, {}, token)
+        .then((res) => {
+          setFetchPost(false)
+
+          if (res && res.ok) {
+            return res.json()
+          }
+        })
+        .then((data) => data && setPosts(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [token, user, limit])
 
   const sendPosts = useCallback(
     async (contentText, imageUrl, videoUrl) => {
       try {
-        setFetchPost(true)
-
         const res = await fetchUrl(
           'posts',
           {
@@ -65,67 +50,46 @@ export const PostProvider = (props) => {
           },
           token,
         )
+        if (res.ok) {
+          const post = await res.json()
+          setPosts([post, ...posts])
+          if (userPosts) setUserPosts([post, ...userPosts])
+          return true
+        } else {
+          return res
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [user, token, posts, userPosts],
+  )
 
-        setFetchPost(false)
+  const getUserPost = useCallback(async () => {
+    const res = await fetchUrl(
+      `posts/user/${user?._id}?limit=${userPostLimit}`,
+      {},
+      token,
+    )
+    const data = await res.json()
+    return setUserPosts(data)
+  }, [user, token, userPostLimit])
 
+  const deletePost = useCallback(
+    async (id) => {
+      try {
+        const res = await fetchUrl(`posts/${id}`, { method: 'DELETE' }, token)
+        if (res.ok) {
+          fetchPosts()
+          getUserPost()
+        }
         return res
       } catch (error) {
         console.log(error)
       }
     },
-    [user, token],
+    [token, fetchPosts, getUserPost],
   )
-
-  const getUserPost = useCallback(async () => {
-    const res = await fetchUrl(`posts/user/${user?._id}`, {}, token)
-    const data = await res.json()
-    setUserPosts(data)
-  }, [user, token])
-
-  const deletePost = useCallback(
-    async (id) => {
-      try {
-        return await fetchUrl(`posts/${id}`, { method: 'DELETE' }, token)
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    [token],
-  )
-
-  const findOneAndUpdateFeed = async (id) => {
-    try {
-      const res = await fetchUrl(`posts/${id}`, { method: 'get' }, token)
-      const data = await res.json()
-      const newPosts = posts.map((post) => {
-        if (post._id === id) return data
-        else return post
-      })
-      setPosts(newPosts)
-      console.log(data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const updatePost = async (form, id) => {
-    try {
-      const res = await fetchUrl(
-        `posts/${id}`,
-        {
-          method: 'PUT',
-          body: JSON.stringify(form),
-        },
-        token,
-      )
-      if (res.ok) {
-        findOneAndUpdateFeed(id)
-      }
-      return res
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const handleUnlike = async (postId) => {
     const res = await fetchUrl(
@@ -144,8 +108,10 @@ export const PostProvider = (props) => {
         else return post
       })
 
-      setPosts(newPost)
+      return setPosts(newPost)
     }
+
+    return res
   }
 
   const handleLike = async (postId) => {
@@ -165,9 +131,13 @@ export const PostProvider = (props) => {
         else return post
       })
 
-      setPosts(newPost)
+      return setPosts(newPost)
     }
+    return res
   }
+
+  const findOne = async (postId) =>
+    await fetchUrl(`posts/${postId}`, { method: 'GET' }, token)
 
   const value = {
     sendPosts,
@@ -175,11 +145,13 @@ export const PostProvider = (props) => {
     getUserPost,
     deletePost,
     fetchPostLoader,
-    updatePost,
     posts,
     userPosts,
     handleLike,
     handleUnlike,
+    setLimit,
+    findOne,
+    setLUserPostLimit,
   }
 
   return <Provider value={value}>{props.children}</Provider>

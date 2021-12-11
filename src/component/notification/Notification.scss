@@ -1,5 +1,5 @@
-@import "../../scss/mixins.scss";
-@import "../../scss/variable.scss";
+@import '../../scss/mixins.scss';
+@import '../../scss/variable.scss';
 
 .notification {
   display: flex;
@@ -15,10 +15,11 @@
   &--consulted {
     background-color: $darkGrey;
     border-left: 2px solid transparent;
-
   }
 
   &__details {
+    width: 100%;
+
     p {
       font-size: 14px;
       color: $white;
@@ -28,15 +29,15 @@
       font-size: 12px;
       color: $blue;
     }
-
   }
 
   &__btn {
     margin: 0 8px;
-    font-size: 20px;
-    color: $blue;
     cursor: pointer;
+
+    a {
+      font-size: 20px;
+      color: $blue;
+    }
   }
-
-
 }

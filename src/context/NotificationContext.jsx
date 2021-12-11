@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { fetchUrl } from '../helpers/fetch'
 import { AuthContext } from './AuthContext'
 
@@ -22,13 +28,19 @@ export const NotificationProvider = (props) => {
         token,
       )
       const data = await res.json()
-      console.log(data)
       setCount(data.count)
       setUserNotification(data.data)
       return
     },
     [user, token],
   )
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getUserNotification(5)
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [getUserNotification])
 
   const updateNotification = async (id, body) => {
     return await fetchUrl(

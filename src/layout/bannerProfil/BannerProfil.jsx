@@ -58,6 +58,8 @@ const BannerProfil = ({ user }) => {
     const file = e.target.files[0]
     const dataCloudinary = await uploadImage(file, user._id)
 
+    console.log(dataCloudinary)
+
     const response = await updateUser({
       avatar: dataCloudinary.eager[1].secure_url,
     })

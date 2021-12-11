@@ -32,7 +32,6 @@ const NotificationDropDown = ({ limit, setLimit }) => {
     handleChangeNotiStatus(limit)
   }, [handleChangeNotiStatus, userNotification, limit])
 
-  console.log(count, limit)
 
   return (
     <div className="NotificationDropDown">

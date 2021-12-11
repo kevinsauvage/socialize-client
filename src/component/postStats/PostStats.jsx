@@ -33,9 +33,6 @@ const PostStats = ({ totalComment, likes, postId }) => {
         )}
         <p className="postStats__value">{likes}</p>
       </li>
-      <li className="postStats__item postStats__item--share">
-        <button>Share</button>
-      </li>
     </ul>
   )
 }

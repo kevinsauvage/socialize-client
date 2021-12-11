@@ -38,7 +38,7 @@ const Feed = ({ posts }) => {
     if (image) {
       const data = await uploadImage(image)
       const res = await sendPosts(contentText, data.eager?.[0]?.secure_url)
-      if (res.ok) {
+      if (res) {
         setContentText('')
         setImagePreview('')
         setImage('')
@@ -48,14 +48,14 @@ const Feed = ({ posts }) => {
       console.log(data)
       const res = await sendPosts(contentText, null, data.secure_url)
 
-      if (res.ok) {
+      if (res) {
         setContentText('')
         setImagePreview('')
         setVideo('')
       }
     } else {
       const res = await sendPosts(contentText)
-      if (res.ok) {
+      if (res) {
         setContentText('')
         setImagePreview('')
       }
@@ -92,17 +92,19 @@ const Feed = ({ posts }) => {
         setContentText={setContentText}
       />
       <div>
-        {fetchPostLoader && (
-          <Loader style={{ margin: '100px 0', transform: 'scale(0.4)' }} />
-        )}
-        {posts?.length > 0 ? (
+        {!posts && !fetchPostLoader ? (
+          <Loader style={{ paddingTop: '100px' }} />
+        ) : posts?.length === 0 ? (
+          <p className="feed__noPost">No post to show</p>
+        ) : (
           posts?.map((post, i) => {
             return <Post key={post._id + i} post={post} />
           })
-        ) : (
-          <Loader style={{ margin: '100px 0' }} />
         )}
       </div>
+      {fetchPostLoader && (
+        <Loader style={{ margin: '100px 0', transform: 'scale(0.4)' }} />
+      )}
     </div>
   )
 }

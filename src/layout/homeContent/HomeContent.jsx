@@ -2,7 +2,7 @@ import './HomeContent.scss'
 import Shortcuts from '../../component/shortcuts/Shortcuts'
 import EditInfo from './../../component/editInfo/EditInfo'
 import Feed from '../feed/Feed'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { PostContext } from './../../context/PostContext'
 import ProfilIntro from '../../component/profilIntro/ProfilIntro'
 import { AuthContext } from '../../context/AuthContext'
@@ -10,17 +10,15 @@ import useIsBottom from '../../hooks/useIsBottom'
 
 const HomeContent = () => {
   const { user } = useContext(AuthContext)
-  const { fetchPosts, posts } = useContext(PostContext)
-  const [limit, setLimit] = useState(10)
-  const containerRef = useRef()
+  const { fetchPosts, posts, setLimit } = useContext(PostContext)
   const bottom = useIsBottom()
 
-  useEffect(() => user && fetchPosts(limit), [fetchPosts, user, limit])
+  useEffect(() => user && fetchPosts(), [fetchPosts, user])
 
-  useEffect(() => bottom && setLimit((prev) => prev + 10), [bottom])
+  useEffect(() => bottom && setLimit((prev) => prev + 10), [bottom, setLimit])
 
   return (
-    <div className="homeContent" ref={containerRef}>
+    <div className="homeContent">
       <aside>
         <EditInfo />
         <Shortcuts />

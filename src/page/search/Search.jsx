@@ -6,7 +6,6 @@ import EditInfo from './../../component/editInfo/EditInfo'
 import Shortcuts from '../../component/shortcuts/Shortcuts'
 import ProfilIntro from '../../component/profilIntro/ProfilIntro'
 import FriendCard from '../../component/friendsCards/FriendCard'
-import SidebarLeft from '../../layout/sidebarLeft/SidebarLeft'
 import SidebarRight from '../../layout/sidebarRight/SidebarRight'
 import BlocTitle from '../../component/blocTitle/BlocTitle'
 import Header from './../../layout/header/Header'
@@ -17,9 +16,11 @@ const Search = () => {
   const location = useLocation()
   const [users, setUsers] = useState([])
 
+  useEffect(() => window.scrollTo(0, 0), [])
+
   const handleSearch = useCallback(() => {
     setUsers([])
-    searchUsers(location.state)
+    return searchUsers(location.state)
       .then((res) => res.json())
       .then((users) => setUsers(users))
   }, [location, searchUsers])
@@ -29,7 +30,6 @@ const Search = () => {
   return (
     <div className="Search">
       <Header />
-      <SidebarLeft />
       <aside>
         <EditInfo />
         <Shortcuts />
@@ -38,11 +38,14 @@ const Search = () => {
         <ul className="Search__list">
           <BlocTitle text="Results" />
           {users.length > 0 &&
-            users?.map((user, i) => (
-              <li key={i}>
-                <FriendCard friend={user} callback={handleSearch} />
-              </li>
-            ))}
+            users?.map((us, i) => {
+              if (user._id === us._id) return null
+              return (
+                <li key={i}>
+                  <FriendCard friend={us} callback={handleSearch} />
+                </li>
+              )
+            })}
         </ul>
       </section>
       <aside>

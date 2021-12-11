@@ -6,19 +6,22 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom'
+
 import { AuthProvider } from '../../context/AuthContext'
 import { PostProvider } from '../../context/PostContext'
-import PageLoader from './../../component/pageLoader/PageLoader'
 import { getValue } from '../../helpers/localStorage'
-import PublicUser from '../../page/publicUser/PublicUser'
 import { CommentProvider } from '../../context/CommentContext'
 import { NotificationProvider } from '../../context/NotificationContext'
+
+import PageLoader from './../../component/pageLoader/PageLoader'
 
 const Search = lazy(() => import('../../page/search/Search'))
 const ProfilPage = lazy(() => import('./../../page/profilPage/ProfilPage'))
 const Register = lazy(() => import('../../page/register/Register'))
 const Login = lazy(() => import('../../page/login/Login'))
 const Home = lazy(() => import('../../page/home/Home'))
+const PostShow = lazy(() => import('../../page/postShow/PostShow'))
+const PublicUser = lazy(() => import('../../page/publicUser/PublicUser'))
 
 const App = () => {
   return (
@@ -37,6 +40,7 @@ const App = () => {
                     <Route path="/" exact component={Home} />
                     <Route path="/profil" component={ProfilPage} />
                     <Route path="/search" component={Search} />
+                    <Route path="/posts/:id" component={PostShow} />
                   </Switch>
                 </Suspense>
               </Router>

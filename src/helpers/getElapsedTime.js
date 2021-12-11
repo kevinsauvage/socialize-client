@@ -1,18 +1,25 @@
-export const getElapsedTime = (timestamp) => {
-  const startTime = new Date(timestamp)
-  const endTime = Date.now()
-  const totalSeconds = (endTime - startTime) / 1000
-
-  const hours = Math.floor(totalSeconds / 3600)
-  const minutes = Math.floor((totalSeconds % 3600) / 60)
-  const seconds = Math.floor((totalSeconds % 3600) % 60)
-
-  if (hours) {
-    return `${hours} hours ${minutes} minute and ${seconds} seconde`
-  }
-  if (minutes) {
-    return `${minutes} minute and ${seconds} seconde`
-  } else {
-    return `${seconds} seconde`
-  }
+export const getElapsedTime = (date) => {
+  var seconds = Math.floor((new Date() - date) / 1000)
+  if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24 * 365.25)) + ' years ago'
+  else if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 1)
+    return '1 year ago'
+  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24 * 30.4)) + ' months ago'
+  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 1)
+    return '1 month ago'
+  else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24 * 7)) + ' weeks ago'
+  else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 1) return '1 week ago'
+  else if (Math.round(seconds / (60 * 60 * 24)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24)) + ' days ago'
+  else if (Math.round(seconds / (60 * 60 * 24)) >= 1) return '1 day ago'
+  else if (Math.round(seconds / (60 * 60)) >= 2)
+    return Math.round(seconds / (60 * 60)) + ' hours ago'
+  else if (Math.round(seconds / (60 * 60)) >= 1) return '1 hour ago'
+  else if (Math.round(seconds / 60) >= 2)
+    return Math.round(seconds / 60) + ' minutes ago'
+  else if (Math.round(seconds / 60) >= 1) return '1 minute ago'
+  else if (seconds >= 2) return seconds + ' seconds ago'
+  else return seconds + '1 second ago'
 }

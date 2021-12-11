@@ -5,6 +5,7 @@ import { PostContext } from './../../context/PostContext'
 import ProfilPageWrapper from '../../layout/profilPageWrapper/ProfilPageWrapper'
 import Loader from '../../component/loader/Loader'
 import { AuthContext } from '../../context/AuthContext'
+import useIsBottom from '../../hooks/useIsBottom'
 
 const PhotoProfil = lazy(() => import('./photoProfil/PhotoProfil'))
 const EditProfilInfo = lazy(() => import('./editProfilInfo/EditProfilInfo'))
@@ -14,12 +15,19 @@ const AboutProfil = lazy(() => import('./aboutProfil/AboutProfil'))
 const Feed = lazy(() => import('../../layout/feed/Feed'))
 
 const ProfilPage = () => {
-  const { getUserPost, userPosts } = useContext(PostContext)
+  const { getUserPost, userPosts, setLUserPostLimit } = useContext(PostContext)
   const { user } = useContext(AuthContext)
+
+  const bottom = useIsBottom()
 
   useEffect(() => window.scrollTo(0, 0), [])
 
   useEffect(() => user && getUserPost(), [getUserPost, user])
+
+  useEffect(() => bottom && setLUserPostLimit((prev) => prev + 10), [
+    bottom,
+    setLUserPostLimit,
+  ])
 
   return (
     <section className="profilPage">

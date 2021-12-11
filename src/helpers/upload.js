@@ -33,3 +33,8 @@ export const uploadVideo = async (file) => {
 
   return dataCloudinary
 }
+
+export const imageUrl = {
+  avatar:
+    'https://res.cloudinary.com/kevincloudname/image/upload/c_scale,q_auto,w_220/Social-media/',
+}

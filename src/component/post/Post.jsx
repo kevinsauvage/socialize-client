@@ -11,38 +11,38 @@ import { AuthContext } from './../../context/AuthContext'
 import ReactPlayer from 'react-player'
 import { Link } from 'react-router-dom'
 import { CommentContext } from '../../context/CommentContext'
+import { imageUrl } from '../../helpers/upload'
 
 const Post = ({ post, newPostImg }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
-  const [author, setAuthor] = useState(undefined)
   const { deletePost } = useContext(PostContext)
   const { commentPost } = useContext(CommentContext)
   const { getComments } = useContext(CommentContext)
-  const { user, findOne } = useContext(AuthContext)
-
-  useEffect(() => {
-    findOne(post.authorId).then((data) => setAuthor(data))
-  }, [findOne, post.authorId])
+  const { user } = useContext(AuthContext)
 
   const handleGetComment = useCallback(
-    async (id) => {
-      const res = await getComments(id)
+    async (id, opt) => {
+      const res = await getComments(id, opt)
       const data = await res.json()
-      setComments(data)
+      return setComments(data)
     },
     [getComments],
   )
 
-  useEffect(() => handleGetComment(post._id), [post._id, handleGetComment])
+  useEffect(() => {
+    const abortCtrl = new AbortController()
+    handleGetComment(post._id, abortCtrl.signal)
+    return () => abortCtrl.abort()
+  }, [post._id, handleGetComment])
 
   const handleSubmit = async () => {
     const res = await commentPost(comment, post._id, post.authorId)
     if (res.ok) {
       setComment('')
-      handleGetComment(post._id)
+      return handleGetComment(post._id)
     } else {
-      window.alert('Something went wrong, try again')
+      return window.alert('Something went wrong, try again')
     }
   }
 
@@ -53,7 +53,7 @@ const Post = ({ post, newPostImg }) => {
       )}
 
       <header className="post__header">
-        <Avatar avatarImg={author?.avatar} />
+        <Avatar avatarImg={`${imageUrl.avatar}${post.authorId}.jpg`} />
         <div className="post__detail">
           <Link to={`/user/${post?.authorId}`}>
             <h2 className="post__username">{post?.authorName}</h2>

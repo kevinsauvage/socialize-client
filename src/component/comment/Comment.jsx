@@ -5,33 +5,28 @@ import { FaComments } from 'react-icons/fa'
 import Avatar from '../avatar/Avatar'
 import AddComment from '../addComment/AddComment'
 import { CommentContext } from '../../context/CommentContext'
-import { AuthContext } from '../../context/AuthContext'
+import { imageUrl } from '../../helpers/upload'
 
 const Comment = ({ comment, post }) => {
   const [addComment, setAddComment] = useState(false)
   const [subComment, setSubComment] = useState('')
   const [subComments, setSubComments] = useState([])
-  const [author, setAuthor] = useState(undefined)
   const { getSubComments, sendSubComment } = useContext(CommentContext)
-  const { findOne } = useContext(AuthContext)
 
   const handleGetSubcomment = useCallback(
-    (id) => {
-      getSubComments(id)
+    (id, signal) => {
+      getSubComments(id, signal)
         .then((res) => res.json())
         .then((data) => setSubComments(data))
     },
     [getSubComments],
   )
 
-  useEffect(() => handleGetSubcomment(comment._id), [
-    handleGetSubcomment,
-    comment,
-  ])
-
   useEffect(() => {
-    comment && findOne(comment?.authorId).then((data) => setAuthor(data))
-  }, [findOne, comment])
+    const abortCtrl = new AbortController()
+    handleGetSubcomment(comment._id, abortCtrl.signal)
+    return () => abortCtrl.abort()
+  }, [handleGetSubcomment, comment])
 
   const handleSubmit = async () => {
     const res = await sendSubComment(
@@ -40,13 +35,10 @@ const Comment = ({ comment, post }) => {
       post.authorId,
       post._id,
     )
-    const data = await res.json()
-    console.log(data)
-    console.log(res)
     if (res.ok) {
       handleGetSubcomment(comment._id)
       setSubComment('')
-    }
+    } else window.alert('Oups, something went wrong, try again.')
   }
 
   const handleChange = (e) => setSubComment(e.target.value)
@@ -54,7 +46,8 @@ const Comment = ({ comment, post }) => {
   return (
     <div className="comment">
       <div className="comment__container">
-        <Avatar avatarImg={author?.avatar} />
+        <Avatar avatarImg={`${imageUrl.avatar}${comment.authorId}.jpg`} />
+
         <div className="comment__content">
           <div className="comment__wrapper">
             <div className="comment__detail">

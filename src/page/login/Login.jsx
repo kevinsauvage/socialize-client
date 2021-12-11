@@ -26,41 +26,36 @@ const Login = () => {
         <img src={logo} alt="" />
       </div>
       <div className="login__right">
-        <div className="login__form">
-          <h1 className="login__title">Login</h1>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              <p className="login__subtitle">
-                Not a member yet ? <Link to="/register">Sign up here</Link>{' '}
-              </p>
-              <form action="submit" onSubmit={handleSubmit}>
-                <input
-                  type="email"
-                  placeholder="Username"
-                  name="email"
-                  onChange={handleChange}
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                />
-                <Link
-                  className="login__password-recovery"
-                  to="password-recovery"
-                >
-                  Forgot password?
-                </Link>
-                <div className="login__btn">
-                  <button>Login</button>
-                </div>
-              </form>
-            </>
-          )}
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="login__form">
+            <h1 className="login__title">Login</h1>
+            <p className="login__subtitle">
+              Not a member yet ? <Link to="/register">Sign up here</Link>{' '}
+            </p>
+            <form action="submit" onSubmit={handleSubmit}>
+              <input
+                type="email"
+                placeholder="Username"
+                name="email"
+                onChange={handleChange}
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                onChange={handleChange}
+              />
+              <Link className="login__password-recovery" to="password-recovery">
+                Forgot password?
+              </Link>
+              <div className="login__btn">
+                <button>Login</button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   )

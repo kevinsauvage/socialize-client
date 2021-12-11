@@ -1,6 +1,7 @@
 import './Notification.scss'
 import { FiExternalLink } from 'react-icons/fi'
 import { getElapsedTime } from '../../helpers/getElapsedTime'
+import { Link } from 'react-router-dom'
 
 const Notification = ({ item }) => {
   return (
@@ -12,9 +13,13 @@ const Notification = ({ item }) => {
           {item.authorName} {item.type === 'Comment' && 'commented'}
           {item.type === 'Like' && 'liked'} your post
         </p>
-        <i>{getElapsedTime(item.createdAt)} ago</i>
+        <i>{getElapsedTime(new Date(item.createdAt))}</i>
       </div>
-      <FiExternalLink className="notification__btn" />
+      <div className="notification__btn">
+        <Link className="notification__btn" to={`/posts/${item.postId}`}>
+          <FiExternalLink />
+        </Link>
+      </div>
     </div>
   )
 }
