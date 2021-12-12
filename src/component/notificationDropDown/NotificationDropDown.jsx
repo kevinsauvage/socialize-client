@@ -1,52 +1,56 @@
 import './NotificationDropDown.scss'
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import Notification from '../notification/Notification'
 import { NotificationContext } from '../../context/NotificationContext'
+import { useClickOutside } from '../../hooks/useClickOutside'
 
-const NotificationDropDown = ({ limit, setLimit }) => {
+const NotificationDropDown = ({ handleClose }) => {
   const {
     userNotification,
     updateNotification,
     getUserNotification,
     count,
+    limit,
+    setLimit,
   } = useContext(NotificationContext)
 
   const handleLoadMore = () => {
-    limit && setLimit(limit + 5)
+    setLimit(limit + 5)
+    getUserNotification()
   }
 
-  const handleChangeNotiStatus = useCallback(
-    async (limit) => {
-      await userNotification.forEach((noti) => {
-        if (noti.consulted === false) {
-          updateNotification(noti._id, { consulted: true })
-          getUserNotification(limit)
-        }
-      })
-    },
-    [updateNotification, userNotification, getUserNotification],
-  )
+  const dropDown = useRef(null)
+
+  const handleChangeNotiStatus = useCallback(async () => {
+    await userNotification.forEach((noti) => {
+      if (noti && noti.consulted === false) {
+        updateNotification(noti._id, { consulted: true })
+        getUserNotification()
+      }
+    })
+  }, [updateNotification, userNotification, getUserNotification])
 
   useEffect(() => {
     if (!userNotification) return
-    handleChangeNotiStatus(limit)
-  }, [handleChangeNotiStatus, userNotification, limit])
+    handleChangeNotiStatus()
+  }, [handleChangeNotiStatus, userNotification])
 
+  useClickOutside(dropDown, handleClose)
 
   return (
-    <div className="NotificationDropDown">
+    <div className="NotificationDropDown" ref={dropDown}>
       <ul className="NotificationDropDown__list">
         {userNotification.map((noti) => (
           <Notification key={noti._id} item={noti} />
         ))}
-        {count > limit && (
-          <div
-            className="NotificationDropDown__loadMore"
-            onClick={handleLoadMore}
-          >
-            <p>Load More</p>
-          </div>
-        )}
+        <div
+          className={`NotificationDropDown__loadMore ${
+            count < limit && 'NotificationDropDown__loadMore--inactive'
+          }`}
+          onClick={handleLoadMore}
+        >
+          <p>Load More</p>
+        </div>
       </ul>
     </div>
   )

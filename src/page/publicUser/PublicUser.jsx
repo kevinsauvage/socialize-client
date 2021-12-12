@@ -25,6 +25,7 @@ const PublicUser = () => {
     <div className="PublicUser">
       <Header />
       <BannerProfil user={user} />
+      <div className="PublicUser__band"></div>
       <PageMain>
         <aside></aside>
         <section>

@@ -23,7 +23,6 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext)
   const [displayNotification, setDisplayNotification] = useState(false)
   const [totalNotif, setTotalNotif] = useState(0)
-  const [limit, setLimit] = useState(5)
 
   const submitCallback = (data) => {
     history.push({
@@ -39,9 +38,7 @@ const Header = () => {
     submitCallback,
   )
 
-  useEffect(() => {
-    if (user && limit) getUserNotification(limit)
-  }, [getUserNotification, user, limit])
+  useEffect(() => user && getUserNotification(), [getUserNotification, user])
 
   useEffect(() => {
     if (!userNotification || userNotification.length === 0) return
@@ -54,6 +51,8 @@ const Header = () => {
     })
     setTotalNotif(total)
   }, [userNotification])
+
+  const handleClose = () => setDisplayNotification(false)
 
   return (
     <header className="header">
@@ -92,7 +91,7 @@ const Header = () => {
                 <RiNotification2Line size={22} />
               </div>
               {displayNotification && (
-                <NotificationDropDown setLimit={setLimit} limit={limit} />
+                <NotificationDropDown handleClose={handleClose} />
               )}
             </li>
             <li className="header__icon">

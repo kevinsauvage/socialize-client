@@ -16,29 +16,25 @@ export const NotificationProvider = (props) => {
   const { user, token } = useContext(AuthContext)
   const [userNotification, setUserNotification] = useState([])
   const [count, setCount] = useState(0)
+  const [limit, setLimit] = useState(5)
 
-  const getUserNotification = useCallback(
-    async (limit) => {
-      if (!token) return
-      const res = await fetchUrl(
-        `notification/${user._id}?limit=${limit}`,
-        {
-          method: 'Get',
-        },
-        token,
-      )
-      const data = await res.json()
-      setCount(data.count)
-      setUserNotification(data.data)
-      return
-    },
-    [user, token],
-  )
+  const getUserNotification = useCallback(async () => {
+    if (!token) return
+    const res = await fetchUrl(
+      `notification/${user._id}?limit=${limit}`,
+      {
+        method: 'Get',
+      },
+      token,
+    )
+    const data = await res.json()
+    data.count && setCount(data.count)
+    data.data && setUserNotification(data.data)
+    return
+  }, [user, token, limit])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      getUserNotification(5)
-    }, 10000)
+    const interval = setInterval(() => getUserNotification(), 10000)
     return () => clearInterval(interval)
   }, [getUserNotification])
 
@@ -58,6 +54,8 @@ export const NotificationProvider = (props) => {
     getUserNotification,
     userNotification,
     count,
+    limit,
+    setLimit,
   }
 
   return <Provider value={value}>{props.children}</Provider>

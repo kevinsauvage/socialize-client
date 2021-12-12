@@ -10,11 +10,11 @@
   background-position: center center;
 
   @include respond(tablet) {
-    height: 450px;
+    height: 350px;
   }
 
   @include respond(mobile) {
-    height: 500px;
+    height: 300px;
   }
 
   &__container {
