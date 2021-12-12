@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import {
   RiDiscussLine,
   RiHome2Line,
+  RiLogoutCircleRLine,
   RiNotification2Line,
   RiUser3Line,
 } from 'react-icons/ri'
@@ -19,7 +20,7 @@ const Header = () => {
   const { getUserNotification, userNotification } = useContext(
     NotificationContext,
   )
-  const { user } = useContext(AuthContext)
+  const { user, logout } = useContext(AuthContext)
   const [displayNotification, setDisplayNotification] = useState(false)
   const [totalNotif, setTotalNotif] = useState(0)
   const [limit, setLimit] = useState(5)
@@ -104,6 +105,11 @@ const Header = () => {
                 <RiUser3Line size={22} />
               </Link>
             </li>
+            {user && (
+              <li className="header__icon" onClick={() => logout()}>
+                <RiLogoutCircleRLine size={22} />
+              </li>
+            )}
           </ul>
         </nav>
       </div>
