@@ -1,4 +1,5 @@
 @import "./scss/variable.scss";
+@import "./scss/mixins.scss";
 
 body {
   margin: 0;
@@ -34,4 +35,24 @@ a {
   z-index: -1;
   opacity: 0;
   left: 0;
+}
+
+.error-message {
+  color: red;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.hideMobile {
+  @include respond(tablet) {
+    display: none;
+  }
+}
+
+.onlyMobile {
+  display: none;
+
+  @include respond(tablet) {
+    display: unset;
+  }
 }

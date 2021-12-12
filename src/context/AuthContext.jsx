@@ -12,6 +12,7 @@ const { Provider } = AuthContext
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(getValue('user'))
   const [token, setToken] = useState(getValue('token'))
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const socket = io(urls.baseUrl)
@@ -47,36 +48,39 @@ export const AuthProvider = (props) => {
   )
 
   const login = useCallback(async (formData) => {
-    try {
-      const response = await fetchUrl(urls.login, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-      })
-      if (response.ok) {
-        const data = await response.json()
-        console.log(data)
-        setValue('user', JSON.stringify(data))
-        setValue('token', JSON.stringify(data.token))
-        setToken(data.token)
-        setUser(data)
-        window.location.pathname = '/'
-        return
-      } else {
-        return response
-      }
-    } catch (error) {
-      console.log(error)
+    const response = await fetchUrl(urls.login, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    })
+    if (response.ok) {
+      const data = await response.json()
+      console.log(data)
+      setValue('user', JSON.stringify(data))
+      setValue('token', JSON.stringify(data.token))
+      setToken(data.token)
+      setUser(data)
+      window.location.pathname = '/'
+      return
+    } else {
+      const error = await response.json()
+      setError(error.message)
+      return error.message
     }
   }, [])
 
   const register = useCallback(async (formData) => {
-    try {
-      return await fetchUrl(urls.register, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-      })
-    } catch (e) {
-      console.log(e)
+    const res = await fetchUrl(urls.register, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    })
+
+    if (res.ok) {
+      window.location.pathname = '/login'
+      return
+    } else {
+      const error = await res.json()
+      setError(error.message)
+      return
     }
   }, [])
 
@@ -272,6 +276,8 @@ export const AuthProvider = (props) => {
     handleUnfriend,
     findUsers,
     token,
+    error,
+    setError,
   }
 
   return <Provider value={value}>{props.children}</Provider>

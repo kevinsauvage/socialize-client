@@ -9,7 +9,7 @@ import Header from './../header/Header'
 
 const ProfilPageWrapper = ({ children, user }) => {
   return (
-    <>
+    <div className="ProfilPageWrapper">
       <Header />
       <BannerProfil user={user} />
       <NavProfilPage user={user} />
@@ -23,7 +23,7 @@ const ProfilPageWrapper = ({ children, user }) => {
           <ProfilIntro user={user} />
         </aside>
       </PageMain>
-    </>
+    </div>
   )
 }
 

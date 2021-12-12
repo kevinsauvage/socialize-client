@@ -1,3 +1,6 @@
+@import '../../scss/variable.scss';
+@import '../../scss/mixins.scss';
+
 .pageMain {
   max-width: 1200px;
   margin: 0 auto;
@@ -8,4 +11,24 @@
   grid-template-columns: 1fr 2fr 1fr;
   grid-gap: 1rem;
   gap: 1rem;
+
+  @include respond(laptop) {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
+  @include respond(tablet) {
+    grid-template-columns: 1fr;
+    margin-left: .5rem;
+    margin-top: 1.5rem;
+    margin-right: .5rem;
+    margin-bottom: 60px;
+    padding: 0;
+
+
+
+    aside {
+      display: none;
+    }
+  }
 }

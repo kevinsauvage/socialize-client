@@ -29,10 +29,18 @@ const EditProfilInfo = () => {
   return (
     <div className="editProfilInfo">
       <Suspense fallback={<Loader style={{ margin: '100px 0' }} />}>
-        {displayElement === 'basic_info' && <EditBasicInfo />}
-        {displayElement === 'change_password' && <EditPassword />}
-        {displayElement === 'my_interest' && <EditInterest />}
-        {displayElement === 'work_and_education' && <EditWorkEducation />}
+        <div className="hideMobile">
+          {displayElement === 'basic_info' && <EditBasicInfo />}
+          {displayElement === 'change_password' && <EditPassword />}
+          {displayElement === 'my_interest' && <EditInterest />}
+          {displayElement === 'work_and_education' && <EditWorkEducation />}
+        </div>
+        <div className="onlyMobile">
+          <EditBasicInfo />
+          <EditPassword />
+          <EditInterest />
+          <EditWorkEducation />
+        </div>
       </Suspense>
     </div>
   )

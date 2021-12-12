@@ -8,28 +8,47 @@ import FormBtns from '../formBtns/FormBtns'
 import { AuthContext } from '../../context/AuthContext'
 import { useEffect } from 'react'
 import ErrorMessage from './../errorMessage/ErrorMessage'
+import ConfirmationMessage from '../confirmationMessage/ConfirmationMessage'
+import { passwordValidation } from '../../helpers/passwordValidation'
+import Loader from '../loader/Loader'
 
 const EditPassword = () => {
   const [error, setError] = useState('')
+  const [confirmation, setConfirmation] = useState('')
+  const [loading, setLoading] = useState(false)
   const { updateUserPassword } = useContext(AuthContext)
 
   const submitCallback = useCallback(
-    (formData) => {
+    async (formData) => {
       if (
         !formData.newPassword ||
         !formData.confirmNewPassword ||
         !formData.oldPassword
       ) {
-        setError('Missing field')
-        return
+        return setError('Missing field')
       }
 
       if (formData.newPassword !== formData.confirmNewPassword) {
-        setError('Passwords are diferent')
+        return setError('Passwords are diferent')
       }
-      updateUserPassword(formData)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
+
+      if (passwordValidation(formData.newPassword)) {
+        setLoading(true)
+        const res = await updateUserPassword(formData)
+
+        if (!res.ok) {
+          const errorRes = await res.json()
+          setLoading(false)
+
+          return setError(errorRes.message)
+        } else {
+          setLoading(false)
+
+          return setConfirmation('Password correctly changed.')
+        }
+      }
+
+      return
     },
     [updateUserPassword],
   )
@@ -44,11 +63,17 @@ const EditPassword = () => {
   )
 
   useEffect(() => {
+    setConfirmation('')
     setError('')
-  }, [formData])
+  }, [formData]) // reset error/confirmaiton message when input change
 
   return (
     <div className="EditPassword">
+      {loading && (
+        <div className="EditPassword__loader">
+          <Loader />
+        </div>
+      )}
       <BlocTitle text="Change Password" />
       <form action="submit" onSubmit={handleSubmit}>
         <Input
@@ -73,6 +98,7 @@ const EditPassword = () => {
           onChange={handleInputChange}
         />
         <ErrorMessage text={error ? error : ''} />
+        <ConfirmationMessage text={confirmation ? confirmation : ''} />
         <FormBtns handleCancel={handleReset} handleSubmit={handleSubmit} />
       </form>
     </div>

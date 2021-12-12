@@ -1,14 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import EditInfo from '../../component/editInfo/EditInfo'
 import Loader from '../../component/loader/Loader'
 import Post from '../../component/post/Post'
-import ProfilIntro from '../../component/profilIntro/ProfilIntro'
-import Shortcuts from '../../component/shortcuts/Shortcuts'
 import { AuthContext } from '../../context/AuthContext'
 import { PostContext } from '../../context/PostContext'
-import Header from '../../layout/header/Header'
-import './PostShow.scss'
+import ProfilPageWrapper from '../../layout/profilPageWrapper/ProfilPageWrapper'
 
 const PostShow = () => {
   const { user } = useContext(AuthContext)
@@ -27,15 +23,9 @@ const PostShow = () => {
 
   return (
     <div className="PostShow">
-      <Header />
-      <aside>
-        <EditInfo />
-        <Shortcuts />
-      </aside>
-      <section>{post ? <Post post={post} /> : <Loader />}</section>
-      <aside>
-        <ProfilIntro user={user} />
-      </aside>
+      <ProfilPageWrapper user={user}>
+        <section>{post ? <Post post={post} /> : <Loader />}</section>
+      </ProfilPageWrapper>
     </div>
   )
 }

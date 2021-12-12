@@ -18,11 +18,19 @@
     margin-top: 3rem;
     border: 1px solid $lightGrey;
     height: fit-content;
+
+    @include respond(mobile) {
+      flex-direction: column;
+    }
   }
 
   &__list {
     background-color: $mediumLightGrey;
     width: 40%;
+
+    @include respond(mobile) {
+      width: 100%;
+    }
   }
 
   &__listItem {
@@ -45,6 +53,10 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     width: 60%;
+
+    @include respond(mobile) {
+      width: 100%;
+    }
 
     &::-webkit-scrollbar {
       width: 3px;

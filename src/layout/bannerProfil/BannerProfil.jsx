@@ -1,7 +1,6 @@
 import './BannerProfil.scss'
 import { AiOutlineFileImage } from 'react-icons/ai'
-import { useCallback, useEffect, useState } from 'react'
-import { useMousePosition } from './../../hooks/useMousePosition'
+import { useState } from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import Loader from '../../component/loader/Loader'
@@ -12,38 +11,9 @@ import { uploadImage } from '../../helpers/upload'
 
 const BannerProfil = ({ user }) => {
   const [imagePreview, setImagePreview] = useState('')
-  const [bgYposition, setBgYposition] = useState(0)
-  const [pressPosition, setPressPosition] = useState()
   const [avatarLoading, setAvatarLoading] = useState(false)
-  const mousePosition = useMousePosition()
   const [currentUser] = useState(getValue('user'))
   const { updateUser } = useContext(AuthContext)
-
-  useEffect(() => user?.bgProfilPosition && setBgYposition(), [user])
-
-  const updateBgPosition = useCallback(
-    (releasePosition) => {
-      if (pressPosition > releasePosition) {
-        const plus = (pressPosition - releasePosition) / 3
-        setBgYposition(bgYposition + plus)
-      }
-      if (pressPosition < releasePosition) {
-        const minus = (releasePosition - pressPosition) / 3
-        setBgYposition(bgYposition - minus)
-      }
-    },
-    [pressPosition, bgYposition],
-  )
-
-  useEffect(() => {
-    if (!imagePreview) return
-    if (bgYposition < 0) setBgYposition(0)
-    if (bgYposition > 100) setBgYposition(100)
-  }, [bgYposition, imagePreview])
-
-  const handlePress = () => setPressPosition(mousePosition.y)
-
-  const handleRelease = () => updateBgPosition(mousePosition.y)
 
   const onImageChange = (e) => {
     const img = e.target.files[0]
@@ -57,52 +27,35 @@ const BannerProfil = ({ user }) => {
     setAvatarLoading(true)
     const file = e.target.files[0]
     const dataCloudinary = await uploadImage(file, user._id)
-
-    console.log(dataCloudinary)
-
     const response = await updateUser({
       avatar: dataCloudinary.eager[1].secure_url,
     })
-
-    if (response.ok) setAvatarLoading(false)
-
+    setAvatarLoading(false)
     const json = await response.json()
     console.log(json)
   }
 
   const handleSubmitBg = async () => {
     const data = await uploadImage(imagePreview.file)
-    console.log(data)
-
     const response = await updateUser({
       backgroundImg: data.eager[2].secure_url,
-      bgProfilPosition: bgYposition,
     })
     if (response.ok) setImagePreview(undefined)
     const json = await response.json()
     console.log(json)
   }
 
-  const handleCancel = () => {
-    setBgYposition(user.bgProfilPosition)
-    setImagePreview(undefined)
-  }
+  const handleCancel = () => setImagePreview(undefined)
 
   const handleClickAvatar = () => document.querySelector('#avatarInput').click()
+
   return (
     <div
       className="bannerProfil"
-      onTouchStart={imagePreview ? handlePress : null}
-      onTouchEnd={imagePreview ? handleRelease : null}
-      onMouseDown={imagePreview ? handlePress : null}
-      onMouseUp={imagePreview ? handleRelease : null}
       style={{
         backgroundImage: imagePreview?.img
           ? 'url(' + imagePreview?.img + ')'
           : 'url(' + user?.backgroundImg + ')',
-        backgroundPosition: `100% ${
-          imagePreview?.img ? bgYposition : user?.bgProfilPosition
-        }%`,
       }}
     >
       <form style={{ display: 'none' }}>

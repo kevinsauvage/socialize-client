@@ -4,10 +4,10 @@ import './NavProfilPage.scss'
 const NavProfilPage = ({ user }) => {
   return (
     <nav className="navProfilPage">
+      <div className="navProfilPage__username">
+        <h3>{user?.username}</h3>
+      </div>
       <ul className="navProfilPage__list">
-        <div className="navProfilPage__username">
-          <h3>{user?.username}</h3>
-        </div>
         <li className="navProfilPage__list-item">
           <NavLink
             activeClassName="navProfilPage__link--active"
