@@ -10,22 +10,24 @@ import BlocTitle from '../../component/blocTitle/BlocTitle'
 import Header from './../../layout/header/Header'
 import { useCallback } from 'react'
 import PageMain from '../../layout/PageMain/PageMain'
+import useIsBottom from '../../hooks/useIsBottom'
 
 const Search = () => {
-  const { searchUsers, user } = useContext(AuthContext)
+  const { searchUsers, user, setLimit } = useContext(AuthContext)
   const location = useLocation()
   const [users, setUsers] = useState([])
+  const bottom = useIsBottom()
 
   useEffect(() => window.scrollTo(0, 0), [])
 
   const handleSearch = useCallback(() => {
-    setUsers([])
     return searchUsers(location.state)
-      .then((res) => res.json())
-      .then((users) => setUsers(users))
+      .then((res) => res && res.ok && res.json())
+      .then((users) => users && setUsers(users))
   }, [location, searchUsers])
 
   useEffect(() => handleSearch(), [handleSearch])
+  useEffect(() => bottom && setLimit((prev) => prev + 10), [bottom, setLimit])
 
   return (
     <div className="Search">

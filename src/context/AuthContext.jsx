@@ -13,6 +13,7 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(getValue('user'))
   const [token, setToken] = useState(getValue('token'))
   const [error, setError] = useState('')
+  const [limit, setLimit] = useState(10)
 
   useEffect(() => {
     const socket = io(urls.baseUrl)
@@ -136,7 +137,7 @@ export const AuthProvider = (props) => {
     async (query) => {
       try {
         return await fetchUrl(
-          `search?query=${query}`,
+          `search?query=${query}&limit=${limit}`,
           {
             method: 'GET',
           },
@@ -146,7 +147,7 @@ export const AuthProvider = (props) => {
         console.log(error)
       }
     },
-    [token],
+    [token, limit],
   )
 
   const searchByIds = useCallback(
@@ -278,6 +279,8 @@ export const AuthProvider = (props) => {
     token,
     error,
     setError,
+    limit,
+    setLimit,
   }
 
   return <Provider value={value}>{props.children}</Provider>
