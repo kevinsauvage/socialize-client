@@ -52,11 +52,11 @@ export const PostProvider = (props) => {
         )
         if (res.ok) {
           const post = await res.json()
-          setPosts([post, ...posts])
-          if (userPosts) setUserPosts([post, ...userPosts])
+          if (posts && posts?.length) setPosts([post, ...posts])
+          if (userPosts && userPosts?.length) setUserPosts([post, ...userPosts])
           return true
         } else {
-          return res
+          return false
         }
       } catch (error) {
         console.log(error)

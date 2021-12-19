@@ -1,0 +1,58 @@
+@import '../../scss/mixins.scss';
+@import '../../scss/variable.scss';
+
+.PostPreview {
+    @include blocSetUp;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 1s ease;
+    opacity: 0.6;
+
+    &__title {
+        text-align: center;
+        color: $white;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+    }
+
+    &__detail {
+        margin-left: 10px;
+
+    }
+
+    &__username {
+        font-size: 17px;
+        letter-spacing: 0.9px;
+        color: $white;
+    }
+
+    &__published {
+        font-size: 13px;
+        color: $blue;
+        line-height: 6px;
+    }
+
+    &__content {
+        width: 100%;
+        margin-top: 1rem;
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+    }
+
+    &__description {
+        margin: 1rem 0;
+        line-height: 25px;
+        color: $XlightGrey;
+        font-size: 14px;
+    }
+}

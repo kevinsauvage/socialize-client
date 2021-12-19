@@ -1,8 +1,10 @@
+@import '../../scss/variable.scss';
+
 .PublicUser {
     min-height: 100vh;
 
     &__band {
         height: 60px;
-        background-color: black;
+        background-color: $darkGrey;
     }
 }

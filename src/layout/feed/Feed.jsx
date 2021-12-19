@@ -3,17 +3,16 @@ import Post from '../../component/post/Post'
 import './Feed.scss'
 import { PostContext } from './../../context/PostContext'
 import PostForm from '../../component/postForm/PostForm'
-import Compressor from 'compressorjs'
 import Loader from '../../component/loader/Loader'
 import { uploadImage, uploadVideo } from '../../helpers/upload'
+import PostPreview from '../../component/postPreview/PostPreview'
 
 const Feed = ({ posts }) => {
   const [contentText, setContentText] = useState('')
-  // eslint-disable-next-line no-unused-vars
-  const [imagePreview, setImagePreview] = useState('')
   const [image, setImage] = useState('')
   const [video, setVideo] = useState('')
   const { sendPosts, fetchPostLoader } = useContext(PostContext)
+  const [loading, setLoading] = useState(false)
 
   const validateFile = (file) => {
     var video = document.createElement('video')
@@ -35,49 +34,40 @@ const Feed = ({ posts }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     if (image) {
       const data = await uploadImage(image)
       const res = await sendPosts(contentText, data.eager?.[0]?.secure_url)
       if (res) {
         setContentText('')
-        setImagePreview('')
         setImage('')
-      }
+      } else window.alert('Oups, something went wrong. Please try again.')
     } else if (video) {
       const data = await uploadVideo(video)
       const res = await sendPosts(contentText, null, data.secure_url)
 
       if (res) {
         setContentText('')
-        setImagePreview('')
         setVideo('')
-      }
+      } else window.alert('Oups, something went wrong. Please try again.')
     } else {
       const res = await sendPosts(contentText)
       if (res) {
         setContentText('')
-        setImagePreview('')
-      }
+      } else window.alert('Oups, something went wrong. Please try again.')
     }
+    setLoading(false)
   }
 
   const onImageChange = (event) => {
     const img = event.target.files[0]
     setImage(img)
-    new Compressor(img, {
-      quality: 0.6,
-      success(result) {
-        var reader = new FileReader()
-        reader.onloadend = async () => setImagePreview(reader.result)
-        reader.readAsDataURL(result)
-      },
-      error(err) {
-        console.log(err.message)
-      },
-    })
+    setVideo(undefined)
   }
+
   const onVideoChange = async (e) => {
     const video = e.target.files[0]
+    setImage(undefined)
     validateFile(video)
   }
 
@@ -90,6 +80,10 @@ const Feed = ({ posts }) => {
         onVideoChange={onVideoChange}
         setContentText={setContentText}
       />
+      {(contentText || video || image) && !loading && (
+        <PostPreview body={contentText} image={image} video={video} />
+      )}
+      {loading && <Loader style={{ padding: '100px 0' }} />}
       <div>
         {!posts && !fetchPostLoader ? (
           <Loader style={{ paddingTop: '100px' }} />

@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import { CommentContext } from '../../context/CommentContext'
 import { imageUrl } from '../../helpers/upload'
 
-const Post = ({ post, newPostImg }) => {
+const Post = ({ post }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState()
   const { deletePost } = useContext(PostContext)
@@ -77,8 +77,6 @@ const Post = ({ post, newPostImg }) => {
             className="videoPlayer"
           />
         )}
-
-        {newPostImg && <img src={newPostImg} alt="post img" />}
 
         <PostStats
           totalComment={comments.length}
