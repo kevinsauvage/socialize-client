@@ -6,6 +6,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import Loader from '../../../component/loader/Loader'
 import PageLoader from '../../../component/pageLoader/PageLoader'
 import { uploadImage } from '../../../helpers/upload'
+import BlocTitle from '../../../component/blocTitle/BlocTitle'
 
 const ModalPlayer = lazy(() =>
   import('../../../component/modalPlayer/ModalPlayer'),
@@ -47,6 +48,7 @@ const PhotoProfil = ({ displayedUser }) => {
 
   return (
     <div className="PhotoProfil">
+      <BlocTitle text="Photos" style={{ fontSize: '24px' }} />
       <div className="PhotoProfil__container">
         {displayedUser?.images?.map((url, i) => (
           <div key={url} className="PhotoProfil__img">

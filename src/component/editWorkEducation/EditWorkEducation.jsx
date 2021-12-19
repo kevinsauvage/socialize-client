@@ -110,7 +110,10 @@ const EditWorkEducation = () => {
   return (
     <>
       <div className="EditWorkEducation">
-        <BlocTitle text="Edit Work And Education" />
+        <BlocTitle
+          text="Edit Work And Education"
+          style={{ fontSize: '24px' }}
+        />
         <form action="submit" onSubmit={handleSubmit}>
           <label htmlFor=""></label>
           <div className="EditWorkEducation__checkBoxes">

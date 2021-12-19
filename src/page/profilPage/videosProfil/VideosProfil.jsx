@@ -6,6 +6,7 @@ import { MdDeleteForever, MdOutlinePlayCircleOutline } from 'react-icons/md'
 import VideoPlayerModal from '../../../component/videoPlayerModal/VideoPlayerModal'
 import Loader from '../../../component/loader/Loader'
 import { uploadVideo } from '../../../helpers/upload'
+import BlocTitle from '../../../component/blocTitle/BlocTitle'
 
 const VideosProfil = ({ displayedUser }) => {
   const { updateUser, user } = useContext(AuthContext)
@@ -54,6 +55,8 @@ const VideosProfil = ({ displayedUser }) => {
           index={index}
         />
       )}
+      <BlocTitle text="Videos" style={{ fontSize: '24px' }} />
+
       <div className="VideosProfil__container">
         {displayedUser?.videos?.map((item, i) => (
           <div key={i} className="VideosProfil__videoThumbnail">

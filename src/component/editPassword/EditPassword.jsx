@@ -74,7 +74,7 @@ const EditPassword = () => {
           <Loader />
         </div>
       )}
-      <BlocTitle text="Change Password" />
+      <BlocTitle text="Change Password" style={{ fontSize: '24px' }} />
       <form action="submit" onSubmit={handleSubmit}>
         <Input
           label="New Password"

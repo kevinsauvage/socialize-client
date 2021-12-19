@@ -17,7 +17,7 @@ const FriendsRequest = () => {
 
   return (
     <div className="FriendsRequest">
-      <BlocTitle text="Friend Requests" />
+      <BlocTitle text="Friend Requests" style={{ fontSize: '24px' }} />
       {friends.length > 0 ? (
         friends?.map((friend) => (
           <FriendCard key={friend._id} friend={friend} />

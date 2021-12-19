@@ -19,14 +19,6 @@ const NavProfilPage = ({ user }) => {
         <li className="navProfilPage__list-item">
           <NavLink
             activeClassName="navProfilPage__link--active"
-            to="/profil/inbox"
-          >
-            Inbox
-          </NavLink>
-        </li>
-        <li className="navProfilPage__list-item">
-          <NavLink
-            activeClassName="navProfilPage__link--active"
             to="/profil/photos"
           >
             Photo

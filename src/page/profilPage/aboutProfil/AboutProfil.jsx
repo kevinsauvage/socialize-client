@@ -40,7 +40,7 @@ const AboutProfil = ({ user }) => {
 
   return (
     <div className="AboutProfil">
-      <BlocTitle text="Personal Info" />
+      <BlocTitle text="Personal Info" style={{ fontSize: '24px' }} />
       {user?.about ? (
         <Editor
           editorState={EditorState.createWithContent(

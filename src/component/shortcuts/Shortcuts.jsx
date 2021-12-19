@@ -1,11 +1,6 @@
 import BlocTitle from '../blocTitle/BlocTitle'
 import './Shortcuts.scss'
-import {
-  MdMessage,
-  MdPeople,
-  MdLogout,
-  MdOutlineDynamicFeed,
-} from 'react-icons/md'
+import { MdPeople, MdLogout, MdOutlineDynamicFeed } from 'react-icons/md'
 import { AiOutlineVideoCameraAdd, AiOutlineFileImage } from 'react-icons/ai'
 import { SiAboutdotme } from 'react-icons/si'
 import ListItem from '../listItem/ListItem'
@@ -48,12 +43,6 @@ const Shortcuts = () => {
           icon={<SiAboutdotme />}
           text="About"
           to="/profil/about"
-        />
-        <ListItem
-          scrollTop={true}
-          icon={<MdMessage />}
-          text="Inbox"
-          to={'/profil/inbox'}
         />
         <ListItem
           scrollTop={true}

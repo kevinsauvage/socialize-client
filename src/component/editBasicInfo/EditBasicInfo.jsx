@@ -67,7 +67,7 @@ const EditBasicInfo = () => {
 
   return (
     <div className="EditBasicInfo">
-      <BlocTitle text="Edit Basic Information" />
+      <BlocTitle text="Edit Basic Information" style={{ fontSize: '24px' }} />
       <form
         action="submit"
         className="EditBasicInfo__form"
