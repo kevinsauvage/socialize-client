@@ -48,14 +48,12 @@ const EditWorkEducation = () => {
 
     const res = await updateUser(newForm)
 
-    if (res.ok) {
+    if (res && res.ok) {
       setEditorState(EditorState.createEmpty())
       setFormData({ type: 'Education' })
     } else {
       alert('Oups, something went wrong. Try again.')
     }
-    const data = await res.json()
-    console.log(data)
   }
 
   const {

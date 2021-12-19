@@ -51,10 +51,12 @@ const Comment = ({ comment, post }) => {
         <div className="comment__content">
           <div className="comment__wrapper">
             <div className="comment__detail">
-              <h5>{comment?.authorName}</h5>
-              <i className="comment__published">
-                {getDataFromTimestamp(comment.createdAt)}
-              </i>
+              <div className="comment__detail-wrapper">
+                <h5>{comment?.authorName}</h5>
+                <i className="comment__published">
+                  {getDataFromTimestamp(comment.createdAt)}
+                </i>
+              </div>
               <div
                 className="comment__add-btn"
                 onClick={() => setAddComment(!addComment)}

@@ -7,7 +7,7 @@
   margin-bottom: 17px;
 
   @include respond(tablet) {
-    padding: 1rem;
+    padding: 0.5rem;
   }
 
   &:last-child {

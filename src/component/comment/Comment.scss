@@ -1,4 +1,5 @@
 @import "../../scss/variable.scss";
+@import '../../scss/mixins.scss';
 
 .comment {
 
@@ -13,6 +14,10 @@
     background-color: $mediumLightGrey;
     width: 100%;
     height: 100%;
+
+    @include respond(mobile) {
+      padding: 5px;
+    }
   }
 
   &__content {
@@ -20,6 +25,10 @@
     margin-left: 20px;
     width: 100%;
     position: relative;
+
+    @include respond(mobile) {
+      margin-left: 10px;
+    }
 
     &::before {
       content: "";
@@ -38,12 +47,30 @@
     color: $white;
     display: flex;
     align-items: center;
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+
+      @include respond(mobile) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    h5 {
+      white-space: nowrap;
+    }
   }
 
   &__published {
     font-size: 12px;
     color: $blue;
     margin-left: 0.5rem;
+
+    @include respond(mobile) {
+      margin-left: 0;
+    }
   }
 
   &__text {

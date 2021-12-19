@@ -27,12 +27,10 @@ const BannerProfil = ({ user }) => {
     setAvatarLoading(true)
     const file = e.target.files[0]
     const dataCloudinary = await uploadImage(file, user._id)
-    const response = await updateUser({
+    await updateUser({
       avatar: dataCloudinary.eager[1].secure_url,
     })
     setAvatarLoading(false)
-    const json = await response.json()
-    console.log(json)
   }
 
   const handleSubmitBg = async () => {
@@ -41,8 +39,6 @@ const BannerProfil = ({ user }) => {
       backgroundImg: data.eager[2].secure_url,
     })
     if (response.ok) setImagePreview(undefined)
-    const json = await response.json()
-    console.log(json)
   }
 
   const handleCancel = () => setImagePreview(undefined)

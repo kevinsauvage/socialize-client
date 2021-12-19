@@ -45,7 +45,6 @@ const Feed = ({ posts }) => {
       }
     } else if (video) {
       const data = await uploadVideo(video)
-      console.log(data)
       const res = await sendPosts(contentText, null, data.secure_url)
 
       if (res) {

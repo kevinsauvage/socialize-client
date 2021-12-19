@@ -4,7 +4,7 @@ import { getValue } from '../helpers/localStorage'
 import { urls } from './../ApiCall/apiUrl'
 import { fetchUrl } from './../helpers/fetch'
 import { setValue } from './../helpers/localStorage'
-
+const TOKEN_TTL = 86400
 export const AuthContext = createContext()
 
 const { Provider } = AuthContext
@@ -15,11 +15,27 @@ export const AuthProvider = (props) => {
   const [error, setError] = useState('')
   const [limit, setLimit] = useState(10)
 
+  const logout = useCallback(() => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    setUser(undefined)
+    setToken(undefined)
+    window.location.pathname = '/login'
+    window.location.reload(true)
+  }, [])
+
+  useEffect(() => {
+    if (window.location.pathname === '/login') return
+    const token = getValue('token')
+    if (token) setToken(token)
+    else logout()
+  }, [logout])
+
   useEffect(() => {
     const socket = io(urls.baseUrl)
     socket.on('connnection', () => console.log('connected to server'))
     socket.on('user-changed', (newUser) => {
-      setValue('user', JSON.stringify(newUser))
+      setValue('user', newUser, TOKEN_TTL)
       setUser(newUser)
     })
     socket.on('message', (message) => console.log(message))
@@ -55,9 +71,8 @@ export const AuthProvider = (props) => {
     })
     if (response.ok) {
       const data = await response.json()
-      console.log(data)
-      setValue('user', JSON.stringify(data))
-      setValue('token', JSON.stringify(data.token))
+      setValue('user', data, TOKEN_TTL)
+      setValue('token', data.token, TOKEN_TTL)
       setToken(data.token)
       setUser(data)
       window.location.pathname = '/'
@@ -83,15 +98,6 @@ export const AuthProvider = (props) => {
       setError(error.message)
       return
     }
-  }, [])
-
-  const logout = useCallback(() => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    setUser(undefined)
-    setToken(undefined)
-    window.location.pathname = '/login'
-    window.location.reload(true)
   }, [])
 
   const updateUser = useCallback(
@@ -181,7 +187,6 @@ export const AuthProvider = (props) => {
       } catch (error) {
         console.log(error)
       } finally {
-        console.log('callback')
         callback && callback()
       }
     },

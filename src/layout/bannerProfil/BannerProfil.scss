@@ -45,6 +45,14 @@
 
     }
 
+    @include respond(mobile) {
+      width: 120px;
+      height: 120px;
+      border: 3px solid $white;
+
+
+    }
+
 
   }
 
@@ -75,6 +83,11 @@
     @include respond(laptop) {
       left: 0px;
     }
+
+    @include respond(mobile) {
+      bottom: -30px;
+
+    }
   }
 
   &__edit-cover {
@@ -93,7 +106,12 @@
     svg {
       margin-right: 10px;
     }
+
+    @include respond(mobile) {
+      font-size: 12px;
+    }
   }
+
 
   &__btns {
 

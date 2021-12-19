@@ -12,19 +12,27 @@ const PostShow = () => {
   const { id } = useParams()
   const [post, setPost] = useState(undefined)
 
-  useEffect(() => window.scrollTo(0, 0), [])
+  useEffect(() => window.scrollTo(0, 0), [id])
 
   useEffect(() => {
     id &&
       findOne(id)
         .then((res) => res.json())
-        .then((data) => setPost(data))
+        .then((data) => {
+          setPost(data)
+        })
   }, [id, findOne])
 
   return (
     <div className="PostShow">
       <ProfilPageWrapper user={user}>
-        <section>{post ? <Post post={post} /> : <Loader />}</section>
+        <section>
+          {post ? (
+            <Post post={post} />
+          ) : (
+            <Loader style={{ padding: '100px 0' }} />
+          )}
+        </section>
       </ProfilPageWrapper>
     </div>
   )

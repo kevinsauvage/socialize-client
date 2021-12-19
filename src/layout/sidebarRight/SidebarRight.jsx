@@ -17,7 +17,7 @@ const SidebarRight = () => {
 
   return (
     <div className="sidebarRight">
-      {friends &&
+      {friends.length &&
         friends.map((friend) => (
           <Link key={friend._id} to={`/user/${friend._id}`}>
             <Avatar avatarImg={friend?.avatar} />
