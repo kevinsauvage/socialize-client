@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-# Socialize
+# Socialize client
 
 ## About The Project
 
