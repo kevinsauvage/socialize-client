@@ -27,6 +27,7 @@ kevinsauvage@outlook.com
 ## Link
 
 Project link: [Socialize](https://socialize-puce.vercel.app/login)
+
 Server link: [server](https://github.com/kevinsauvage/socialize_server)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
