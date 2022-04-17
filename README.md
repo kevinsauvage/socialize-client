@@ -13,7 +13,6 @@ Log in to Socialize to start sharing and communicating with your friends, family
 * [React.js](https://reactjs.org/)
 * [SASS](https://sass-lang.com/)
 * [Socket.io](https://socket.io/)
-* [UUID](https://github.com/uuidjs/uuid#readme)
 * [React router](https://reactrouter.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
